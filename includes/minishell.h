@@ -1,24 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_dolstadd_front.c                                :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/11 14:44:39 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/03/12 08:30:05 by cnatanae         ###   ########.fr       */
+/*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
+/*   Updated: 2024/04/08 08:26:35 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-void	ft_dolstadd_front(t_dolist **lst, t_element *new)
-{
-	if (!lst || !new)
-		return ;
-	new->next = (*lst)->first;
-	new->prev = NULL;
-	(*lst)->first->prev = new;
-	(*lst)->first = new;
-	(*lst)->size++;
-}
+# include "libft.h"
+
+#endif

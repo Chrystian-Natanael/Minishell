@@ -144,6 +144,7 @@ COUNT_PRINTF ?= 0
 
 all: $(PATHOBJ) $(NAME)
 	sleep 0.01
+	printf "\n"
 
 $(PATHOBJ):
 	$(MKDIR) $@
@@ -177,7 +178,7 @@ $(PATHOBJ)/%.o: $(PATHSRC_PRINTF)/%.c
 $(NAME): $(OBJS_LIB) $(OBJS_GNL) $(OBJS_PRINTF)
 	$(AR) $@ $(OBJS_LIB) $(OBJS_GNL) $(OBJS_PRINTF)
 	sleep 0.01
-	printf "\n\n🌟 $(DARK_BLUE)$(NAME)$(FCOLOR) is Ready 🌟\n"
+	printf "\n\n$(DARK_BLUE)$(NAME)$(FCOLOR) is Ready \n"
 
 clean:
 	$(RM) $(PATHOBJ)

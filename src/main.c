@@ -1,22 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstlast.c                                       :+:      :+:    :+:   */
+/*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/24 12:57:59 by cnatanae          #+#    #+#             */
-/*   Updated: 2023/11/09 11:50:50 by cnatanae         ###   ########.fr       */
+/*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
+/*   Updated: 2024/04/08 09:03:45 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-t_list	*ft_lstlast(t_list *lst)
+int	main(void)
 {
-	if (!lst)
-		return (lst);
-	while (lst->next)
-		lst = lst->next;
-	return (lst);
+	ft_printf("Mini \033[91mHELL\033[0m is Coming\n");
+	return (0);
 }
