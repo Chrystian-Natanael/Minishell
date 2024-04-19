@@ -45,7 +45,12 @@ LIBFT_DIR := ../libft/
 #! ******************************************************************************#
 
 SRCS =	$(addprefix $(SRCS_PATH),\
-		garbage_collector.c)
+		ft_allocate.c \
+		create.c \
+		height.c \
+		insert.c \
+		rebalance.c \
+		utils.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 LIBS := $(LIBFT_DIR)libft.a
 OBJS = $(SRCS:%.c=$(BUILD_DIR)%.o)
@@ -66,7 +71,7 @@ SHELL := /bin/bash
 #                                 FLAGS E COMP                                   #
 #! ******************************************************************************#
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 DFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 LDLIBS = -lft -ldl -lglfw -pthread
 LDFLAGS = $(addprefix -L,$(dir $(LIBS)))
