@@ -28,6 +28,7 @@ BLUE=\033[94m
 MAGENTA=\033[95m
 CYAN=\033[96m
 WHITE=\033[97m
+YELLOW = \033[33m
 RESET = \033[0m
 
 #! ******************************************************************************#
@@ -35,9 +36,10 @@ RESET = \033[0m
 #! ******************************************************************************#
 
 SRCS_PATH = src/
-INCS_PATH = includes/ libs/libft/include/
+INCS_PATH := includes/ libs/libft/include/
 BUILD_DIR := build/
 LIBFT_DIR := libs/libft/
+UTILS_DIR := libs/garbage_collector/
 
 #! ******************************************************************************#
 #                                   FILES                                        #
@@ -46,7 +48,8 @@ LIBFT_DIR := libs/libft/
 SRCS =	$(addprefix $(SRCS_PATH),\
 		main.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
-LIBS := $(LIBFT_DIR)libft.a
+UTILS = $(addprefix $(UTILS_DIR), garbage_collector.a)
+LIBS := $(LIBFT_DIR)libft.a $(UTILS_DIR)garbage_collector.a
 OBJS = $(SRCS:%.c=$(BUILD_DIR)%.o)
 DEPS = $(OBJS:.o=.d)
 
@@ -104,6 +107,11 @@ define comp_exe
 	printf "$(DARK_BLUE)MiniShell $(RESET)$(PURPLE)is Ready\n$(RESET)"
 endef
 
+define comp_utils
+	printf "$(YELLOW)Building utils files\n$(RESET)"
+	$(MAKE) -C $(UTILS_DIR)
+endef
+
 define help
 	printf "${DARK_RED}Available targets:${RESET}"
 	printf "\n"
@@ -120,7 +128,7 @@ endef
 #                                   TARGETS                                      #
 #! ******************************************************************************#
 
-all: $(LIBFT) $(NAME)
+all: $(LIBFT) $(UTILS) $(NAME)
 
 $(BUILD_DIR)%.o: %.c
 	$(call create_dir)
@@ -132,6 +140,9 @@ $(NAME): $(OBJS)
 $(LIBFT):
 	$(call comp_libft)
 
+$(UTILS):
+	$(call comp_utils)
+
 clean:
 	$(RM) $(BUILD_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
@@ -139,6 +150,7 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
+	$(MAKE) -C $(UTILS_DIR) fclean
 
 re: fclean all
 
