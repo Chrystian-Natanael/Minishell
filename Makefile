@@ -36,7 +36,7 @@ RESET = \033[0m
 #! ******************************************************************************#
 
 SRCS_PATH = src/
-INCS_PATH := includes/ libs/libft/include/
+INCS_PATH := includes/ libs/libft/include/ libs/garbage_collector/include/
 BUILD_DIR := build/
 LIBFT_DIR := libs/libft/
 UTILS_DIR := libs/garbage_collector/
@@ -67,13 +67,13 @@ SHELL := /bin/bash
 #                                 FLAGS E COMP                                   #
 #! ******************************************************************************#
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g3
 DFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
-LDLIBS = -lft -ldl -lglfw -pthread
-LDFLAGS = $(addprefix -L,$(dir $(LIBS)))
-CPPFLAGS = $(addprefix -I,$(INCS_PATH)) -MMD -MP
+LDLIBS = -ldl -lglfw -pthread
+LDFLAGS = $(LIBFT_DIR)libft.a $(UTILS_DIR)garbage_collector.a 
+CPPFLAGS = $(addprefix -I, $(INCS_PATH)) -MMD -MP
 COMP_OBJ = $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
-COMP_EXE = $(CC) $(LDFLAGS) $(OBJS) $(LDLIBS) -o $(NAME)
+COMP_EXE = $(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
 
 #! ******************************************************************************#
 #                                  FUNCTIONS                                     #
