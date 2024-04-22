@@ -6,12 +6,20 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 10:38:08 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/22 12:04:15 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:41:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file ft_deallocate.c
+ * @brief This file contains the deallocate function
+ * @author @Chrystian-Natanael && @kellyhayd
+ * @date 2024/04/22
+*/
+
 #include "garbage_collector.h"
 
+// the static functions that are used for the deallocate function
 static void	helper(t_typetree *typetree, void *address);
 static void	*find_min_address(t_typetree *typetree);
 

@@ -6,38 +6,51 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:15:44 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/19 18:37:01 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:45:27 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file rebalance.c
+ * @brief This file contains the functions to rebalance the typetree node
+ * @author @Chrystian-Natanael && @kellyhayd
+ * @date 2024/04/19
+*/
+
 #include "garbage_collector.h"
+
+// the static functions that are used for the rebalance function
+static void	left_rotate(t_typetree *typetree);
+static void	right_rotate(t_typetree *typetree);
+static void	rebalance_left(t_typetree *typetree);
+static void	rebalance_right(t_typetree *typetree);
 
 static void	left_rotate(t_typetree *typetree)
 {
-	t_typetree	y;
 	t_typetree	x;
-	t_typetree	b;
+	t_typetree	y;
+	t_typetree	z;
 
 	y = *typetree;
 	x = y->rtree;
-	b = x->ltree;
-	y->rtree = b;
+	z = x->ltree;
+	y->rtree = z;
 	x->ltree = y;
 	*typetree = x;
-typetree_update_height((*typetree)->ltree);
+	typetree_update_height((*typetree)->ltree);
 	typetree_update_height(*typetree);
 }
 
 static void	right_rotate(t_typetree *typetree)
 {
-	t_typetree	y;
 	t_typetree	x;
-	t_typetree	b;
+	t_typetree	y;
+	t_typetree	z;
 
 	y = *typetree;
 	x = y->ltree;
-	b = x->rtree;
-	y->ltree = b;
+	z = x->rtree;
+	y->ltree = z;
 	x->rtree = y;
 	*typetree = x;
 	typetree_update_height((*typetree)->rtree);
@@ -46,15 +59,13 @@ static void	right_rotate(t_typetree *typetree)
 
 static void	rebalance_left(t_typetree *typetree)
 {
-	int	lgrandheight;
-	int	rgrandheight;
+	int	lheight;
+	int	rheight;
 
-	lgrandheight = typetree_get_height((*typetree)->ltree->ltree);
-	rgrandheight = typetree_get_height((*typetree)->ltree->rtree);
-	if (lgrandheight >= rgrandheight)
-	{
+	lheight = typetree_get_height((*typetree)->ltree->ltree);
+	rheight = typetree_get_height((*typetree)->ltree->rtree);
+	if (lheight >= rheight)
 		right_rotate(typetree);
-	}
 	else
 	{
 		left_rotate(&((*typetree)->ltree));
@@ -64,15 +75,13 @@ static void	rebalance_left(t_typetree *typetree)
 
 static void	rebalance_right(t_typetree *typetree)
 {
-	int	lgrandheight;
-	int	rgrandheight;
+	int	lheight;
+	int	rheight;
 
-	lgrandheight = typetree_get_height((*typetree)->rtree->ltree);
-	rgrandheight = typetree_get_height((*typetree)->rtree->rtree);
-	if (rgrandheight >= lgrandheight)
-	{
+	lheight = typetree_get_height((*typetree)->rtree->ltree);
+	rheight = typetree_get_height((*typetree)->rtree->rtree);
+	if (rheight >= lheight)
 		left_rotate(typetree);
-	}
 	else
 	{
 		right_rotate(&((*typetree)->rtree));

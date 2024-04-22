@@ -6,11 +6,21 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:17:42 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/19 18:28:16 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:48:49 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file insert.c
+ * @brief This file contains the typetree_insert function
+ * @author @Chrystian-Natanael && @kellyhayd
+ * @date 2024/04/19
+*/
+
 #include "garbage_collector.h"
+
+// the static function that is used for the insert function
+static void	helper(t_typetree *typetree, void *address);
 
 static void	helper(t_typetree *typetree, void *address)
 {
@@ -30,7 +40,7 @@ static void	helper(t_typetree *typetree, void *address)
 
 void	typetree_insert(void *address)
 {
-	t_typetree *typetree;
+	t_typetree	*typetree;
 
 	typetree = typetree_get();
 	helper(typetree, address);

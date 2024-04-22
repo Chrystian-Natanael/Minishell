@@ -6,18 +6,34 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/22 11:05:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/22 11:53:25 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:42:00 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/**
+ * @file ft_quit.c
+ * @brief This file contains the quit function
+ * @author @Chrystian-Natanael && @kellyhayd
+ * @date 2024/04/22
+*/
+
 #include "garbage_collector.h"
 
+// the static function that is used recursive to destroy the typetree
 static void	helper(t_typetree typetree);
 
 void	quit(int code)
 {
 	typetree_destroy();
 	exit(code);
+}
+
+void	typetree_destroy(void)
+{
+	t_typetree	*typetree;
+
+	typetree = typetree_get();
+	helper(*typetree);
 }
 
 static void	helper(t_typetree typetree)
@@ -36,12 +52,4 @@ static void	helper(t_typetree typetree)
 		free(typetree);
 		typetree = NULL;
 	}
-}
-
-void	typetree_destroy(void)
-{
-	t_typetree	*typetree;
-
-	typetree = typetree_get();
-	helper(*typetree);
 }
