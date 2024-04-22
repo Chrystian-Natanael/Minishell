@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/22 17:05:34 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:22:41 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,6 @@ int	main(void)
 		typetree_insert(line);
 		line = readline("minishell$: ");
 	}
+	rl_clear_history();
 	quit(0);
 }
