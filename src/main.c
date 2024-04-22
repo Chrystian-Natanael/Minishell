@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/22 12:12:00 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/22 17:05:34 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,15 @@
 
 int	main(void)
 {
-	char	*str;
-	char	*str2;
-	int		idx;
-	str = (char *)allocate(sizeof(char) * 10 + 1);
-	str2 = (char *)allocate(sizeof(char) * 10 + 1);
-	if (str)
+	char	*line;
+	
+	line = readline("minishell$: ");
+	while (line)
 	{
-		idx = 0;
-		while(idx < 10)
-		{
-			str[idx] = 'a';
-			idx++;
-		}
+		if (line[0] != '\0')
+			add_history(line);
+		typetree_insert(line);
+		line = readline("minishell$: ");
 	}
-	if (str2)
-	{
-		idx = 0;
-		while(idx < 10)
-		{
-			str2[idx] = 'b';
-			idx++;
-		}
-	}
-	ft_printf("%s\n", str);
-	ft_printf("%s\n", str2);
-	deallocate(str);
 	quit(0);
 }
