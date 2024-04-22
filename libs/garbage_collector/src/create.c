@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:16:38 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/19 18:33:16 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/22 12:10:20 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_typetree	typetree_create(void *address)
 	typetree = malloc(sizeof(struct s_typetree));
 	if (typetree == NULL)
 	{
-		// Destruir a arvore binária
+		typetree_destroy();
 		return (NULL);
 	}
 	typetree->address = address;
