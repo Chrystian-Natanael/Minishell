@@ -46,6 +46,8 @@ LIBFT_DIR := ../libft/
 
 SRCS =	$(addprefix $(SRCS_PATH),\
 		ft_allocate.c \
+		ft_deallocate.c \
+		ft_quit.c \
 		create.c \
 		height.c \
 		insert.c \
