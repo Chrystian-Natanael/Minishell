@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:22:18 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/19 18:35:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/22 11:06:29 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,15 @@ struct s_typetree {
 
 
 void		*allocate(unsigned int size);
+void		deallocate(void *address);
+void		quit(int code);
 t_typetree	typetree_create(void *address);
 int			typetree_get_height(t_typetree typetree);
 void		typetree_update_height(t_typetree typetree);
 void		typetree_insert(void *address);
 void		typetree_rebalance(t_typetree *typetree);
 t_typetree	*typetree_get(void);
+void		typetree_delete(void *address);
+void		typetree_destroy(void);
 
 #endif
