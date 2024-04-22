@@ -48,11 +48,11 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		ft_allocate.c \
 		ft_deallocate.c \
 		ft_quit.c \
+		ft_typetree_get.c \
 		create.c \
 		height.c \
 		insert.c \
-		rebalance.c \
-		utils.c)
+		rebalance.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 LIBS := $(LIBFT_DIR)libft.a
 OBJS = $(SRCS:%.c=$(BUILD_DIR)%.o)
