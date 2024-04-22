@@ -39,7 +39,7 @@ SRCS_PATH = src/
 INCS_PATH := includes/ libs/libft/include/ libs/garbage_collector/include/
 BUILD_DIR := build/
 LIBFT_DIR := libs/libft/
-UTILS_DIR := libs/garbage_collector/
+GARB_DIR := libs/garbage_collector/
 
 #! ******************************************************************************#
 #                                   FILES                                        #
@@ -48,8 +48,8 @@ UTILS_DIR := libs/garbage_collector/
 SRCS =	$(addprefix $(SRCS_PATH),\
 		main.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
-UTILS = $(addprefix $(UTILS_DIR), garbage_collector.a)
-LIBS := $(LIBFT_DIR)libft.a $(UTILS_DIR)garbage_collector.a
+GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
+LIBS := $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
 OBJS = $(SRCS:%.c=$(BUILD_DIR)%.o)
 DEPS = $(OBJS:.o=.d)
 
@@ -69,8 +69,8 @@ SHELL := /bin/bash
 
 CFLAGS = -Wall -Wextra -Werror -g3
 DFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
-LDLIBS = -ldl -lglfw -pthread
-LDFLAGS = $(LIBFT_DIR)libft.a $(UTILS_DIR)garbage_collector.a 
+LDLIBS = -ldl -lglfw -pthread -lreadline
+LDFLAGS = $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a 
 CPPFLAGS = $(addprefix -I, $(INCS_PATH)) -MMD -MP
 COMP_OBJ = $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 COMP_EXE = $(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
@@ -107,9 +107,9 @@ define comp_exe
 	printf "$(DARK_BLUE)MiniShell $(RESET)$(PURPLE)is Ready\n$(RESET)"
 endef
 
-define comp_utils
-	printf "$(YELLOW)Building utils files\n$(RESET)"
-	$(MAKE) -C $(UTILS_DIR)
+define comp_garb
+	printf "$(YELLOW)Building garb files\n$(RESET)"
+	$(MAKE) -C $(GARB_DIR)
 endef
 
 define help
@@ -128,7 +128,7 @@ endef
 #                                   TARGETS                                      #
 #! ******************************************************************************#
 
-all: $(LIBFT) $(UTILS) $(NAME)
+all: $(LIBFT) $(GARB) $(NAME)
 
 $(BUILD_DIR)%.o: %.c
 	$(call create_dir)
@@ -140,8 +140,8 @@ $(NAME): $(OBJS)
 $(LIBFT):
 	$(call comp_libft)
 
-$(UTILS):
-	$(call comp_utils)
+$(GARB):
+	$(call comp_garb)
 
 clean:
 	$(RM) $(BUILD_DIR)
@@ -150,7 +150,7 @@ clean:
 fclean: clean
 	$(RM) $(NAME)
 	$(MAKE) -C $(LIBFT_DIR) fclean
-	$(MAKE) -C $(UTILS_DIR) fclean
+	$(MAKE) -C $(GARB_DIR) fclean
 
 re: fclean all
 
