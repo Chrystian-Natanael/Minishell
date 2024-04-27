@@ -38,7 +38,6 @@ RESET = \033[0m
 SRCS_PATH = src/
 INCS_PATH = include/ ../libft/include/
 BUILD_DIR := build/
-LIBFT_DIR := ../libft/
 
 #! ******************************************************************************#
 #                                   FILES                                        #
@@ -53,8 +52,6 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		height.c \
 		insert.c \
 		rebalance.c)
-LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
-LIBS := $(LIBFT_DIR)libft.a
 OBJS = $(SRCS:%.c=$(BUILD_DIR)%.o)
 DEPS = $(OBJS:.o=.d)
 
@@ -75,8 +72,7 @@ SHELL := /bin/bash
 
 CFLAGS = -Wall -Wextra -Werror -g3
 DFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
-LDLIBS = -lft -ldl -lglfw -pthread
-LDFLAGS = $(addprefix -L,$(dir $(LIBS)))
+LDLIBS = -ldl -lglfw -pthread
 CPPFLAGS = $(addprefix -I,$(INCS_PATH)) -MMD -MP
 COMP_OBJ = $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 COMP_STATIC_LIB = $(AR) $(NAME) $(OBJS)
@@ -98,11 +94,6 @@ define comp_objs
 		printf "Compiled $(DARK_GREEN)GARBAGE COLLECTOR  100%%$(RESET) ✅"; \
 		printf "\n"; \
 	fi
-endef
-
-define comp_libft
-	printf "$(YELLOW)Building libft files\n$(RESET)"
-	$(MAKE) -C $(LIBFT_DIR)
 endef
 
 define comp_static_lib
@@ -129,7 +120,7 @@ endef
 #                                   TARGETS                                      #
 #! ******************************************************************************#
 
-all: $(LIBFT) $(NAME)
+all: $(NAME)
 
 $(BUILD_DIR)%.o: %.c
 	$(call create_dir)
@@ -138,16 +129,11 @@ $(BUILD_DIR)%.o: %.c
 $(NAME): $(OBJS)
 	$(call comp_static_lib)
 
-$(LIBFT):
-	$(call comp_libft)
-
 clean:
 	$(RM) $(BUILD_DIR)
-	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
-	$(MAKE) -C $(LIBFT_DIR) fclean
 
 re: fclean all
 
