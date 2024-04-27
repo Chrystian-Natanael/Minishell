@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:11:32 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/27 19:30:38 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/27 19:52:38 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,19 +35,6 @@ t_envp	*create_envp(char **envp)
 		free_split(split);
 	}
 	return (my_envp);
-}
-
-void	free_split(char **array)
-{
-	int	i;
-
-	i = 0;
-	while (array[i])
-	{
-		free(array[i]);
-		i++;
-	}
-	free(array);
 }
 
 void	envp_insert(char *key, char *value, t_envp **envp)
@@ -83,5 +70,5 @@ char	*envp_get(char *key, t_envp *envp)
 			return (current->value);
 		current = current->next;
 	}
-	return (NULL);
+	return(NULL);
 }
