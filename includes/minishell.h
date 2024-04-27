@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/22 17:32:47 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/04/27 18:59:18 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,17 @@ enum e_token
 	COMMAND,
 	DOLLAR
 };
+
+typedef struct s_envp
+{
+	char			*key;
+	char			*value;
+	struct s_envp	*next;
+}	t_envp;
+
+char	*envp_get(char *key, t_envp *envp);
+void	envp_insert(char *key, char *value, t_envp **envp);
+t_envp	*create_envp(char **envp);
+void	free_split(char **array);
 
 #endif
