@@ -46,7 +46,8 @@ GARB_DIR := libs/garbage_collector/
 #! ******************************************************************************#
 
 SRCS =	$(addprefix $(SRCS_PATH),\
-		main.c)
+		main.c \
+		envp.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
 LIBS := $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
