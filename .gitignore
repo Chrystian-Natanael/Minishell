@@ -1,0 +1,6 @@
+a.out
+*.o
+*.d
+*.a
+.vscode
+includes/minishell.h.gch
