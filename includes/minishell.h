@@ -42,16 +42,30 @@ enum e_token
 	WORD,
 	PIPE,
 	REDIRECT_INPUT,
-	REDIRECT_HEREDOC,
 	REDIRECT_OUTPUT,
-	REDIRECT_OUTPUT_APPEND,
-	OR,
-	AND,
 	L_PAREN,
 	R_PAREN,
 	EXPRESSION,
 	COMMAND,
-	DOLLAR
+	DOLLAR,
+	OR,
+	AND,
+	REDIRECT_HEREDOC,
+	REDIRECT_OUTPUT_APPEND
 };
+
+typedef struct s_token
+{
+	enum e_token	type;
+	char			*lexema;
+	struct s_token	*next;
+}	t_token;
+
+//--------------------------------------- Lexical Analysis
+
+t_token	*lexer(char *line);
+
+int	ft_isspace(const char c);
+void	lst_addnew(t_token **list, enum e_token type, char *lexema);
 
 #endif
