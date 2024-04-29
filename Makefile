@@ -3,6 +3,7 @@
 #! ******************************************************************************#
 
 NAME = minishell
+NAME_TEST = tests
 .DEFAULT_GOAL := all
 .PHONY: all clean fclean re rebonus help
 .SILENT:
@@ -40,17 +41,22 @@ INCS_PATH := includes/ libs/libft/include/ libs/garbage_collector/include/
 BUILD_DIR := build/
 LIBFT_DIR := libs/libft/
 GARB_DIR := libs/garbage_collector/
+TEST_DIR := tests/
 
 #! ******************************************************************************#
 #                                   FILES                                        #
 #! ******************************************************************************#
 
 SRCS =	$(addprefix $(SRCS_PATH),\
-		main.c)
+		main.c \
+		lexer.c \
+		utils.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
 LIBS := $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
+TEST = $(addprefix $(TEST_DIR), test_lexer.c)
 OBJS = $(SRCS:%.c=$(BUILD_DIR)%.o)
+OBJS_TEST = $(TEST:%.c=$(BUILD_DIR)%.o)
 DEPS = $(OBJS:.o=.d)
 
 #! ******************************************************************************#
@@ -74,6 +80,7 @@ LDFLAGS = $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
 CPPFLAGS = $(addprefix -I, $(INCS_PATH)) -MMD -MP
 COMP_OBJ = $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 COMP_EXE = $(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
+COMP_TEST = $(CC) $(OBJS_TEST) -o $(NAME_TEST)
 
 #! ******************************************************************************#
 #                                  FUNCTIONS                                     #
@@ -112,6 +119,11 @@ define comp_garb
 	$(MAKE) -C $(GARB_DIR)
 endef
 
+define comp_tests
+	printf "$(YELLOW)Building tests files\n$(RESET)"
+	$(COMP_TEST)
+endef
+
 define help
 	printf "${DARK_RED}Available targets:${RESET}"
 	printf "\n"
@@ -142,6 +154,12 @@ $(LIBFT):
 
 $(GARB):
 	$(call comp_garb)
+
+$(NAME_TEST):
+	$(call comp_objs)
+	$(call comp_tests)
+
+test: $(NAME_TEST)
 
 clean:
 	$(RM) $(BUILD_DIR)
