@@ -41,8 +41,8 @@ enum e_token
 {
 	WORD,
 	PIPE,
-	REDIRECT_INPUT,
-	REDIRECT_OUTPUT,
+	REDIR_INPUT,
+	REDIR_OUTPUT,
 	L_PAREN,
 	R_PAREN,
 	EXPRESSION,
@@ -50,8 +50,8 @@ enum e_token
 	DOLLAR,
 	OR,
 	AND,
-	REDIRECT_HEREDOC,
-	REDIRECT_OUTPUT_APPEND
+	HEREDOC,
+	OUTPUT_APPEND
 };
 
 typedef struct s_token

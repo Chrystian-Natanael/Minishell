@@ -39,7 +39,7 @@ static int	test_symbols()
 	t_token	*expected;
 	t_token	*result;
 
-	expected = create(9, REDIRECT_INPUT, AND, PIPE, REDIRECT_OUTPUT, REDIRECT_HEREDOC, OR, DOLLAR, L_PAREN, R_PAREN);
+	expected = create(9, REDIR_INPUT, AND, PIPE, REDIR_OUTPUT, HEREDOC, OR, DOLLAR, L_PAREN, R_PAREN);
 	result = lexer(symbols);
 	return (is_equal(expected, result));
 }

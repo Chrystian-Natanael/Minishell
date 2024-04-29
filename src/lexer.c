@@ -9,13 +9,13 @@ int	get_token_type(char *line, int i)
 	else if (line[i] == '$')
 		return (DOLLAR);
 	else if (line[i] == '<' && line[i + 1] == '<')
-		return (REDIRECT_HEREDOC);
+		return (HEREDOC);
 	else if (line[i] == '<')
-		return (REDIRECT_INPUT);
+		return (REDIR_INPUT);
 	else if (line[i] == '>' && line[i + 1] == '>')
-		return (REDIRECT_OUTPUT_APPEND);
+		return (OUTPUT_APPEND);
 	else if (line[i] == '>')
-		return (REDIRECT_OUTPUT);
+		return (REDIR_OUTPUT);
 	else if (line[i] == '|' && line[i + 1] == '|')
 		return (OR);
 	else if (line[i] == '|')
