@@ -32,7 +32,7 @@ void	lst_addnew(t_token **list, enum e_token type, char *lexema)
 	t_token	*tmp;
 
 	tmp = *list;
-	new = (t_token *)malloc(sizeof(t_token));
+	new = (t_token *)allocate(sizeof(t_token));
 	new->type = type;
 	new->lexema = lexema;
 	new->next = NULL;
@@ -54,7 +54,7 @@ t_token	*lexer(char *line)
 
 	i = 0;
 	list = NULL;
-	while (line[i])
+	while (line && line[i])
 	{
 		while (ft_isspace(line[i]))
 			i++;
@@ -63,7 +63,8 @@ t_token	*lexer(char *line)
 			i++;
 		if (token_type != -1)
 			lst_addnew(&list, token_type, NULL);
-		i++;
+		if (line[i] != '\0')
+			i++;
 	}
 	return (list);
 }
