@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 08:29:20 by cnatanae          #+#    #+#             */
-/*   Updated: 2023/10/19 06:34:54 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 11:15:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*ft_strrchr(const char *s, int c)
 
 	c = c % 256;
 	last_case = NULL;
-	while (*s)
+	while (s && *s)
 	{
 		if (*s == c)
 			last_case = s;
