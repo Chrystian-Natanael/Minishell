@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 09:27:55 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 19:08:14 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,5 +80,10 @@ t_token	*lexer(char *line);
 
 void	lst_addnew(t_token **list, enum e_token type, char *lexema);
 void	print_tokens(t_token *token); // ! Apagar
+
+//--------------------------------------- Expression Analysis
+t_token	*cmd_parsing(t_token *token);
+void	lst_contatenate(t_token **list, char *lexema);
+void	lstadd_back(t_token **lst, t_token *new);
 
 #endif
