@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 11:17:56 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:17:03 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,5 +67,34 @@ void	print_tokens(t_token *token)
 	{
 		ft_printf("type: %d, lexema: %s\n", tmp->type, tmp->lexema);
 		tmp = tmp->next;
+	}
+}
+
+int	is_metacharacter(char a, char b)
+{
+	if (a == '|' || a == '(' || a == ')' || a == '<' || a == '>')
+		return (1);
+	else if (a == '&' && b == '&')
+		return (1);
+	return (0);
+}
+
+void	lst_addnew(t_token **list, enum e_token type, char *lexema)
+{
+	t_token	*new;
+	t_token	*tmp;
+
+	tmp = *list;
+	new = malloc(sizeof(t_token));
+	new->type = type;
+	new->lexema = lexema;
+	new->next = NULL;
+	if (*list == NULL)
+		*list = new;
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
 	}
 }
