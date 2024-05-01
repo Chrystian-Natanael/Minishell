@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/22 17:32:47 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 08:51:06 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ typedef struct s_token
 
 t_token	*lexer(char *line);
 
-int	ft_isspace(const char c);
 void	lst_addnew(t_token **list, enum e_token type, char *lexema);
+void	print_tokens(t_token *token); // ! Apagar
 
 #endif
