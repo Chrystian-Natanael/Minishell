@@ -3,9 +3,9 @@
 #! ******************************************************************************#
 
 NAME = minishell
-NAME_TEST = tests
+NAME_TEST = test
 .DEFAULT_GOAL := all
-.PHONY: all clean fclean re rebonus help
+.PHONY: all clean fclean re rebonus help test retest
 .SILENT:
 
 #! ******************************************************************************#
@@ -39,6 +39,7 @@ RESET = \033[0m
 SRCS_PATH = src/
 INCS_PATH := includes/ libs/libft/include/ libs/garbage_collector/include/
 BUILD_DIR := build/
+BUILD_DIR_TEST := build/
 LIBFT_DIR := libs/libft/
 GARB_DIR := libs/garbage_collector/
 TEST_DIR := tests/
@@ -51,13 +52,17 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		main.c \
 		lexer.c \
 		utils.c)
+TEST = $(addprefix $(TEST_DIR),\
+		test_lexer.c) $(addprefix $(SRCS_PATH),\
+		lexer.c \
+		utils.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
 LIBS := $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
-TEST = $(addprefix $(TEST_DIR), test_lexer.c)
 OBJS = $(SRCS:%.c=$(BUILD_DIR)%.o)
 OBJS_TEST = $(TEST:%.c=$(BUILD_DIR)%.o)
 DEPS = $(OBJS:.o=.d)
+# DEPS = $(OBJS_TEST:.o=.d)
 
 #! ******************************************************************************#
 #                                    COMMANDS                                    #
@@ -80,7 +85,7 @@ LDFLAGS = $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
 CPPFLAGS = $(addprefix -I, $(INCS_PATH)) -MMD -MP
 COMP_OBJ = $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 COMP_EXE = $(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
-COMP_TEST = $(CC) $(OBJS_TEST) -o $(NAME_TEST)
+COMP_TEST = $(CC) $(OBJS_TEST) $(LDFLAGS) $(LDLIBS) -o $(NAME_TEST)
 
 #! ******************************************************************************#
 #                                  FUNCTIONS                                     #
@@ -103,6 +108,19 @@ define comp_objs
 	fi
 endef
 
+define comp_objs_test
+	$(eval COUNT=$(shell expr $(COUNT) + 1))
+	@if [ $(COUNT) -eq 1 ]; then \
+		printf "$(YELLOW)Building Tester files\n$(RESET)"; \
+	fi
+	$(COMP_OBJ)
+	$(SLEEP)
+	printf "Compiling Tester$(YELLOW) %d%%\r$(FCOLOR)" $$(echo $$(($(COUNT) * 100 / $(words $(TEST)))))
+	@if [ $(COUNT) -eq $(words $(TEST)) ]; then \
+		printf " Compiled $(DARK_GREEN)Tester 100%%$(FCOLOR) ✅"; \
+	fi
+endef
+
 define comp_libft
 	printf "$(YELLOW)Building libft files\n$(RESET)"
 	$(MAKE) -C $(LIBFT_DIR)
@@ -120,8 +138,9 @@ define comp_garb
 endef
 
 define comp_tests
-	printf "$(YELLOW)Building tests files\n$(RESET)"
 	$(COMP_TEST)
+	printf "\n \n"
+	printf "$(DARK_BLUE)Tester $(RESET)$(PURPLE)is Ready\n$(RESET)"
 endef
 
 define help
@@ -130,8 +149,10 @@ define help
 	printf "\n"
 	printf "$(DARK_BLUE)all:${RESET}		${LIGHT_GRAY}Build $(ORANGE)MiniShell${RESET}\n"
 	printf "${DARK_BLUE}bonus:${RESET}		${LIGHT_GRAY}Build $(ORANGE)MiniShell ${LIGHT_GRAY}Bonus${RESET}\n"
+	printf "${DARK_BLUE}test:${RESET}		$(LIGHT_GRAY)Build $(ORANGE)Tester${RESET}\n"
 	printf "${DARK_BLUE}re:${RESET}		$(CYAN)Rebuild ${LIGHT_GRAY}the program${RESET}\n"
 	printf "${DARK_BLUE}rebonus:${RESET}	$(CYAN)Rebuild ${LIGHT_GRAY}the program bonus${RESET}\n"
+	printf "${DARK_BLUE}retest:${RESET}		$(CYAN)Rebuild ${LIGHT_GRAY}the program test${RESET}\n"
 	printf "${DARK_BLUE}clean:${RESET}		$(RED)Remove ${LIGHT_GRAY}the object files${RESET}\n"
 	printf "${DARK_BLUE}fclean:${RESET}		$(RED)Remove ${LIGHT_GRAY}the program and the object files${RESET}\n"
 endef
@@ -146,6 +167,10 @@ $(BUILD_DIR)%.o: %.c
 	$(call create_dir)
 	$(call comp_objs)
 
+$(BUILD_DIR_TEST)%.o: %.c
+	$(call create_dir)
+	$(call comp_objs_test)
+
 $(NAME): $(OBJS)
 	$(call comp_exe)
 
@@ -155,24 +180,23 @@ $(LIBFT):
 $(GARB):
 	$(call comp_garb)
 
-$(NAME_TEST):
-	$(call comp_objs)
+test: $(LIBFT) $(GARB) $(OBJS_TEST)
 	$(call comp_tests)
-
-test: $(NAME_TEST)
-
 clean:
 	$(RM) $(BUILD_DIR)
 	$(MAKE) -C $(LIBFT_DIR) clean
 
 fclean: clean
 	$(RM) $(NAME)
+	$(RM) $(NAME_TEST)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(GARB_DIR) fclean
 
 re: fclean all
 
 rebonus: fclean bonus
+
+retest: fclean test
 
 help:
 	$(call help)
