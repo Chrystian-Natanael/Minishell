@@ -52,12 +52,14 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		main.c \
 		lexer.c \
 		envp.c \
-		utils.c)
+		utils.c \
+		cmd.c)
 TEST = $(addprefix $(TEST_DIR),\
 		test_lexer.c) $(addprefix $(SRCS_PATH),\
 		lexer.c \
 		envp.c \
-		utils.c)
+		utils.c \
+		cmd.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
 LIBS := $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
