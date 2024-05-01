@@ -7,25 +7,27 @@
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
 /*   Updated: 2024/05/01 08:39:06 by cnatanae         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
 
 #include "minishell.h"
 
-
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
+	t_envp	*my_envp;
+	char	*username;
 	t_token	*token;
 
-	ft_printf("\033[92mWelcome to Minishell, enjoy! \033[0m\n");
-	line = readline("\033[94mminishell$: \033[0m");
+	(void)argc;
+	(void)argv;
+	my_envp = create_envp(envp);
+	username = get_username(my_envp);
+	line = readline(username);
 	while (line)
 	{
 		if (line[0] != '\0')
 			add_history(line);
 		typetree_insert(line);
-		line = readline("\033[94mminishell$: \033[0m");
+		line = readline(username);
 		token = lexer(line);
 		print_tokens(token);
 	}

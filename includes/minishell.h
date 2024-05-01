@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 08:51:06 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:19:22 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,20 @@ typedef struct s_token
 	char			*lexema;
 	struct s_token	*next;
 }	t_token;
+
+
+typedef struct s_envp
+{
+	char			*key;
+	char			*value;
+	struct s_envp	*next;
+}	t_envp;
+
+char	*envp_get(char *key, t_envp *envp);
+void	envp_insert(char *key, char *value, t_envp **envp);
+t_envp	*create_envp(char **envp);
+void	free_split(char **array);
+char	*get_username(t_envp *envp);
 
 //--------------------------------------- Lexical Analysis
 
