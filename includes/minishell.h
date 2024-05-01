@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 09:19:22 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:27:55 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,6 @@ typedef struct s_token
 	char			*lexema;
 	struct s_token	*next;
 }	t_token;
-
 
 typedef struct s_envp
 {

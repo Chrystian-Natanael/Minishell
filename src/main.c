@@ -6,7 +6,16 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 08:39:06 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:32:16 by cnatanae         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/**
+ * @file main.c
+ * @brief This file contains the main function
+ * @author @Chrystian-Natanael && @kellyhayd
+ * @date 2024/04/08
+*/
 
 #include "minishell.h"
 

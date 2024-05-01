@@ -1,3 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   lexer.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/05/01 09:30:45 by cnatanae          #+#    #+#             */
+/*   Updated: 2024/05/01 09:32:03 by cnatanae         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+/**
+ * @file lexer.c
+ * @brief This file contains the lexer functions
+ * @author @Chrystian-Natanael && @kellyhayd
+ * @date 2024/05/01
+*/
+
 #include "minishell.h"
 
 int	get_token_type(char *line, int i)
@@ -48,8 +67,8 @@ void	lst_addnew(t_token **list, enum e_token type, char *lexema)
 
 t_token	*lexer(char *line)
 {
-	int	i;
-	int	token_type;
+	int		i;
+	int		token_type;
 	t_token	*list;
 
 	i = 0;

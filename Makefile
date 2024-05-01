@@ -51,10 +51,12 @@ TEST_DIR := tests/
 SRCS =	$(addprefix $(SRCS_PATH),\
 		main.c \
 		lexer.c \
+		envp.c \
 		utils.c)
 TEST = $(addprefix $(TEST_DIR),\
 		test_lexer.c) $(addprefix $(SRCS_PATH),\
 		lexer.c \
+		envp.c \
 		utils.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
@@ -166,10 +168,6 @@ all: $(LIBFT) $(GARB) $(NAME)
 $(BUILD_DIR)%.o: %.c
 	$(call create_dir)
 	$(call comp_objs)
-
-$(BUILD_DIR_TEST)%.o: %.c
-	$(call create_dir)
-	$(call comp_objs_test)
 
 $(NAME): $(OBJS)
 	$(call comp_exe)

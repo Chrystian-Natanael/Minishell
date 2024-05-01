@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:11:32 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/27 19:52:38 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:29:00 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,5 +70,5 @@ char	*envp_get(char *key, t_envp *envp)
 			return (current->value);
 		current = current->next;
 	}
-	return(NULL);
+	return (NULL);
 }

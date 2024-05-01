@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:22:18 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/27 17:13:18 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:27:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@
 */
 
 /*For use exit()*/
-#include <stdlib.h>
+# include <stdlib.h>
 
 /*define t_typetree as pointer of struct s_typetree*/
 typedef struct s_typetree	*t_typetree;

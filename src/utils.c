@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 09:16:54 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 09:28:44 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ char	*get_username(t_envp *envp)
 	char	*username;
 	char	*str1;
 	char	*str2;
+
 	username = envp_get("USER", envp);
 	if (!username)
 		username = "minishell";
@@ -47,7 +48,7 @@ void	free_split(char **array)
 	free(array);
 }
 
-void	print_tokens(t_token *token) // ! Apagar
+void	print_tokens(t_token *token)
 {
 	t_token	*tmp;
 
