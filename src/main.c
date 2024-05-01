@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 09:32:16 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 12:36:16 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,12 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	my_envp = create_envp(envp);
 	username = get_username(my_envp);
-	line = readline(username);
-	while (line)
+	while ((line = readline(username)))
 	{
+		username = get_username(my_envp);
 		if (line[0] != '\0')
 			add_history(line);
 		typetree_insert(line);
-		line = readline(username);
 		token = lexer(line);
 		print_tokens(token);
 	}
