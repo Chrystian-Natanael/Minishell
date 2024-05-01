@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 09:27:55 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 13:59:04 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,10 @@ char	*get_username(t_envp *envp);
 
 t_token	*lexer(char *line);
 
+//--------------------------------------- Utils
+
 void	lst_addnew(t_token **list, enum e_token type, char *lexema);
 void	print_tokens(t_token *token); // ! Apagar
+int		is_metacharacter(char a, char b);
 
 #endif
