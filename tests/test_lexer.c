@@ -54,6 +54,38 @@ static int	test_all_spaces_empty_list()
 	return (is_equal(expected, result));
 }
 
+int	expr_is_equal(t_token *expected, t_token *result)
+{
+	while (expected != NULL && result != NULL)
+	{
+		if (expected->type != result->type || ft_strncmp(expected->lexema, result->lexema, ft_strlen(expected->lexema)))
+			return (0);
+		expected = expected->next;
+		result = result->next;
+	}
+	return (expected == result);
+}
+
+static int	test_two_commands()
+{
+	//! line = "ls -l || echo hello";
+	t_token	*expected;
+	t_token	*result;
+	t_token	*tokens;
+	
+	expected = create(2, EXPRESSION, EXPRESSION);
+	expected->lexema = "ls -l";
+	expected->next->lexema = "echo hello";
+	tokens = create(5, WORD, WORD, OR, WORD, WORD);
+	tokens->lexema = "ls";
+	tokens->next->lexema = "-l";
+	tokens->next->next->lexema = "||";
+	tokens->next->next->next->lexema = "echo";
+	tokens->next->next->next->next->lexema = "hello";
+	result = cmd_parsing(tokens);
+	return (expr_is_equal(expected, result));
+}
+
 int	main () {
 	if (!test_all_spaces_empty_list())
 	{
@@ -63,6 +95,11 @@ int	main () {
 	if (!test_symbols())
 	{
 		printf("failed test_symbols\n");
+		quit (EXIT_FAILURE);
+	}
+	if(!test_two_commands())
+	{
+		printf("failed test_two_commands\n");
 		quit (EXIT_FAILURE);
 	}
 	quit (EXIT_SUCCESS);
