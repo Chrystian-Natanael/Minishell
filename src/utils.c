@@ -1,8 +1,13 @@
 #include "minishell.h"
 
-int	ft_isspace(const char c)
+void	print_tokens(t_token *token) // ! Apagar
 {
-	if ((c >= 9 && c <= 13) || c == ' ')
-		return (1);
-	return (0);
+	t_token	*tmp;
+
+	tmp = token;
+	while (tmp)
+	{
+		ft_printf("type: %d, lexema: %s\n", tmp->type, tmp->lexema);
+		tmp = tmp->next;
+	}
 }
