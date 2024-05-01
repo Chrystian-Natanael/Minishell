@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 09:32:03 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 18:52:44 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,24 +45,55 @@ int	get_token_type(char *line, int i)
 		return (-1);
 }
 
-void	lst_addnew(t_token **list, enum e_token type, char *lexema)
+char	*quote_word(char *line, int *i)
 {
-	t_token	*new;
-	t_token	*tmp;
+	char	*word;
+	int		size;
+	int		idx;
+	int		teste;
 
-	tmp = *list;
-	new = (t_token *)allocate(sizeof(t_token));
-	new->type = type;
-	new->lexema = lexema;
-	new->next = NULL;
-	if (*list == NULL)
-		*list = new;
-	else
+	idx = 0;
+	size = 0;
+	teste = *i;
+	if (line[*i] == '"')
 	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
+		while (line && line[++(*i)] != '"')
+			size++;
 	}
+	else if (line[*i] == '\'')
+	{
+		while (line && line[++(*i)] != '\'')
+			size++;
+	}
+	word = allocate(sizeof(char) * (size + 1));
+	if (line[teste] == '"')
+	{
+		while (line && line[++teste] != '"')
+			word[idx++] = line[teste];
+	}
+	else if (line[teste] == '\'')
+	{
+		while (line && line[++teste] != '\'')
+			word[idx++] = line[teste];
+	}
+	if (line[teste] == '\'' || line[teste] == '\'')
+	{
+		word[size] = '\0';
+		return (word);
+	}
+	return (NULL);
+}
+
+char	*get_token_word(char *line, int *i, int *type)
+{
+	char	*word;
+
+	word = NULL;
+	if (line[*i] == '"' || line[*i] == '\'')
+		word = quote_word(line, i);
+	if (word)
+		*type = WORD;
+	return (word);
 }
 
 t_token	*lexer(char *line)
@@ -70,9 +101,11 @@ t_token	*lexer(char *line)
 	int		i;
 	int		token_type;
 	t_token	*list;
+	char	*word;
 
 	i = 0;
 	list = NULL;
+	word = NULL;
 	while (line && line[i])
 	{
 		while (ft_isspace(line[i]))
@@ -80,8 +113,9 @@ t_token	*lexer(char *line)
 		token_type = get_token_type(line, i);
 		if (token_type >= OR)
 			i++;
-		if (token_type != -1)
-			lst_addnew(&list, token_type, NULL);
+		if (token_type < WORD)
+			word = get_token_word(line, &i, &token_type);
+		lst_addnew(&list, token_type, word);
 		if (line[i] != '\0')
 			i++;
 	}
