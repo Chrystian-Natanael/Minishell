@@ -48,40 +48,27 @@ int	get_token_type(char *line, int i)
 char	*quote_word(char *line, int *i)
 {
 	char	*word;
+	char	quote;
 	int		size;
 	int		idx;
-	int		teste;
+	int		tmp;
 
-	idx = 0;
 	size = 0;
-	teste = *i;
-	if (line[*i] == '"')
+	tmp = *i + 1;
+	quote = line[(*i)++];
+	while (line[*i] && line[(*i)] != quote)
 	{
-		while (line && line[++(*i)] != '"')
-			size++;
+		size++;
+		(*i)++;
 	}
-	else if (line[*i] == '\'')
-	{
-		while (line && line[++(*i)] != '\'')
-			size++;
-	}
+	if (!line[*i])
+		return (NULL);
 	word = allocate(sizeof(char) * (size + 1));
-	if (line[teste] == '"')
-	{
-		while (line && line[++teste] != '"')
-			word[idx++] = line[teste];
-	}
-	else if (line[teste] == '\'')
-	{
-		while (line && line[++teste] != '\'')
-			word[idx++] = line[teste];
-	}
-	if (line[teste] == '\'' || line[teste] == '\'')
-	{
-		word[size] = '\0';
-		return (word);
-	}
-	return (NULL);
+	idx = 0;
+	while (tmp < *i)
+		word[idx++] = line[tmp++];
+	word[size] = '\0';
+	return (word);
 }
 
 char	*get_token_word(char *line, int *i, int *type)
