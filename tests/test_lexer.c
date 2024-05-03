@@ -25,9 +25,13 @@ int	ft_isequal(const char *a, const char *b)
 	while (a && b && a[idx] && b[idx])
 	{
 		if (a[idx] != b[idx])
+		{
+			printf("\033[91m. \033[0m");
 			return (0);
+		}
 		idx++;
 	}
+	printf("\033[92m. \033[0m");
 	return (1);
 }
 
@@ -49,6 +53,8 @@ static int	is_equal(const t_token *a, const t_token *b)
 		a = a->next;
 		b = b->next;
 	}
+	printf("\033[92m. \033[0m");
+	// return (a == b);
 	return (1);
 }
 
@@ -58,14 +64,12 @@ static int	test_word_simple_quote()
 	t_token	*expected = NULL;
 	t_token	*result;
 
-	expected = malloc(sizeof(t_token));
+	expected = allocate(sizeof(t_token));
 	expected->lexema = "kjahsihsa dihhdakdha";
 	expected->type = WORD;
 	expected->next = NULL;
 	result = lexer(word);
 	return (ft_isequal(expected->lexema, result->lexema));
-	printf("\033[92m. \033[0m");
-	return (a == b);
 }
 
 static int	test_symbols(void)
@@ -112,11 +116,11 @@ static int	test_three_expr()
 	t_token	*result;
 	t_token	*tokens;
 	
-	expected = create(3, EXPRESSION, OR, EXPRESSION);
+	expected = create_with_enum(3, EXPRESSION, OR, EXPRESSION);
 	expected->lexema = "ls -l";
 	expected->next->lexema = "||";
 	expected->next->next->lexema = "echo hello";
-	tokens = create(5, WORD, WORD, OR, WORD, WORD);
+	tokens = create_with_enum(5, WORD, WORD, OR, WORD, WORD);
 	tokens->lexema = "ls";
 	tokens->next->lexema = "-l";
 	tokens->next->next->lexema = "||";
@@ -133,13 +137,13 @@ static int	test_five_expr()
 	t_token	*result;
 	t_token	*tokens;
 
-	expected = create(5, EXPRESSION, PIPE, EXPRESSION, AND, EXPRESSION);
+	expected = create_with_enum(5, EXPRESSION, PIPE, EXPRESSION, AND, EXPRESSION);
 	expected->lexema = "ls -l";
 	expected->next->lexema = "|";
 	expected->next->next->lexema = "grep a >> outfile.txt";
 	expected->next->next->next->lexema = "&&";
 	expected->next->next->next->next->lexema = "echo file created";
-	tokens = create(11, WORD, WORD, PIPE, WORD, WORD, OUTPUT_APPEND, WORD, AND, WORD, WORD, WORD);
+	tokens = create_with_enum(11, WORD, WORD, PIPE, WORD, WORD, OUTPUT_APPEND, WORD, AND, WORD, WORD, WORD);
 	tokens->lexema = "ls";
 	tokens->next->lexema = "-l";
 	tokens->next->next->lexema = "|";
@@ -178,7 +182,7 @@ int	main () {
 	}
 	if (!test_word_simple_quote())
 	{
-		printf("failed test_word_simple_quote\n");
+		printf("\033[91mfailed test_word_simple_quote\033[0m\n");
 		quit (EXIT_FAILURE);
 	}
 	printf("\n\n\033[92mAll tests passed\033[0m\n");
