@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 18:17:03 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/05/03 17:57:02 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	lst_addnew(t_token **list, enum e_token type, char *lexema)
 	t_token	*tmp;
 
 	tmp = *list;
-	new = malloc(sizeof(t_token));
+	new = allocate(sizeof(t_token));
 	new->type = type;
 	new->lexema = lexema;
 	new->next = NULL;
