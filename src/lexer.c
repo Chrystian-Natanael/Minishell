@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 18:52:44 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/05/03 17:58:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ t_token	*lexer(char *line)
 		if (token_type < WORD)
 			word = get_token_word(line, &i, &token_type);
 		lst_addnew(&list, token_type, word);
+		word = NULL;
 		if (line[i] != '\0')
 			i++;
 	}
