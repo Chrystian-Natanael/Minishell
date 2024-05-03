@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 12:36:16 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/01 19:17:07 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,23 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
-	t_envp	*my_envp;
 	char	*username;
+	t_envp	*my_envp;
 	t_token	*token;
+	t_token	*expr;
 
 	(void)argc;
 	(void)argv;
 	my_envp = create_envp(envp);
 	username = get_username(my_envp);
-	while ((line = readline(username)))
+	while ((line = readline(username))) // ! Não pode fazer isso segundo a norminette ;-;
 	{
 		username = get_username(my_envp);
 		if (line[0] != '\0')
 			add_history(line);
 		typetree_insert(line);
 		token = lexer(line);
+		expr = cmd_parsing(token);
 		print_tokens(token);
 	}
 	rl_clear_history();
