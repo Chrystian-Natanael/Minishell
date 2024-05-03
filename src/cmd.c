@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 19:16:37 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/03 17:43:20 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,28 @@ t_token	*cmd_parsing(t_token *token)
 			if (!tmp)
 				break ;
 		}
-		lstadd_back(&head, cmds);
-		if (cmds != NULL)
-			cmds = cmds->next;
-		if (tmp)
-			tmp = tmp->next;
+		cmd_parsing_aux(&head, &cmds, &tmp);
 	}
 	return (head);
+}
+
+void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
+{
+	t_token	*aux;
+
+	lstadd_back(head, *cmds);
+	if (*cmds != NULL)
+		*cmds = (*cmds)->next;
+	if (*tmp && ((*tmp)->type == PIPE || (*tmp)->type == OR
+			|| (*tmp)->type == AND))
+	{
+		aux = (*tmp)->next;
+		(*tmp)->next = NULL;
+		lstadd_back(head, *tmp);
+		*tmp = aux;
+	}
+	else if (*tmp)
+			*tmp = (*tmp)->next;
 }
 
 void	lst_contatenate(t_token **list, char *lexema)
