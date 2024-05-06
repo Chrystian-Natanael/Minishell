@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/03 17:43:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/06 15:18:27 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_token	*cmd_parsing(t_token *token)
 	{
 		while (tmp->type != PIPE && tmp->type != OR && tmp->type != AND)
 		{
-			lst_contatenate(&cmds, tmp->lexema);
+			lst_contatenate(&cmds, return_lexema(tmp));
 			tmp = tmp->next;
 			if (!tmp)
 				break ;
@@ -40,6 +40,34 @@ t_token	*cmd_parsing(t_token *token)
 		cmd_parsing_aux(&head, &cmds, &tmp);
 	}
 	return (head);
+}
+
+char	*return_lexema(t_token *token)
+{
+	if (token->type == WORD || token->type == EXPRESSION)
+		return (token->lexema);
+	else if (token->type == REDIR_INPUT)
+		return ("<<");
+	else if (token->type == REDIR_OUTPUT)
+		return (">");
+	else if (token->type == OUTPUT_APPEND)
+		return (">>");
+	else if (token->type == HEREDOC)
+		return ("<<");
+	else if (token->type == L_PAREN)
+		return ("(");
+	else if (token->type == R_PAREN)
+		return (")");
+	else if (token->type == DOLLAR)
+		return ("$");
+	else if (token->type == PIPE)
+		return ("|");
+	else if (token->type == OR)
+		return ("||");
+	else if (token->type == AND)
+		return ("&&");
+	else
+		return ("");
 }
 
 void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
@@ -54,6 +82,7 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 	{
 		aux = (*tmp)->next;
 		(*tmp)->next = NULL;
+		(*tmp)->lexema = return_lexema(*tmp);
 		lstadd_back(head, *tmp);
 		*tmp = aux;
 	}
