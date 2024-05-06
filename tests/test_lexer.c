@@ -159,6 +159,28 @@ static int	test_five_expr()
 	return (expr_is_equal(expected, result));
 }
 
+static int test_complex_expr()
+{
+	// ! "ls -la" | 'grep "a"' | "wc -l" >> 'outfile.txt' && "echo 'Deu bom'" || "echo 'Deu ruim'"
+	t_token	*expected;
+	t_token	*result;
+	t_token	*tokens;
+
+	expected = create_with_enum(9, EXPRESSION, PIPE, EXPRESSION, PIPE, EXPRESSION, AND, EXPRESSION, OR, EXPRESSION);
+	expected->lexema = "ls -la";
+	expected->next->lexema = "|";
+	expected->next->next->lexema = "grep \"a\"";
+	expected->next->next->next->lexema = "|";
+	expected->next->next->next->next->lexema = "wc -l >> outfile.txt";
+	expected->next->next->next->next->next->lexema = "&&";
+	expected->next->next->next->next->next->next->lexema = "echo 'Deu bom'";
+	expected->next->next->next->next->next->next->next->lexema = "||";
+	expected->next->next->next->next->next->next->next->next->lexema = "echo 'Deu ruim'";
+	tokens = lexer("\"ls -la\" | 'grep \"a\"' | \"wc -l\" >> 'outfile.txt' && \"echo 'Deu bom'\" || \"echo 'Deu ruim'\"");
+	result = cmd_parsing(tokens);
+	return (expr_is_equal(expected, result));
+}
+
 int	main () {
 	if (!test_all_spaces_empty_list())
 	{
@@ -183,6 +205,11 @@ int	main () {
 	if (!test_word_simple_quote())
 	{
 		printf("\033[91mfailed test_word_simple_quote\033[0m\n");
+		quit (EXIT_FAILURE);
+	}
+	if (!test_complex_expr())
+	{
+		printf("\033[91mfailed test_complex_expr\033[0m\n");
 		quit (EXIT_FAILURE);
 	}
 	printf("\n\n\033[92mAll tests passed\033[0m\n");
