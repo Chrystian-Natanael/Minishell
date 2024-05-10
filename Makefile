@@ -53,6 +53,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		lexer.c \
 		envp.c \
 		utils.c \
+		syntax.c \
 		cmd.c)
 		# executor.c)
 TEST = $(addprefix $(TEST_DIR),\
@@ -60,6 +61,7 @@ TEST = $(addprefix $(TEST_DIR),\
 		lexer.c \
 		envp.c \
 		utils.c \
+		syntax.c \
 		cmd.c)
 		# executor.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)

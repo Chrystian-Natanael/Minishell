@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/10 11:30:59 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/10 12:59:52 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_token	*cmd_parsing(t_token *token)
 	head = NULL;
 	while (tmp)
 	{
-		while (tmp->type != PIPE && tmp->type != OR && tmp->type != AND)
+		while (tmp->type != PIPE && tmp->type != OR
+			&& tmp->type != AND && tmp->type != L_PAREN && tmp->type != R_PAREN)
 		{
 			if ((tmp->lexema && *tmp->lexema != '\0') || tmp->type != WORD)
 				lst_contatenate(&cmds, return_lexema(tmp));
@@ -78,8 +79,8 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 	lstadd_back(head, *cmds);
 	if (*cmds != NULL)
 		*cmds = (*cmds)->next;
-	if (*tmp && ((*tmp)->type == PIPE || (*tmp)->type == OR
-			|| (*tmp)->type == AND))
+	if (*tmp && (((*tmp)->type == PIPE || (*tmp)->type == OR
+			|| (*tmp)->type == AND) || (*tmp)->type == L_PAREN || (*tmp)->type == R_PAREN))
 	{
 		aux = (*tmp)->next;
 		(*tmp)->next = NULL;
