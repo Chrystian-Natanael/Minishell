@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/06 15:18:27 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/10 11:30:59 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ t_token	*cmd_parsing(t_token *token)
 	{
 		while (tmp->type != PIPE && tmp->type != OR && tmp->type != AND)
 		{
-			lst_contatenate(&cmds, return_lexema(tmp));
+			if ((tmp->lexema && *tmp->lexema != '\0') || tmp->type != WORD)
+				lst_contatenate(&cmds, return_lexema(tmp));
 			tmp = tmp->next;
 			if (!tmp)
 				break ;
