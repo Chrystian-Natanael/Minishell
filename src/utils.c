@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/06 15:22:30 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/09 08:16:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,34 +64,32 @@ void	print_tokens(t_token *token)
 	char	*type;
 
 	tmp = token;
-	if (!tmp)
-		return ;
-	else if (token->type == WORD)
-		type = "WORD";
-	else if (token->type == PIPE)
-		type = "PIPE";
-	else if (token->type == REDIR_INPUT)
-		type = "REDIR_INPUT";
-	else if (token->type == REDIR_OUTPUT)
-		type = "REDIR_OUTPUT";
-	else if (token->type == L_PAREN)
-		type = "L_PAREN";
-	else if (token->type == R_PAREN)
-		type = "R_PAREN";
-	else if (token->type == EXPRESSION)
-		type = "EXPRESSION";
-	else if (token->type == DOLLAR)
-		type = "DOLLAR";
-	else if (token->type == OR)
-		type = "OR";
-	else if (token->type == AND)
-		type = "AND";
-	else if (token->type == HEREDOC)
-		type = "HEREDOC";
-	else if (token->type == OUTPUT_APPEND)
-		type = "OUTPUT_APPEND";
 	while (tmp)
 	{
+		if (tmp->type == WORD)
+			type = "WORD";
+		else if (tmp->type == PIPE)
+			type = "PIPE";
+		else if (tmp->type == REDIR_INPUT)
+			type = "REDIR_INPUT";
+		else if (tmp->type == REDIR_OUTPUT)
+			type = "REDIR_OUTPUT";
+		else if (tmp->type == L_PAREN)
+			type = "L_PAREN";
+		else if (tmp->type == R_PAREN)
+			type = "R_PAREN";
+		else if (tmp->type == EXPRESSION)
+			type = "EXPRESSION";
+		else if (tmp->type == DOLLAR)
+			type = "DOLLAR";
+		else if (tmp->type == OR)
+			type = "OR";
+		else if (tmp->type == AND)
+			type = "AND";
+		else if (tmp->type == HEREDOC)
+			type = "HEREDOC";
+		else if (tmp->type == OUTPUT_APPEND)
+			type = "OUTPUT_APPEND";
 		ft_printf("type: %s, lexema: %s\n", type, tmp->lexema);
 		tmp = tmp->next;
 	}
