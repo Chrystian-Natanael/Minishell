@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/03 17:58:24 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:13:07 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,54 @@
 
 #include "minishell.h"
 
-int	get_token_type(char *line, int i)
+int	quote_is_closed(char *line, int *i)
 {
-	if (line[i] == '(')
-		return (L_PAREN);
-	else if (line[i] == ')')
-		return (R_PAREN);
-	else if (line[i] == '$')
-		return (DOLLAR);
-	else if (line[i] == '<' && line[i + 1] == '<')
-		return (HEREDOC);
-	else if (line[i] == '<')
-		return (REDIR_INPUT);
-	else if (line[i] == '>' && line[i + 1] == '>')
-		return (OUTPUT_APPEND);
-	else if (line[i] == '>')
-		return (REDIR_OUTPUT);
-	else if (line[i] == '|' && line[i + 1] == '|')
-		return (OR);
-	else if (line[i] == '|')
-		return (PIPE);
-	else if (line[i] == '&' && line[i + 1] == '&')
-		return (AND);
-	else
-		return (-1);
+	int		s_quote;
+	int		d_quote;
+
+	s_quote = 0;
+	d_quote = 0;
+	while (line[*i] && !is_metacharacter(line[*i], line[(*i) + 1])
+		&& !ft_isspace(line[*i]))
+	{
+		if (line[*i] == '"')
+			d_quote++;
+		else if (line[*i] == '\'')
+			s_quote++;
+		(*i)++;
+	}
+	if (s_quote % 2 == 0 || d_quote % 2 == 0)
+		return (1);
+	return (0);
+}
+
+char	*get_word(char *line, int *i)
+{
+	int		tmp;
+	int		idx;
+	int		size;
+	char	*word;
+
+	tmp = *i;
+	size = 0;
+	while (line[*i] && !is_metacharacter(line[*i], line[(*i) + 1])
+		&& !ft_isspace(line[*i]))
+	{
+		size++;
+		(*i)++;
+	}
+	word = allocate(sizeof(char) * (size + 1));
+	idx = 0;
+	while (tmp < *i)
+	{
+		if (quote_is_closed(line, i))
+		{
+			if (line[(tmp)] == '"' || line[(tmp)] == '\'')
+				tmp++;
+		}
+		word[idx++] = line[tmp++];
+	}
+	return (word);
 }
 
 char	*quote_word(char *line, int *i)
@@ -78,9 +102,37 @@ char	*get_token_word(char *line, int *i, int *type)
 	word = NULL;
 	if (line[*i] == '"' || line[*i] == '\'')
 		word = quote_word(line, i);
+	else
+		word = get_word(line, i);
 	if (word)
 		*type = WORD;
 	return (word);
+}
+
+int	get_token_type(char *line, int i)
+{
+	if (line[i] == '(')
+		return (L_PAREN);
+	else if (line[i] == ')')
+		return (R_PAREN);
+	else if (line[i] == '$')
+		return (DOLLAR);
+	else if (line[i] == '<' && line[i + 1] == '<')
+		return (HEREDOC);
+	else if (line[i] == '<')
+		return (REDIR_INPUT);
+	else if (line[i] == '>' && line[i + 1] == '>')
+		return (OUTPUT_APPEND);
+	else if (line[i] == '>')
+		return (REDIR_OUTPUT);
+	else if (line[i] == '|' && line[i + 1] == '|')
+		return (OR);
+	else if (line[i] == '|')
+		return (PIPE);
+	else if (line[i] == '&' && line[i + 1] == '&')
+		return (AND);
+	else
+		return (-1);
 }
 
 t_token	*lexer(char *line)
