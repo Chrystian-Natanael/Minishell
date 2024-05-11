@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/11 15:13:07 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/05/11 16:31:58 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,21 @@
 
 int	quote_is_closed(char *line, int *i)
 {
-	int		s_quote;
-	int		d_quote;
+	int	s_quote;
+	int	d_quote;
+	int	tmp;
 
+	tmp = *i;
 	s_quote = 0;
 	d_quote = 0;
-	while (line[*i] && !is_metacharacter(line[*i], line[(*i) + 1])
-		&& !ft_isspace(line[*i]))
+	while (line[tmp] && !is_metacharacter(line[tmp], line[(tmp) + 1])
+		&& !ft_isspace(line[tmp]))
 	{
-		if (line[*i] == '"')
+		if (line[tmp] == '"')
 			d_quote++;
-		else if (line[*i] == '\'')
+		else if (line[tmp] == '\'')
 			s_quote++;
-		(*i)++;
+		tmp++;
 	}
 	if (s_quote % 2 == 0 || d_quote % 2 == 0)
 		return (1);
@@ -44,28 +46,31 @@ char	*get_word(char *line, int *i)
 {
 	int		tmp;
 	int		idx;
-	int		size;
+	int		quote;
 	char	*word;
 
+	printf("entrando em get_word\n");
 	tmp = *i;
-	size = 0;
+	idx = 0;
 	while (line[*i] && !is_metacharacter(line[*i], line[(*i) + 1])
 		&& !ft_isspace(line[*i]))
 	{
-		size++;
+		idx++;
 		(*i)++;
 	}
-	word = allocate(sizeof(char) * (size + 1));
+	word = allocate(sizeof(char) * (idx + 1));
+	quote = quote_is_closed(line, i);
 	idx = 0;
 	while (tmp < *i)
 	{
-		if (quote_is_closed(line, i))
+		if (quote)
 		{
 			if (line[(tmp)] == '"' || line[(tmp)] == '\'')
 				tmp++;
 		}
 		word[idx++] = line[tmp++];
 	}
+	word[idx] = '\0';
 	return (word);
 }
 
@@ -99,6 +104,7 @@ char	*get_token_word(char *line, int *i, int *type)
 {
 	char	*word;
 
+	printf("entrando em get_token_word\n");
 	word = NULL;
 	if (line[*i] == '"' || line[*i] == '\'')
 		word = quote_word(line, i);
@@ -139,9 +145,11 @@ t_token	*lexer(char *line)
 {
 	int		i;
 	int		token_type;
-	t_token	*list;
 	char	*word;
+	t_token	*list;
 
+	printf("line = %s\n", line);
+	printf("entrando no lexer\n");
 	i = 0;
 	list = NULL;
 	word = NULL;
@@ -152,12 +160,17 @@ t_token	*lexer(char *line)
 		token_type = get_token_type(line, i);
 		if (token_type >= OR)
 			i++;
-		if (token_type < WORD)
+		if (token_type < 0)
+		{
 			word = get_token_word(line, &i, &token_type);
+			printf("word = %s\n", word);
+		}
 		lst_addnew(&list, token_type, word);
 		word = NULL;
 		if (line[i] != '\0')
 			i++;
+		printf("i = %d\n", i);
+		printf("line[i] = %c\n", line[i]);
 	}
 	return (list);
 }
