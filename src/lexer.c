@@ -49,7 +49,6 @@ char	*get_word(char *line, int *i)
 	int		quote;
 	char	*word;
 
-	printf("entrando em get_word\n");
 	tmp = *i;
 	idx = 0;
 	while (line[*i] && !is_metacharacter(line[*i], line[(*i) + 1])
@@ -104,7 +103,6 @@ char	*get_token_word(char *line, int *i, int *type)
 {
 	char	*word;
 
-	printf("entrando em get_token_word\n");
 	word = NULL;
 	if (line[*i] == '"' || line[*i] == '\'')
 		word = quote_word(line, i);
@@ -148,8 +146,6 @@ t_token	*lexer(char *line)
 	char	*word;
 	t_token	*list;
 
-	printf("line = %s\n", line);
-	printf("entrando no lexer\n");
 	i = 0;
 	list = NULL;
 	word = NULL;
@@ -161,16 +157,12 @@ t_token	*lexer(char *line)
 		if (token_type >= OR)
 			i++;
 		if (token_type < 0)
-		{
 			word = get_token_word(line, &i, &token_type);
-			printf("word = %s\n", word);
-		}
-		lst_addnew(&list, token_type, word);
+		if (token_type >= 0)
+			lst_addnew(&list, token_type, word);
 		word = NULL;
 		if (line[i] != '\0')
 			i++;
-		printf("i = %d\n", i);
-		printf("line[i] = %c\n", line[i]);
 	}
 	return (list);
 }
