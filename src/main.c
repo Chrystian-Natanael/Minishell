@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 16:17:31 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 20:25:02 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	my_envp = create_envp(envp);
 	username = get_username(my_envp);
-	while ((line = readline(username))) // ! Não pode fazer isso segundo a norminette ;-;
+	// line = readline(username);
+	while ((line = readline(username)))  // ! Não pode fazer isso segundo a norminette ;-;
 	{
 		username = get_username(my_envp);
 		if (line[0] != '\0')
@@ -51,6 +52,7 @@ int	main(int argc, char **argv, char **envp)
 		expr = cmd_parsing(token);
 		print_tokens(expr);
 		execute(expr, my_envp);
+		// line = readline(username); (assim a norminettte deixa, resolve?)
 	}
 	rl_clear_history();
 	ft_printf("\033[91mEnding Minishell\033[0m, \033[92mThanks!\033[0m\n");
