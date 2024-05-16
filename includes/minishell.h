@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 13:28:00 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 16:19:57 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@ typedef struct s_envp
 	char			*value;
 	struct s_envp	*next;
 }	t_envp;
+
+typedef struct s_bin
+{
+	char			*cmd;
+	enum e_token	type;
+	struct s_bin	*left;
+	struct s_bin	*right;
+}					t_bin;
 
 char	*envp_get(char *key, t_envp *envp);
 void	envp_insert(char *key, char *value, t_envp **envp);
