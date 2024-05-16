@@ -177,7 +177,7 @@ static int	test_three_expr()
 	t_token	*result;
 	t_token	*tokens;
 
-	expected = create_with_enum(3, EXPRESSION, OR, EXPRESSION);
+	expected = create_with_enum(3, CMD, OR, CMD);
 	expected->lexema = "ls -l";
 	expected->next->lexema = "||";
 	expected->next->next->lexema = "echo hello";
@@ -198,7 +198,7 @@ static int	test_five_expr()
 	t_token	*result;
 	t_token	*tokens;
 
-	expected = create_with_enum(5, EXPRESSION, PIPE, EXPRESSION, AND, EXPRESSION);
+	expected = create_with_enum(5, CMD, PIPE, CMD, AND, CMD);
 	expected->lexema = "ls -l";
 	expected->next->lexema = "|";
 	expected->next->next->lexema = "grep a >> outfile.txt";
@@ -227,7 +227,7 @@ static int test_complex_expr()
 	t_token	*result;
 	t_token	*tokens;
 
-	expected = create_with_enum(9, EXPRESSION, PIPE, EXPRESSION, PIPE, EXPRESSION, AND, EXPRESSION, OR, EXPRESSION);
+	expected = create_with_enum(9, CMD, PIPE, CMD, PIPE, CMD, AND, CMD, OR, CMD);
 	expected->lexema = "ls -la";
 	expected->next->lexema = "|";
 	expected->next->next->lexema = "grep \"a\"";
