@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/10 18:27:33 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 09:06:45 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ enum e_token
 	L_PAREN,
 	R_PAREN,
 	EXPRESSION,
+	SUB_SHELL,
 	DOLLAR,
 	OR,
 	AND,
@@ -96,6 +97,7 @@ char	*return_lexema(t_token *token);
 int		syntax_error(t_token *token);
 void	organize_expressions(t_token **expr);
 int		exist_redir(char *str);
+int		exist_parent(char *str);
 char	*organize_redir(char *str);
 
 #endif
