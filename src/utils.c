@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/09 08:16:21 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 09:09:05 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	print_tokens(t_token *token)
 			type = "HEREDOC";
 		else if (tmp->type == OUTPUT_APPEND)
 			type = "OUTPUT_APPEND";
+		else if (tmp->type == SUB_SHELL)
+			type = "SUB_SHELL";
 		ft_printf("type: %s, lexema: %s\n", type, tmp->lexema);
 		tmp = tmp->next;
 	}
