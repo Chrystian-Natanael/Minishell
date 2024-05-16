@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/10 17:32:50 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 14:28:38 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		expr = cmd_parsing(token);
-		organize_expressions(&expr);
 		print_tokens(expr);
 		// execute(expr, my_envp);
 	}
