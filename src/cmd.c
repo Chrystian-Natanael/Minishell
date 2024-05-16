@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/10 12:59:52 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 09:08:00 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,23 +21,45 @@
 
 t_token	*cmd_parsing(t_token *token)
 {
+	int		i;
 	t_token	*tmp;
 	t_token	*cmds;
 	t_token	*head;
 
 	cmds = NULL;
-	tmp = token;
 	head = NULL;
+	tmp = token;
+	i = 0;
 	while (tmp)
 	{
-		while (tmp->type != PIPE && tmp->type != OR
-			&& tmp->type != AND && tmp->type != L_PAREN && tmp->type != R_PAREN)
+		if (tmp->type == L_PAREN)
 		{
-			if ((tmp->lexema && *tmp->lexema != '\0') || tmp->type != WORD)
+			i++;
+			while (tmp->type != R_PAREN || i != 0)
+			{
+				lst_contatenate(&cmds, return_lexema(tmp));
+				tmp = tmp->next;
+				if (tmp->type == R_PAREN)
+					i--;
+				else if (tmp->type == L_PAREN)
+					i++;
+			}
+			if (tmp->type == R_PAREN)
 				lst_contatenate(&cmds, return_lexema(tmp));
 			tmp = tmp->next;
-			if (!tmp)
-				break ;
+			cmds->type = SUB_SHELL;
+		}
+		else
+		{
+			while (tmp->type != PIPE && tmp->type != OR
+				&& tmp->type != AND && tmp->type != L_PAREN && tmp->type != R_PAREN)
+			{
+				if ((tmp->lexema && *tmp->lexema != '\0') || tmp->type != WORD)
+					lst_contatenate(&cmds, return_lexema(tmp));
+				tmp = tmp->next;
+				if (!tmp)
+					break ;
+			}
 		}
 		cmd_parsing_aux(&head, &cmds, &tmp);
 	}
@@ -49,7 +71,7 @@ char	*return_lexema(t_token *token)
 	if (token->type == WORD || token->type == EXPRESSION)
 		return (token->lexema);
 	else if (token->type == REDIR_INPUT)
-		return ("<<");
+		return ("<");
 	else if (token->type == REDIR_OUTPUT)
 		return (">");
 	else if (token->type == OUTPUT_APPEND)
@@ -80,7 +102,8 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 	if (*cmds != NULL)
 		*cmds = (*cmds)->next;
 	if (*tmp && (((*tmp)->type == PIPE || (*tmp)->type == OR
-			|| (*tmp)->type == AND) || (*tmp)->type == L_PAREN || (*tmp)->type == R_PAREN))
+			|| (*tmp)->type == AND) || (*tmp)->type == L_PAREN
+			|| (*tmp)->type == R_PAREN))
 	{
 		aux = (*tmp)->next;
 		(*tmp)->next = NULL;
@@ -88,8 +111,6 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 		lstadd_back(head, *tmp);
 		*tmp = aux;
 	}
-	else if (*tmp)
-			*tmp = (*tmp)->next;
 }
 
 void	lst_contatenate(t_token **list, char *lexema)
