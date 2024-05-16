@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 10:12:10 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 20:18:26 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,25 +21,29 @@
 
 int	quote_is_closed(char *line, int *i)
 {
-	int	s_quote;
-	int	d_quote;
 	int	tmp;
 
 	tmp = *i;
-	s_quote = 0;
-	d_quote = 0;
 	while (line[tmp] && !is_metacharacter(line[tmp], line[(tmp) + 1])
 		&& !ft_isspace(line[tmp]))
 	{
 		if (line[tmp] == '"')
-			d_quote++;
+		{
+			while (line[tmp] != '\0' && line[tmp] != '"')
+				tmp++;
+			if (line[tmp] == '\0')
+				return (0);
+		}
 		else if (line[tmp] == '\'')
-			s_quote++;
+		{
+			while (line[tmp] != '\0' && line[tmp] != '\'')
+				tmp++;
+			if (line[tmp] == '\0')
+				return (0);
+		}
 		tmp++;
 	}
-	if (s_quote % 2 == 0 || d_quote % 2 == 0)
-		return (1);
-	return (0);
+	return (1);
 }
 
 char	*get_word(char *line, int *i)
@@ -57,16 +61,16 @@ char	*get_word(char *line, int *i)
 		idx++;
 		(*i)++;
 	}
-	word = allocate(sizeof(char) * (idx + 1));
 	quote = quote_is_closed(line, i);
+	if (quote == 0)
+		return (NULL);
+	word = allocate(sizeof(char) * (idx + 1));
 	idx = 0;
 	while (tmp < *i)
 	{
 		if (quote)
-		{
-			if (line[(tmp)] == '"' || line[(tmp)] == '\'')
+			if (line[(tmp)] == '"') // || line[(tmp)] == '\'') aspas simples não expande var
 				tmp++;
-		}
 		word[idx++] = line[tmp++];
 	}
 	word[idx] = '\0';
@@ -160,6 +164,8 @@ t_token	*lexer(char *line)
 			word = get_token_word(line, &i, &token_type);
 		if (token_type >= 0)
 			lst_addnew(&list, token_type, word);
+		else
+			return (NULL);
 		word = NULL;
 		if (line[i] != '\0' && line[i] != ')')
 			i++;
