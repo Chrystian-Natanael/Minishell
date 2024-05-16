@@ -116,9 +116,9 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 void	lst_contatenate(t_token **list, char *lexema)
 {
 	t_token	*new;
-	t_token	*tmp;
+	// t_token	*tmp;
 
-	tmp = *list;
+	// tmp = *list;
 	new = (t_token *)allocate(sizeof(t_token));
 	new->type = EXPRESSION;
 	new->lexema = lexema;

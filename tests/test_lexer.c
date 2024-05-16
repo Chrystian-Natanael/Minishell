@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <stdarg.h>
 
+int	is_equal_str(const char *a, const char *b);
+
 static t_token *create_with_enum(int num_args, ...)
 {
 	t_token *result;
@@ -18,7 +20,23 @@ static t_token *create_with_enum(int num_args, ...)
 	return (result);
 }
 
-int	ft_isequal(const char *a, const char *b)
+int	expr_is_equal(t_token *expected, t_token *result)
+{
+	while (expected != NULL && result != NULL)
+	{
+		if (expected->type != result->type || !is_equal_str(expected->lexema, result->lexema))
+		{
+			printf("\033[91m. \033[0m");
+			return (0);
+		}
+		expected = expected->next;
+		result = result->next;
+	}
+	printf("\033[92m. \033[0m");
+	return (expected == result);
+}
+
+int	is_equal_str(const char *a, const char *b)
 {
 	int idx = 0;
 
@@ -44,7 +62,6 @@ static int	is_equal(const t_token *a, const t_token *b)
 	}
 	while (a != NULL && b != NULL)
 	{
-		// printf("%d %d \n", a->type, b->type);
 		if (a->type != b->type || a->lexema != b->lexema)
 		{
 			printf("\033[91m. \033[0m");
@@ -54,8 +71,67 @@ static int	is_equal(const t_token *a, const t_token *b)
 		b = b->next;
 	}
 	printf("\033[92m. \033[0m");
-	// return (a == b);
 	return (1);
+}
+
+// static int	test_quotes_not_closed()
+// {
+// 	char	*word = "texto com \'aspas abertas";
+// 	t_token	*expected = NULL;
+// 	t_token	*result;
+
+// 	expected = create_with_enum(5, WORD, WORD, WORD, WORD, WORD);
+
+// }
+
+static int	test_only_words_with_quotes_between()
+{
+	char	*word = "as\"pas\" no meio da pa\'la\'vra";
+	t_token	*expected = NULL;
+	t_token	*result;
+
+	expected = create_with_enum(5, WORD, WORD, WORD, WORD, WORD);
+	expected->lexema = "aspas";
+	expected->next->lexema = "no";
+	expected->next->next->lexema = "meio";
+	expected->next->next->next->lexema = "da";
+	expected->next->next->next->next->lexema = "palavra";
+	result = lexer(word);
+	return (expr_is_equal(expected, result));
+}
+
+static int	test_words_with_metacharacters()
+{
+	char	*word = "palavras >> com && meta | caractere";
+	t_token	*expected = NULL;
+	t_token	*result;
+
+	expected = create_with_enum(7, WORD, OUTPUT_APPEND, WORD, AND, WORD, PIPE, WORD);
+	expected->lexema = "palavras";
+	expected->next->lexema = NULL;
+	expected->next->next->lexema = "com";
+	expected->next->next->next->lexema = NULL;
+	expected->next->next->next->next->lexema = "meta";
+	expected->next->next->next->next->next->lexema = NULL;
+	expected->next->next->next->next->next->next->lexema = "caractere";
+	result = lexer(word);
+	return (expr_is_equal(expected, result));
+}
+
+static int	test_only_words_with_spaces()
+{
+	char	*word = "teste de palavras com espacos";
+	t_token	*expected = NULL;
+	t_token	*result;
+
+	expected = create_with_enum(5, WORD, WORD, WORD, WORD, WORD);
+	expected->lexema = "teste";
+	expected->next->lexema = "de";
+	expected->next->next->lexema = "palavras";
+	expected->next->next->next->lexema = "com";
+	expected->next->next->next->next->lexema = "espacos";
+	result = lexer(word);
+	return (expr_is_equal(expected, result));
 }
 
 static int	test_word_simple_quote()
@@ -69,7 +145,7 @@ static int	test_word_simple_quote()
 	expected->type = WORD;
 	expected->next = NULL;
 	result = lexer(word);
-	return (ft_isequal(expected->lexema, result->lexema));
+	return (is_equal_str(expected->lexema, result->lexema));
 }
 
 static int	test_symbols(void)
@@ -93,21 +169,6 @@ static int	test_all_spaces_empty_list()
 	return (is_equal(expected, result));
 }
 
-int	expr_is_equal(t_token *expected, t_token *result)
-{
-	while (expected != NULL && result != NULL)
-	{
-		if (expected->type != result->type || ft_strncmp(expected->lexema, result->lexema, ft_strlen(expected->lexema)))
-		{
-			printf("\033[91m. \033[0m");
-			return (0);
-		}
-		expected = expected->next;
-		result = result->next;
-	}
-	printf("\033[92m. \033[0m");
-	return (expected == result);
-}
 
 static int	test_three_expr()
 {
@@ -115,7 +176,7 @@ static int	test_three_expr()
 	t_token	*expected;
 	t_token	*result;
 	t_token	*tokens;
-	
+
 	expected = create_with_enum(3, EXPRESSION, OR, EXPRESSION);
 	expected->lexema = "ls -l";
 	expected->next->lexema = "||";
@@ -154,7 +215,7 @@ static int	test_five_expr()
 	tokens->next->next->next->next->next->next->next->lexema = "&&";
 	tokens->next->next->next->next->next->next->next->next->lexema = "echo";
 	tokens->next->next->next->next->next->next->next->next->next->lexema = "file";
-	tokens->next->next->next->next->next->next->next->next->next->next->lexema = "created";	
+	tokens->next->next->next->next->next->next->next->next->next->next->lexema = "created";
 	result = cmd_parsing(tokens);
 	return (expr_is_equal(expected, result));
 }
@@ -192,6 +253,26 @@ int	main () {
 		printf("\033[91mfailed test_symbols\033[0m\n");
 		quit (EXIT_FAILURE);
 	}
+	if (!test_word_simple_quote())
+	{
+		printf("\033[91mfailed test_word_simple_quote\033[0m\n");
+		quit (EXIT_FAILURE);
+	}
+	if (!test_only_words_with_spaces())
+	{
+		printf("\033[91mfailed test_only_words_with_spaces\033[0m\n");
+		quit (EXIT_FAILURE);
+	}
+	if (!test_words_with_metacharacters())
+	{
+		printf("\033[91mfailed test_only_words_with_metacharacters\033[0m\n");
+		quit (EXIT_FAILURE);
+	}
+	if (!test_only_words_with_quotes_between())
+	{
+		printf("\033[91mfailed test_only_words_with_quotes_between\033[0m\n");
+		quit (EXIT_FAILURE);
+	}
 	if(!test_three_expr())
 	{
 		printf("\033[91mfailed test_three_expr\033[0m\n");
@@ -200,11 +281,6 @@ int	main () {
 	if(!test_five_expr())
 	{
 		printf("\033[91mfailed test_five_expr\033[0m\n");
-		quit (EXIT_FAILURE);
-	}
-	if (!test_word_simple_quote())
-	{
-		printf("\033[91mfailed test_word_simple_quote\033[0m\n");
 		quit (EXIT_FAILURE);
 	}
 	if (!test_complex_expr())
