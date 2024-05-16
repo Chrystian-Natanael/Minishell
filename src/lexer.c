@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 09:24:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 10:12:10 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,14 +154,14 @@ t_token	*lexer(char *line)
 		while (ft_isspace(line[i]))
 			i++;
 		token_type = get_token_type(line, i);
-		if (token_type >= OR)
+		if (token_type >= OR || line[i] == ')')
 			i++;
 		if (token_type < 0)
 			word = get_token_word(line, &i, &token_type);
 		if (token_type >= 0)
 			lst_addnew(&list, token_type, word);
 		word = NULL;
-		if (line[i] != '\0')
+		if (line[i] != '\0' && line[i] != ')')
 			i++;
 	}
 	return (list);
