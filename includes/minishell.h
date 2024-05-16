@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 09:06:45 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:28:00 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@ enum e_token
 	REDIR_OUTPUT,
 	L_PAREN,
 	R_PAREN,
-	EXPRESSION,
+	CMD,
+	FILE_NAME,
 	SUB_SHELL,
 	DOLLAR,
 	OR,
@@ -88,6 +89,7 @@ int		get_token_type(char *line, int i);
 //--------------------------------------- Expression Analysis
 t_token	*cmd_parsing(t_token *token);
 void	lst_contatenate(t_token **list, char *lexema);
+void	lst_contatenate_redir(t_token **list, char *lexema);
 void	lstadd_back(t_token **lst, t_token *new);
 void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp);
 char	*return_lexema(t_token *token);
@@ -95,9 +97,5 @@ char	*return_lexema(t_token *token);
 
 //--------------------------------------- Syntax Analysis
 int		syntax_error(t_token *token);
-void	organize_expressions(t_token **expr);
-int		exist_redir(char *str);
-int		exist_parent(char *str);
-char	*organize_redir(char *str);
 
 #endif
