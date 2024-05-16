@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 09:08:00 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 15:04:30 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,18 @@ t_token	*cmd_parsing(t_token *token)
 			tmp = tmp->next;
 			cmds->type = SUB_SHELL;
 		}
+		if (tmp->type == REDIR_INPUT || tmp->type == REDIR_OUTPUT
+			|| tmp->type == OUTPUT_APPEND || tmp->type == HEREDOC)
+		{
+			cmd_parsing_aux(&head, &cmds, &tmp);
+			lst_contatenate_redir(&cmds, tmp->lexema);
+			tmp = tmp->next;
+		}
 		else
 		{
 			while (tmp->type != PIPE && tmp->type != OR
-				&& tmp->type != AND && tmp->type != L_PAREN && tmp->type != R_PAREN)
+				&& tmp->type != AND && tmp->type != L_PAREN
+				&& tmp->type != R_PAREN)
 			{
 				if ((tmp->lexema && *tmp->lexema != '\0') || tmp->type != WORD)
 					lst_contatenate(&cmds, return_lexema(tmp));
@@ -68,7 +76,7 @@ t_token	*cmd_parsing(t_token *token)
 
 char	*return_lexema(t_token *token)
 {
-	if (token->type == WORD || token->type == EXPRESSION)
+	if (token->type == WORD || token->type == CMD)
 		return (token->lexema);
 	else if (token->type == REDIR_INPUT)
 		return ("<");
@@ -103,7 +111,9 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 		*cmds = (*cmds)->next;
 	if (*tmp && (((*tmp)->type == PIPE || (*tmp)->type == OR
 			|| (*tmp)->type == AND) || (*tmp)->type == L_PAREN
-			|| (*tmp)->type == R_PAREN))
+			|| (*tmp)->type == R_PAREN || (*tmp)->type == REDIR_INPUT
+			|| (*tmp)->type == REDIR_OUTPUT || (*tmp)->type == OUTPUT_APPEND
+			|| (*tmp)->type == HEREDOC))
 	{
 		aux = (*tmp)->next;
 		(*tmp)->next = NULL;
@@ -120,7 +130,7 @@ void	lst_contatenate(t_token **list, char *lexema)
 
 	// tmp = *list;
 	new = (t_token *)allocate(sizeof(t_token));
-	new->type = EXPRESSION;
+	new->type = CMD;
 	new->lexema = lexema;
 	new->next = NULL;
 	if (*list == NULL)
@@ -129,6 +139,23 @@ void	lst_contatenate(t_token **list, char *lexema)
 	{
 		(*list)->lexema = ft_strjoin((*list)->lexema, " ");
 		typetree_insert((*list)->lexema);
+		(*list)->lexema = ft_strjoin((*list)->lexema, lexema);
+		typetree_insert((*list)->lexema);
+	}
+}
+
+void	lst_contatenate_redir(t_token **list, char *lexema)
+{
+	t_token	*new;
+
+	new = (t_token *)allocate(sizeof(t_token));
+	new->type = FILE_NAME;
+	new->lexema = lexema;
+	new->next = NULL;
+	if (*list == NULL)
+		*list = new;
+	else
+	{
 		(*list)->lexema = ft_strjoin((*list)->lexema, lexema);
 		typetree_insert((*list)->lexema);
 	}
