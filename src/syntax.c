@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:41:15 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/10 20:35:49 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/11 15:04:13 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,10 +76,20 @@ void	organize_expressions(t_token **expr)
 	tmp = *expr;
 	while (tmp)
 	{
-		if (exist_redir(tmp->lexema))
+		if (exist_redir(tmp->lexema) && !exist_parent(tmp->lexema))
 			tmp->lexema = organize_redir(tmp->lexema);
 		tmp = tmp->next;
 	}
+}
+
+int	exist_parent(char *str)
+{
+	int	i;
+
+	i = strlen(str);
+	if (str[0] == '(' && str[i - 1] == ')')
+		return (1);
+	return (0);
 }
 
 int	exist_redir(char *str)
@@ -105,8 +115,8 @@ char	*organize_redir(char *str)
 
 	i = 0;
 	new_str = allocate(sizeof(char) * (ft_strlen(str) + 1));
-	tmp = NULL; 	// ! echo oi > file.txt amor == echo oi amor > file.txt
-	while (str[i]) // ! echo oi > file.txt amor > a.txt == echo oi amor > file.txt > a.txt
+	tmp = NULL;
+	while (str[i])
 	{
 		if (str[i] == '>' || str[i] == '<')
 		{
@@ -152,8 +162,8 @@ char	*organize_redir(char *str)
 			typetree_insert(aux);
 			new_str = ft_strjoin(new_str, aux);
 			typetree_insert(new_str);
+			i++;
 		}
-		i++;
 	}
 	if (tmp != NULL)
 	{
