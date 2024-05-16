@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 09:09:05 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 13:27:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ void	print_tokens(t_token *token)
 			type = "L_PAREN";
 		else if (tmp->type == R_PAREN)
 			type = "R_PAREN";
-		else if (tmp->type == EXPRESSION)
-			type = "EXPRESSION";
+		else if (tmp->type == CMD)
+			type = "COMMAND";
 		else if (tmp->type == DOLLAR)
 			type = "DOLLAR";
 		else if (tmp->type == OR)
@@ -92,6 +92,8 @@ void	print_tokens(t_token *token)
 			type = "OUTPUT_APPEND";
 		else if (tmp->type == SUB_SHELL)
 			type = "SUB_SHELL";
+		else if (tmp->type == FILE_NAME)
+			type = "FILE_NAME";
 		ft_printf("type: %s, lexema: %s\n", type, tmp->lexema);
 		tmp = tmp->next;
 	}
