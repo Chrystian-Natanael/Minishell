@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 16:19:57 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:46:44 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 
 /*For use system functions */
 # include <stdio.h>
+
+/**/
+# include <sys/wait.h>
 
 /**
  * @brief Enum e_token
@@ -72,6 +75,7 @@ typedef struct s_envp
 typedef struct s_bin
 {
 	char			*cmd;
+	// t_token			*args;  ---- lista de argumentos
 	enum e_token	type;
 	struct s_bin	*left;
 	struct s_bin	*right;
