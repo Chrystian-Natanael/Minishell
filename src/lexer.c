@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 20:18:26 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/05/28 10:11:29 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ int	get_token_type(char *line, int i)
 t_token	*lexer(char *line)
 {
 	int		i;
+	int		boolean;
 	int		token_type;
 	char	*word;
 	t_token	*list;
@@ -158,8 +159,14 @@ t_token	*lexer(char *line)
 		while (ft_isspace(line[i]))
 			i++;
 		token_type = get_token_type(line, i);
+		boolean = 0;
 		if (token_type >= OR || line[i] == ')')
+		{
+			if (token_type >= OR)
+				i++;
 			i++;
+			boolean = 1;
+		}
 		if (token_type < 0)
 			word = get_token_word(line, &i, &token_type);
 		if (token_type >= 0)
@@ -167,7 +174,7 @@ t_token	*lexer(char *line)
 		else
 			return (NULL);
 		word = NULL;
-		if (line[i] != '\0' && line[i] != ')')
+		if (line[i] != '\0' && line[i] != ')' && boolean == 0)
 			i++;
 	}
 	return (list);

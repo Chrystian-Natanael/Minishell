@@ -54,8 +54,8 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		envp.c \
 		utils.c \
 		syntax.c \
-		cmd.c)
-		# executor.c)
+		cmd.c \
+		executor.c)
 TEST = $(addprefix $(TEST_DIR),\
 		test_lexer.c) $(addprefix $(SRCS_PATH),\
 		lexer.c \

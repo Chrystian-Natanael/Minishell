@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 21:46:44 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/05/28 14:02:49 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,14 @@ char	*return_lexema(t_token *token);
 
 //--------------------------------------- Syntax Analysis
 int		syntax_error(t_token *token);
+
+
+//--------------------------------------- Executor
+
+void	execute(t_token *tokens, t_envp *envp);
+int	precedence(enum e_token type);
+t_bin	*new_node(char *cmd, enum e_token type);
+t_bin	*create_tree(t_token *tokens);
+t_token	*return_token_list(t_token *tokens, t_token *max_prec);
 
 #endif

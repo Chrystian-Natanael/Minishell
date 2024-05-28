@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 20:25:02 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:35:25 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	main(int argc, char **argv, char **envp)
 		}
 		expr = cmd_parsing(token);
 		print_tokens(expr);
+		ft_printf("\n");
 		execute(expr, my_envp);
 		// line = readline(username); (assim a norminettte deixa, resolve?)
 	}

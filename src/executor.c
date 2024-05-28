@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 21:48:07 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/05/28 15:55:58 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,42 +81,121 @@
 // 		return (exec_or(bin, envp));
 // }
 
+static void	print_tree(t_bin *bin, int level);
+
 void	execute(t_token *tokens, t_envp *envp)
 {
-	int		status;
+	// int		status;
 	t_bin	*bin;
 
-	bin = create_binary(tokens, envp);
-
+	bin = create_tree(tokens);
+	print_tree(bin, 0);
+	if (envp == NULL || bin == NULL)
+		return ;
 	// status = exec_tree(bin, envp); -- execução da árvore
 }
 
-t_bin	*create_binary(t_token *tokens, t_envp *envp)
+static void	print_tree(t_bin *bin, int level)
 {
-	t_bin	*bin;
-
-	bin = (t_bin *)allocate(sizeof(t_bin));
 	if (bin == NULL)
+		return ;
+	
+	if (bin)
 	{
-		ft_printf("\033[91mError: \033[0mMalloc failed\n");
-		quit(1);
+		print_tree(bin->right, level + 1);
+		ft_printf("\n\n");
+		for (int i = 0; i < level; i++)
+			ft_printf("\t");
+		ft_printf("\033[91m|\033[0m %s \033[91m|\033[0m\n", bin->cmd);
+		print_tree(bin->left, level + 1);
 	}
-	create_root(&bin, tokens);
-	create_tree(tokens, bin, envp);
+}
+int	precedence(enum e_token type)
+{
+	if (type == AND || type == OR)
+		return (5);
+	else if (type == PIPE)
+		return (4);
+	else if (type == REDIR_INPUT || type == REDIR_OUTPUT || type == OUTPUT_APPEND || type == HEREDOC)
+		return (3);
+	else if (type == SUB_SHELL)
+		return (2);
+	else if (type == CMD)
+		return (1);
+	return (-1);
+}
+
+t_bin	*new_node(char *cmd, enum e_token type)
+{
+	t_bin	*node;
+
+	node = allocate(sizeof(t_bin));
+	if (!node)
+		return (NULL);
+	node->cmd = cmd;
+	node->type = type;
+	node->left = NULL;
+	node->right = NULL;
+	return (node);
+}
+
+t_bin	*create_tree(t_token *tokens)
+{
+	t_token	*curr;
+	t_token	*max_prec;
+	t_bin	*bin;
+	t_token *left_list;
+	t_token *right_list;
+	int		max_prec_val;
+
+	curr = tokens;
+	max_prec = curr;
+	if (!curr)
+		return (NULL);
+	max_prec_val = precedence(curr->type);
+	while (curr)
+	{
+		if (precedence(curr->type) >= max_prec_val)
+		{
+			max_prec = curr;
+			max_prec_val = precedence(curr->type);
+		}
+		curr = curr->next;
+	}
+	bin = new_node(max_prec->lexema, max_prec->type);
+
+	if (max_prec->type != CMD)
+	{
+		left_list = return_token_list(tokens, max_prec);
+		right_list = max_prec->next;
+		bin->left = create_tree(left_list);
+		bin->right = create_tree(right_list);
+	}
 	return (bin);
 }
 
-void	create_root(t_bin **bin, t_token *tokens)
+t_token	*return_token_list(t_token *tokens, t_token *max_prec)
 {
-	t_token	*address;
 	t_token	*tmp;
+	t_token	*new;
+	t_token	*left_list;
 
 	tmp = tokens;
-	address = NULL;
-	while (tmp)
+	left_list = NULL;
+	while (tmp != max_prec)
 	{
-		if (tmp->type == AND || tmp->type == OR)
-			address = tmp;
+		new = allocate(sizeof(t_token));
+		new->type = tmp->type;
+		new->lexema = tmp->lexema;
+		new->next = NULL;
+		lstadd_back(&left_list, new);
 		tmp = tmp->next;
 	}
+	return (left_list);
 }
+
+
+
+// << eof | cmd1 | cmd2 | (cmd3 || cmd4) && (cmd5 | (cmd6)) > out
+// !									 * raiz
+// !					| pipe
