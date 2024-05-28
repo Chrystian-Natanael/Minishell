@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 13:27:17 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/28 16:29:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	free_split(char **array)
 	free(array);
 }
 
-void	print_tokens(t_token *token)
+void	print_tokens(t_token *token) // ! Apagar essa função
 {
 	t_token	*tmp;
 	char	*type;
@@ -125,5 +125,21 @@ void	lst_addnew(t_token **list, enum e_token type, char *lexema)
 		while (tmp->next)
 			tmp = tmp->next;
 		tmp->next = new;
+	}
+}
+
+void	print_tree(t_bin *bin, int level) // ! Apagar essa função
+{
+	if (bin == NULL)
+		return ;
+	
+	if (bin)
+	{
+		print_tree(bin->right, level + 1);
+		ft_printf("\n\n");
+		for (int i = 0; i < level; i++)
+			ft_printf("\t");
+		ft_printf("\033[91m|\033[0m %s \033[91m|\033[0m\n", bin->cmd);
+		print_tree(bin->left, level + 1);
 	}
 }

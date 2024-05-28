@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/28 15:35:25 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:40:28 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,9 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		expr = cmd_parsing(token);
-		print_tokens(expr);
-		ft_printf("\n");
-		execute(expr, my_envp);
+		// print_tokens(expr);
+		// ft_printf("\n");
+		execute(expr, envp);
 		// line = readline(username); (assim a norminettte deixa, resolve?)
 	}
 	rl_clear_history();

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/28 14:02:49 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/28 17:27:55 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ t_token	*lexer(char *line);
 
 void	lst_addnew(t_token **list, enum e_token type, char *lexema);
 void	print_tokens(t_token *token); // ! Apagar
+void	print_tree(t_bin *bin, int level); // ! Apagar
 int		is_metacharacter(char a, char b);
 int		get_token_type(char *line, int i);
 
@@ -111,12 +112,16 @@ char	*return_lexema(t_token *token);
 int		syntax_error(t_token *token);
 
 
-//--------------------------------------- Executor
+//--------------------------------------- Executor + binarytree
 
-void	execute(t_token *tokens, t_envp *envp);
+void	execute(t_token *tokens, char **envp_origin);
 int	precedence(enum e_token type);
 t_bin	*new_node(char *cmd, enum e_token type);
 t_bin	*create_tree(t_token *tokens);
 t_token	*return_token_list(t_token *tokens, t_token *max_prec);
+
+int		exec_cmd(t_bin *bin, char **envp_origin);
+char	*get_path_cmd(char *cmd, char **envp_origin);
+int	exec_tree(t_bin *bin, char **envp_origin);
 
 #endif
