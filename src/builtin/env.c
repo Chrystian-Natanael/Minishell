@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:36:33 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 17:52:52 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:24:38 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "minishell.h"
 
-int env(t_envp *envp)
+void env(t_envp *envp)
 {
 	while (envp)
 	{
@@ -28,5 +28,4 @@ int env(t_envp *envp)
 		ft_putchar_fd('\n', 1);
 		envp = envp->next;
 	}
-	return (SUCCESS);
 }

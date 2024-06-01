@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:15:35 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 16:17:08 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/01 18:24:25 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "minishell.h"
 
-int	pwd(void)
+void	pwd(void)
 {
 	char	cwd[PATH_MAX];
 	
@@ -27,7 +27,5 @@ int	pwd(void)
 	{
 		ft_putstr_fd(cwd, 1);
 		ft_putchar_fd('\n', 1);
-		return (SUCCESS);
 	}
-	return (FAILURE);
 }

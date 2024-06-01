@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:16:42 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 17:25:02 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:08:22 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,7 @@
 
 #include "minishell.h"
 
-int	args_count(char **argv)
-{
-	int	count;
-
-	count = 0;
-	while (argv[count])
-		count++;
-	return (count);
-}
-
-int	echo(char **argv)
+void	echo(char **argv)
 {
 	int	i;
 	int	n;
@@ -51,8 +41,7 @@ int	echo(char **argv)
 			i++;
 		}
 		if (n == 1)
-			return (SUCCESS);
+			return ;
 	}
 	ft_putchar_fd('\n', 1);
-	return (SUCCESS);
 }
