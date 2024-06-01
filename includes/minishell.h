@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/01 17:51:08 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:28:18 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ void	print_tokens(t_token *token); // ! Apagar
 void	print_tree(t_bin *bin, int level); // ! Apagar
 int		is_metacharacter(char a, char b);
 int		get_token_type(char *line, int i);
+int		args_count(char **argv);
 
 //--------------------------------------- Expression Analysis
 t_token	*cmd_parsing(t_token *token);
@@ -126,8 +127,9 @@ char	*get_path_cmd(char *cmd, char **envp_origin);
 int		exec_tree(t_bin *bin, char **envp_origin);
 
 //--------------------------------------- Builtin
-int		pwd(void);
-int		echo(char **argv);
-int		env(t_envp *envp);
+
+void	pwd(void);
+void	echo(char **argv);
+void	env(t_envp *envp);
 
 #endif

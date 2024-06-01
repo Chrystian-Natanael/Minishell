@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/28 16:29:21 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/01 20:09:38 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,64 @@ void	free_split(char **array)
 	free(array);
 }
 
-void	print_tokens(t_token *token) // ! Apagar essa função
+int	is_metacharacter(char a, char b)
+{
+	if (a == '|' || a == '(' || a == ')' || a == '<' || a == '>')
+		return (1);
+	else if (a == '&' && b == '&')
+		return (1);
+	return (0);
+}
+
+void	lst_addnew(t_token **list, enum e_token type, char *lexema)
+{
+	t_token	*new;
+	t_token	*tmp;
+
+	tmp = *list;
+	new = allocate(sizeof(t_token));
+	new->type = type;
+	new->lexema = lexema;
+	new->next = NULL;
+	if (*list == NULL)
+		*list = new;
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
+int	args_count(char **argv)
+{
+	int	count;
+
+	count = 0;
+	while (argv[count])
+		count++;
+	return (count);
+}
+
+// --------------------------------- APAGAR A PARTIR DAQUI -------------------------------------//
+
+void	print_tree(t_bin *bin, int level)
+{
+	if (bin == NULL)
+		return ;
+	
+	if (bin)
+	{
+		print_tree(bin->right, level + 1);
+		ft_printf("\n\n");
+		for (int i = 0; i < level; i++)
+			ft_printf("\t");
+		ft_printf("\033[91m|\033[0m %s \033[91m|\033[0m\n", bin->cmd);
+		print_tree(bin->left, level + 1);
+	}
+}
+
+void	print_tokens(t_token *token)
 {
 	t_token	*tmp;
 	char	*type;
@@ -96,50 +153,5 @@ void	print_tokens(t_token *token) // ! Apagar essa função
 			type = "FILE_NAME";
 		ft_printf("type: %s, lexema: %s\n", type, tmp->lexema);
 		tmp = tmp->next;
-	}
-}
-
-int	is_metacharacter(char a, char b)
-{
-	if (a == '|' || a == '(' || a == ')' || a == '<' || a == '>')
-		return (1);
-	else if (a == '&' && b == '&')
-		return (1);
-	return (0);
-}
-
-void	lst_addnew(t_token **list, enum e_token type, char *lexema)
-{
-	t_token	*new;
-	t_token	*tmp;
-
-	tmp = *list;
-	new = allocate(sizeof(t_token));
-	new->type = type;
-	new->lexema = lexema;
-	new->next = NULL;
-	if (*list == NULL)
-		*list = new;
-	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
-}
-
-void	print_tree(t_bin *bin, int level) // ! Apagar essa função
-{
-	if (bin == NULL)
-		return ;
-	
-	if (bin)
-	{
-		print_tree(bin->right, level + 1);
-		ft_printf("\n\n");
-		for (int i = 0; i < level; i++)
-			ft_printf("\t");
-		ft_printf("\033[91m|\033[0m %s \033[91m|\033[0m\n", bin->cmd);
-		print_tree(bin->left, level + 1);
 	}
 }
