@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/06/01 14:16:42 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 17:25:02 by krocha-h         ###   ########.fr       */
+/*   Created: 2024/06/01 17:36:33 by krocha-h          #+#    #+#             */
+/*   Updated: 2024/06/01 17:52:52 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,14 @@
 
 #include "minishell.h"
 
-int	args_count(char **argv)
+int env(t_envp *envp)
 {
-	int	count;
-
-	count = 0;
-	while (argv[count])
-		count++;
-	return (count);
-}
-
-int	echo(char **argv)
-{
-	int	i;
-	int	n;
-	
-	i = 1;
-	n = 0;
-	if (args_count(argv) > 1)
+	while (envp)
 	{
-		if (ft_strncmp(argv[i], "-n", 2) == 0)
-		{
-			n = 1;
-			i++;
-		}
-		while (argv[i])
-		{
-			ft_putstr_fd(argv[i], 1);
-			if (argv[i + 1] && argv[i][0] != '\0')
-				ft_putchar_fd(' ', 1);
-			i++;
-		}
-		if (n == 1)
-			return (SUCCESS);
+		ft_putstr_fd(envp->key, 1);
+		ft_putstr_fd(envp->value, 1);
+		ft_putchar_fd('\n', 1);
+		envp = envp->next;
 	}
-	ft_putchar_fd('\n', 1);
 	return (SUCCESS);
 }

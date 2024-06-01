@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/31 12:30:28 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:51:08 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,5 +127,7 @@ int		exec_tree(t_bin *bin, char **envp_origin);
 
 //--------------------------------------- Builtin
 int		pwd(void);
+int		echo(char **argv);
+int		env(t_envp *envp);
 
 #endif
