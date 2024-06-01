@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/28 17:27:55 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/05/31 12:30:28 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,9 @@
 
 /*For use libft functions*/
 # include "libft.h"
+
+/*For use linux limits' macros*/
+# include "linux/limits.h"
 
 /*For use garbage_collector functions*/
 # include "garbage_collector.h"
@@ -107,21 +110,22 @@ void	lstadd_back(t_token **lst, t_token *new);
 void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp);
 char	*return_lexema(t_token *token);
 
-
 //--------------------------------------- Syntax Analysis
 int		syntax_error(t_token *token);
-
 
 //--------------------------------------- Executor + binarytree
 
 void	execute(t_token *tokens, char **envp_origin);
-int	precedence(enum e_token type);
+int		precedence(enum e_token type);
 t_bin	*new_node(char *cmd, enum e_token type);
 t_bin	*create_tree(t_token *tokens);
 t_token	*return_token_list(t_token *tokens, t_token *max_prec);
 
 int		exec_cmd(t_bin *bin, char **envp_origin);
 char	*get_path_cmd(char *cmd, char **envp_origin);
-int	exec_tree(t_bin *bin, char **envp_origin);
+int		exec_tree(t_bin *bin, char **envp_origin);
+
+//--------------------------------------- Builtin
+int		pwd(void);
 
 #endif
