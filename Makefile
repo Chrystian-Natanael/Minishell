@@ -37,7 +37,7 @@ RESET = \033[0m
 #! ******************************************************************************#
 
 SRCS_PATH = src/
-INCS_PATH := includes/ libs/libft/include/ libs/garbage_collector/include/
+INCS_PATH := includes/ libs/libft/include/ libs/garbage_collector/include/ tests/
 BUILD_DIR := build/
 BUILD_DIR_TEST := build/
 LIBFT_DIR := libs/libft/
@@ -58,7 +58,11 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		executor.c \
 		binary_tree.c)
 TEST = $(addprefix $(TEST_DIR),\
-		test_lexer.c) $(addprefix $(SRCS_PATH),\
+		test_lexer.c \
+		test_exp.c \
+		test_pwd.c \
+		test_utils.c \
+		test_main.c) $(addprefix $(SRCS_PATH),\
 		lexer.c \
 		envp.c \
 		utils.c \
