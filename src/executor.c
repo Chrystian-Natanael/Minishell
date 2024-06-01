@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/28 17:38:44 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:57:13 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,6 @@
 */
 
 #include "minishell.h"
-
-// tudo isso pra começar a expansão de variável. Foi o Daniel que me obrigou :)
-// segundo ele, eu que o obriguei a me obrigar (deu certo!)
-// sinais vão ser resolvidos mais pro final. achei confuso colocar agora
-// beijos e até logo!
-
 
 int	exec_cmd(t_bin *bin, char **envp_origin)
 {

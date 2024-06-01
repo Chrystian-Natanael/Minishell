@@ -6,17 +6,25 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 15:10:23 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 15:14:13 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:39:57 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "test.h"
+#include <stdio.h>
 
-int	test_pwd()
+int	main()
 {
-	// char	*path;
-	
-	// path = "/home/haydkelly/Galaxia/minishell/tests";
 	pwd();
-	return (1);
+	
+	char	*args[3];
+	
+	args[0] = "echo";
+	args[1] = "Kelly";
+	args[2] = "Hayd";
+	args[3] = '\0';
+	
+	echo(args);
+	env();
+	return (0);
 }
