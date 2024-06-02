@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/01 19:47:07 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:44:03 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ int	main(int argc, char **argv, char **envp)
 
 	(void)argc;
 	(void)argv;
+	expr = NULL;
 	my_envp = create_envp(envp);
 	username = get_username(my_envp);
 	line = readline(username);
@@ -50,9 +51,13 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		expr = cmd_parsing(token);
+		// (void)expr;
 		// print_tokens(expr);
 		// ft_printf("\n");
-		execute(expr, envp);
+		// execute(expr, envp);
+		
+		execute(expr, my_envp);
+		
 		line = readline(username);
 	}
 	rl_clear_history();

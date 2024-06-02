@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/01 17:57:13 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:05:20 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,28 @@
 
 #include "minishell.h"
 
-int	exec_cmd(t_bin *bin, char **envp_origin)
+int	exec_cmd(t_bin *bin, t_envp *envp)
 {
+	int		pid;
 	int		ret_code;
 	char	**cmd;
 	char	*path_cmd;
-	int		pid;
+	char	**envp_export;
 
+	(void)envp;
+	envp_export = NULL;
+	cmd = ft_split(bin->cmd, ' ');
 	pid = fork();
 	if (pid == -1)
 	{
 		return (-1);
 	}
 	ret_code = 0;
-	cmd = ft_split(bin->cmd, ' ');
 	if (cmd[0] == NULL)
 		return (-1);
-	path_cmd = get_path_cmd(cmd[0], envp_origin);
+	path_cmd = get_path_cmd(cmd[0], envp_export);
 	if (pid == 0){
-		execve(path_cmd, cmd, envp_origin);
+		execve(path_cmd, cmd, envp_export);
 		if (access(path_cmd, F_OK) != 0)
 		{
 			ret_code = 127;
@@ -101,10 +104,10 @@ char	*get_path_cmd(char *cmd, char **envp_origin)
 // 	return (status);
 // }
 
-int	exec_tree(t_bin *bin, char **envp_origin)
+int	exec_tree(t_bin *bin, t_envp *envp)
 {
 	if (bin->type == CMD)
-		return (exec_cmd(bin, envp_origin));
+		return (exec_cmd(bin, envp));
 	// else if (bin->type == AND)
 	// 	return (exec_and(bin, envp));
 	// else if (bin->type == OR)
@@ -125,13 +128,13 @@ int	exec_tree(t_bin *bin, char **envp_origin)
 		return (-1);
 }
 
-void	execute(t_token *tokens, char **envp_origin)
+//-------------considera a lista de variáveis de ambiente
+void	execute(t_token *tokens, t_envp *envp)
 {
 	int		status;
 	t_bin	*bin;
 
 	bin = create_tree(tokens);
-	// print_tree(bin, 0);
-	status = exec_tree(bin, envp_origin); // -- execução da árvore
+	status = exec_tree(bin, envp);
+	(void)status;
 }
-
