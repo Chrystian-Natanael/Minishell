@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/02 19:34:57 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 20:12:15 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ int		args_count(char **argv);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_isonlynum(char *str);
 void	free_split(char **array);
+int		find_key_size(char *str);
 
 //--------------------------------------- Expression Analysis
 t_token	*cmd_parsing(t_token *token);

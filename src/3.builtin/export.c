@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 18:20:00 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 20:40:03 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,31 +21,18 @@
 
 void	export_env(t_envp **envp, char *str)
 {
-	int		i;
-	int		j;
+	int		key_size;
 	t_envp	*curr;
 
 	curr = allocate(sizeof(t_envp));
-	i = 0;
-	while (str[i] != '=')
-	{
-		curr->key[i] = str[i];
-		i++;
-	}
-	curr->key[i] = '\0';
-	i++;
-	j = 0;
-	while (str[i])
-	{
-		curr->value[j] = str[i];
-		i++;
-		j++;
-	}
-	curr->value[j] = '\0';
+	key_size = find_key_size(str);
+	curr->key = ft_substr(str, 0, key_size);
+	curr->value = ft_substr(str, (key_size + 1), (ft_strlen(str) - key_size - 1));
 	curr->next = *envp;
+	*envp = curr;
 }
 
-int	check_prev_var(char *str, t_envp **envp)
+int	exist_var(char *str, t_envp **envp)
 {
 	t_envp	*curr;
 
@@ -107,7 +94,7 @@ int	ft_export(char **argv, t_envp **envp)
 		{
 			if (!validate_var(argv[i]) && !ft_strchr(argv[i], '='))
 				return (1);
-			if (!check_prev_var(argv[i], envp))
+			if (!exist_var(argv[i], envp)) // substituir variável existente (WIP)
 					export_env(envp, argv[i]);
 			i++;
 		}
