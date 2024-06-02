@@ -52,33 +52,41 @@ TEST_B_DIR := tests/builtin/
 #! ******************************************************************************#
 
 SRCS =	$(addprefix $(SRCS_PATH),\
-		main.c \
-		lexer.c \
-		envp.c \
-		utils.c \
-		syntax.c \
-		cmd.c \
-		binary_tree.c \
-		builtin/pwd.c \
-		builtin/echo.c \
-		builtin/env.c)
-		# executor.c)
+		1.init/main.c \
+		1.init/envp.c \
+		2.parsing/syntax.c \
+		2.parsing/cmd.c \
+		2.parsing/lexer.c \
+		3.builtin/pwd.c \
+		3.builtin/echo.c \
+		3.builtin/env.c \
+		3.builtin/exit.c \
+		3.builtin/export.c \
+		3.builtin/unset.c \
+		4.executor/binary_tree.c \
+		5.utils/utils_1.c \
+		5.utils/utils_2.c \
+		4.executor/executor.c)
 TEST = $(addprefix $(TEST_DIR),\
 		test_lexer.c \
 		test_exp.c \
 		test_utils.c \
 		test_main.c) $(addprefix $(SRCS_PATH),\
-		lexer.c \
-		envp.c \
-		utils.c \
-		syntax.c \
-		cmd.c)
-		# executor.c)
+		2.parsing/lexer.c \
+		1.init/envp.c \
+		5.utils/utils_1.c \
+		5.utils/utils_2.c \
+		2.parsing/syntax.c \
+		2.parsing/cmd.c \
+		4.executor/executor.c)
 TEST_B = $(addprefix $(TEST_B_DIR),\
-		test_builtin.c) $(addprefix $(SRCS_PATH),\
-		/builtin/pwd.c \
-		/builtin/echo.c \
-		/builtin/env.c)
+		test_echo_pwd.c) $(addprefix $(SRCS_PATH),\
+		3.builtin/pwd.c \
+		3.builtin/echo.c \
+		3.builtin/env.c \
+		3.builtin/exit.c \
+		3.builtin/export.c \
+		3.builtin/unset.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
 LIBS := $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
