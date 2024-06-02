@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 16:19:31 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:00:24 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,8 @@ void	export_env(t_envp **envp, char *str)
 int	check_prev_var(char *str, t_envp **envp)
 {
 	t_envp	*curr;
-	int		i;
 
 	curr = *envp;
-	i = 0;
 	while (curr)
 	{
 		if (ft_strcmp(str, curr->key) == 0)

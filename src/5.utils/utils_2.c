@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 16:17:42 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:58:35 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,17 @@ int	ft_strcmp(char *s1, char *s2)
 		s1++;
 		s2++;
 	}
+	return (0);
+}
+
+int	ft_isonlynum(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && ft_isdigit(str[i]))
+		i++;
+	if (str[i] == '\0')
+		return (1);
 	return (0);
 }

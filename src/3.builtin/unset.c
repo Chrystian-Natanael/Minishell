@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 16:17:37 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 17:01:33 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ int	ft_unset(char **argv, t_envp **envp)
 	t_envp	*curr;
 
 	if (!argv[1])
-		return ;
+		return (0);
 	curr = *envp;
 	while (curr && ft_strcmp(argv[1], curr->key) != 0)
 	{
 		prev = curr;
 		curr = curr->next;
 	}
-	if (ft_sdtrcmp(argv[1], curr->key) == 0)
+	if (ft_strcmp(argv[1], curr->key) == 0)
 	{
 		if (curr == *envp)
 			*envp = (*envp)->next;
