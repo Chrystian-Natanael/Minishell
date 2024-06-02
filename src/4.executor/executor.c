@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/02 18:05:20 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 19:37:10 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,40 +19,42 @@
 
 #include "minishell.h"
 
-int	exec_cmd(t_bin *bin, t_envp *envp)
+int	exec_cmd(t_bin *bin, t_envp **envp)
 {
-	int		pid;
-	int		ret_code;
+	// int		pid;
+	int		exit_status;
 	char	**cmd;
-	char	*path_cmd;
-	char	**envp_export;
+	// char	*path_cmd;
+	// char	**envp_export;
 
-	(void)envp;
-	envp_export = NULL;
+	// envp_export = NULL;
 	cmd = ft_split(bin->cmd, ' ');
-	pid = fork();
-	if (pid == -1)
-	{
-		return (-1);
-	}
-	ret_code = 0;
-	if (cmd[0] == NULL)
-		return (-1);
-	path_cmd = get_path_cmd(cmd[0], envp_export);
-	if (pid == 0){
-		execve(path_cmd, cmd, envp_export);
-		if (access(path_cmd, F_OK) != 0)
-		{
-			ret_code = 127;
-		}
-		else if (access(path_cmd, X_OK | F_OK) != 0)
-		{
-			ret_code = 126;
-		}
-		ret_code = (ret_code >> 8) & 0xFF;
-	}
-	waitpid(pid, NULL, 0);
-	return (ret_code);
+	exit_status = check_exec_builtin(cmd, envp);
+	if (exit_status != -1)
+		return (exit_status);
+	// pid = fork();
+	// if (pid == -1)
+	// {
+	// 	return (-1);
+	// }
+	// exit_status = 0;
+	// if (cmd[0] == NULL)
+	// 	return (-1);
+	// path_cmd = get_path_cmd(cmd[0], envp_export);
+	// if (pid == 0){
+	// 	execve(path_cmd, cmd, envp_export);
+	// 	if (access(path_cmd, F_OK) != 0)
+	// 	{
+	// 		exit_status = 127;
+	// 	}
+	// 	else if (access(path_cmd, X_OK | F_OK) != 0)
+	// 	{
+	// 		exit_status = 126;
+	// 	}
+	// 	exit_status = (exit_status >> 8) & 0xFF;
+	// }
+	// waitpid(pid, NULL, 0);
+	return (exit_status);
 }
 
 char	*get_path_cmd(char *cmd, char **envp_origin)
@@ -104,7 +106,7 @@ char	*get_path_cmd(char *cmd, char **envp_origin)
 // 	return (status);
 // }
 
-int	exec_tree(t_bin *bin, t_envp *envp)
+int	exec_tree(t_bin *bin, t_envp **envp)
 {
 	if (bin->type == CMD)
 		return (exec_cmd(bin, envp));
@@ -129,7 +131,7 @@ int	exec_tree(t_bin *bin, t_envp *envp)
 }
 
 //-------------considera a lista de variáveis de ambiente
-void	execute(t_token *tokens, t_envp *envp)
+void	execute(t_token *tokens, t_envp **envp)
 {
 	int		status;
 	t_bin	*bin;
