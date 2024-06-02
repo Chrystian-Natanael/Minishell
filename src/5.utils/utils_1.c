@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/01 20:09:38 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:17:02 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,26 @@ char	*get_username(t_envp *envp)
 	return (final_string);
 }
 
+void	lst_addnew(t_token **list, enum e_token type, char *lexema)
+{
+	t_token	*new;
+	t_token	*tmp;
+
+	tmp = *list;
+	new = allocate(sizeof(t_token));
+	new->type = type;
+	new->lexema = lexema;
+	new->next = NULL;
+	if (*list == NULL)
+		*list = new;
+	else
+	{
+		while (tmp->next)
+			tmp = tmp->next;
+		tmp->next = new;
+	}
+}
+
 void	free_split(char **array)
 {
 	int	i;
@@ -65,26 +85,6 @@ int	is_metacharacter(char a, char b)
 	else if (a == '&' && b == '&')
 		return (1);
 	return (0);
-}
-
-void	lst_addnew(t_token **list, enum e_token type, char *lexema)
-{
-	t_token	*new;
-	t_token	*tmp;
-
-	tmp = *list;
-	new = allocate(sizeof(t_token));
-	new->type = type;
-	new->lexema = lexema;
-	new->next = NULL;
-	if (*list == NULL)
-		*list = new;
-	else
-	{
-		while (tmp->next)
-			tmp = tmp->next;
-		tmp->next = new;
-	}
 }
 
 int	args_count(char **argv)

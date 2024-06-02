@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 15:38:06 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 16:17:37 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,18 +18,6 @@
 */
 
 #include "minishell.h"
-
-int	ft_strcmp(char *s1, char *s2)
-{
-	while (*s1 || *s2)
-	{
-		if (*s1 != *s2)
-			return ((*(unsigned char *)s1) - (*(unsigned char *)s2));
-		s1++;
-		s2++;
-	}
-	return (0);
-}
 
 int	ft_unset(char **argv, t_envp **envp)
 {
