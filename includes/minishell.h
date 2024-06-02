@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/02 17:50:38 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 19:34:57 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_envp
 typedef struct s_bin
 {
 	char			*cmd;
-	// t_token			*args;  ---- lista de argumentos
 	enum e_token	type;
 	struct s_bin	*left;
 	struct s_bin	*right;
@@ -118,20 +117,21 @@ int		syntax_error(t_token *token);
 
 //--------------------------------------- Executor + binarytree
 
-void	execute(t_token *tokens, t_envp *envp);
+void	execute(t_token *tokens, t_envp **envp);
 int		precedence(enum e_token type);
 t_bin	*new_node(char *cmd, enum e_token type);
 t_bin	*create_tree(t_token *tokens);
 t_token	*return_token_list(t_token *tokens, t_token *max_prec);
 
-int		exec_cmd(t_bin *bin, t_envp *envp);
+int		exec_cmd(t_bin *bin, t_envp **envp);
 char	*get_path_cmd(char *cmd, char **envp_origin);
-int		exec_tree(t_bin *bin, t_envp *envp);
+int		exec_tree(t_bin *bin, t_envp **envp);
 
 //--------------------------------------- Builtin
 
+int		check_exec_builtin(char **cmd, t_envp **envp);
 int		ft_echo(char **argv);
-int		ft_env(char **argv, t_envp *envp);
+int		ft_env(char **argv, t_envp **envp);
 int		ft_exit(char **argv);
 int		ft_export(char **argv, t_envp **envp);
 int		ft_pwd(void);

@@ -57,6 +57,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		2.parsing/syntax.c \
 		2.parsing/cmd.c \
 		2.parsing/lexer.c \
+		3.builtin/builtin.c \
 		3.builtin/pwd.c \
 		3.builtin/echo.c \
 		3.builtin/env.c \
@@ -81,6 +82,7 @@ TEST = $(addprefix $(TEST_DIR),\
 		4.executor/executor.c)
 TEST_B = $(addprefix $(TEST_B_DIR),\
 		test_echo_pwd.c) $(addprefix $(SRCS_PATH),\
+		3.builtin/builtin.c \
 		3.builtin/pwd.c \
 		3.builtin/echo.c \
 		3.builtin/env.c \
