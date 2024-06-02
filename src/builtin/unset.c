@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 19:43:55 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/01 21:25:43 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_strcmp(char *s1, char *s2)
 	return (0);
 }
 
-void	unset(char **argv, t_envp **envp)
+int	ft_unset(char **argv, t_envp **envp)
 {
 	t_envp	*prev;
 	t_envp	*curr;
@@ -52,4 +52,5 @@ void	unset(char **argv, t_envp **envp)
 			prev->next = curr->next;
 		deallocate(curr);
 	}
+	return (0);
 }

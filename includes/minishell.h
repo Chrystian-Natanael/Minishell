@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/01 20:28:18 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/01 22:15:25 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_bin
 	enum e_token	type;
 	struct s_bin	*left;
 	struct s_bin	*right;
-}					t_bin;
+}	t_bin;
 
 char	*envp_get(char *key, t_envp *envp);
 void	envp_insert(char *key, char *value, t_envp **envp);
@@ -128,8 +128,11 @@ int		exec_tree(t_bin *bin, char **envp_origin);
 
 //--------------------------------------- Builtin
 
-void	pwd(void);
-void	echo(char **argv);
-void	env(t_envp *envp);
+int		ft_echo(char **argv);
+int		ft_env(t_envp *envp);
+int		ft_exit(char **argv);
+int		ft_export(char **argv, t_envp **envp);
+int		ft_pwd(void);
+int		ft_unset(char **argv, t_envp **envp);
 
 #endif
