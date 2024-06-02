@@ -6,13 +6,13 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:05:19 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 16:59:52 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 19:40:14 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file pwd.c
- * @brief This file contains the pwd function
+ * @file exit.c
+ * @brief This file contains the exit function
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/01
 */
@@ -28,7 +28,7 @@ int	ft_exit(char **argv)
 	{
 		ft_putstr_fd("-minishell: exit: ", 2);
 		ft_putstr_fd(argv[1], 2);
-		ft_putstr_fd(": numeric argument required", 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
 		quit(2);
 	}
 	else if (count > 2)

@@ -6,13 +6,13 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 17:00:24 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:20:00 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file pwd.c
- * @brief This file contains the pwd function
+ * @file export.c
+ * @brief This file contains the export function
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/01
 */
