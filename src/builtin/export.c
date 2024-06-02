@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 22:12:26 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:39:02 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	validate_var(char *str)
 			return (0);
 		i++;
 	}
-	return  (1);
+	return (1);
 }
 
 void	export_print_envp(t_envp **envp)

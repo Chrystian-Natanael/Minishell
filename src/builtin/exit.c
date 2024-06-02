@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:05:19 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 21:22:39 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:38:44 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_exit(char **argv)
 	else if (count > 2)
 	{
 		ft_putstr_fd("-minishell: exit: too many arguments\n", 2);
-		return (1);		
+		return (1);
 	}
 	else if (count == 2 && ft_isalnum(argv[1]))
 		quit(ft_atoi(argv[1]));

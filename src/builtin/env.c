@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:36:33 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 21:15:44 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:37:35 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "minishell.h"
 
-int ft_env(char **argv, t_envp *envp)
+int	ft_env(char **argv, t_envp *envp)
 {
 	if (argv[1])
 	{

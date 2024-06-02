@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:15:35 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 21:24:16 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:37:12 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 int	ft_pwd(void)
 {
 	char	cwd[PATH_MAX];
-	
+
 	if (getcwd(cwd, PATH_MAX))
 	{
 		ft_putstr_fd(cwd, 1);

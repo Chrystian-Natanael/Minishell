@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:16:42 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 21:26:21 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 15:36:57 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ft_echo(char **argv)
 {
 	int	i;
 	int	n;
-	
+
 	i = 1;
 	n = 0;
 	if (args_count(argv) > 1)
