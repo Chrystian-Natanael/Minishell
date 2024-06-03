@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:05:19 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 19:40:14 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:53:29 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,4 @@ int	ft_exit(char **argv)
 	else
 		quit(0);
 	return (0);
-}
+}	
