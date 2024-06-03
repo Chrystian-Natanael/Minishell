@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 13:47:32 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:26:40 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,13 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		expr = cmd_parsing(token);
-		execute(expr, &my_envp);
+		if (expr == NULL)
+		{
+			ft_error("minishell: syntax error", "", "", 2);
+			line = readline(username);
+			continue ;
+		}
+		(void)execute(expr, &my_envp);
 		line = readline(username);
 	}
 	ft_printf("\033[91mEnding Minishell\033[0m, \033[92mThanks!\033[0m\n");

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 09:00:23 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:25:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,20 +32,22 @@ t_token	*cmd_parsing(t_token *token)
 	i = 0;
 	while (tmp)
 	{
-		if (tmp->type == L_PAREN)
+		if (tmp && tmp->type == L_PAREN)
 		{
 			i++;
-			while (tmp->type != R_PAREN || i != 0)
+			while (tmp && (tmp->type != R_PAREN || i != 0))
 			{
 				lst_contatenate(&cmds, return_lexema(tmp));
 				tmp = tmp->next;
-				if (tmp->type == R_PAREN)
+				if (tmp && tmp->type == R_PAREN)
 					i--;
-				else if (tmp->type == L_PAREN)
+				else if (tmp && tmp->type == L_PAREN)
 					i++;
 			}
-			if (tmp->type == R_PAREN)
+			if (tmp && tmp->type == R_PAREN)
 				lst_contatenate(&cmds, return_lexema(tmp));
+			if (!tmp && i != 0)
+				return (NULL);
 			tmp = tmp->next;
 			cmds->type = SUB_SHELL;
 		}
