@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/02 20:57:11 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 08:09:37 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,12 @@ int	main(int argc, char **argv, char **envp)
 	while ((line))
 	{
 		username = get_username(my_envp);
-		if (line[0] != '\0')
-			add_history(line);
+		if (line[0] == '\0')
+		{
+			line = readline(username);
+			continue ;
+		}
+		add_history(line);
 		typetree_insert(line);
 		token = lexer(line);
 		if (token == NULL)
