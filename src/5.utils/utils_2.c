@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 20:16:44 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:31:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	ft_isonlynum(char *str)
 	int	i;
 
 	i = 0;
-	while (str[i] && ft_isdigit(str[i]))
+	while (str && str[i] && ft_isdigit(str[i]))
 		i++;
-	if (str[i] == '\0')
+	if (!str || str[i] == '\0')
 		return (1);
 	return (0);
 }
