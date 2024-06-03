@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:41:15 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 09:12:33 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:43:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,23 @@ int	syntax_error(t_token *token)
 		if (tmp->type == OR && (tmp->next->type != WORD && tmp->next->type != L_PAREN))
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
 		if (tmp->type == AND && (tmp->next->type != WORD && tmp->next->type != L_PAREN))
+			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
+int	syntax_expr(t_token *expr)
+{
+	t_token	*tmp;
+
+	tmp = expr;
+
+	if (!tmp)
+		return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
+	while (tmp)
+	{
+		if (tmp->type == R_PAREN)
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
 		tmp = tmp->next;
 	}

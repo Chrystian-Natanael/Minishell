@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 15:26:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:37:46 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,8 @@ int	main(int argc, char **argv, char **envp)
 		}
 		add_history(line);
 		expr = cmd_parsing(token);
-		if (expr == NULL)
+		if (syntax_expr(expr))
 		{
-			ft_error("minishell: syntax error", "", "", 2);
 			line = readline(username);
 			continue ;
 		}

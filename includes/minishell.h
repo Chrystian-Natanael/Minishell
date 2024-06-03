@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 15:14:17 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:35:44 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,7 @@ char	*return_lexema(t_token *token);
 
 //--------------------------------------- Syntax Analysis
 int		syntax_error(t_token *token);
+int		syntax_expr(t_token *expr);
 
 //--------------------------------------- Executor + binarytree
 
