@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 13:33:41 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:14:36 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ typedef struct s_bin
 
 char	*envp_get(char *key, t_envp *envp);
 int		count_envp(char **envp);
+int		size_envp(t_envp **envp);
 void	value_concat(char **split);
 void	envp_insert(char *key, char *value, t_envp **envp);
 t_envp	*create_envp(char **envp);
@@ -129,7 +130,6 @@ char	*get_path_cmd(t_envp **envp, char *cmd);
 int		exec_cmd(t_bin *bin, t_envp **envp);
 int		exec_tree(t_bin *bin, t_envp **envp);
 char	**t_envp_to_char(t_envp **envp);
-int		size_envp(t_envp **envp);
 int		exec_and(t_bin *bin, t_envp **envp);
 int		exec_or(t_bin *bin, t_envp **envp);
 int		exec_pipe(t_bin *bin, t_envp **envp);
