@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 07:59:21 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 10:54:00 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,71 +19,109 @@
 
 #include "minishell.h"
 
-int	exec_cmd(t_bin *bin, t_envp **envp)
+int	exec_cmd(t_bin *bin, t_envp **envp, t_fd *fd)
 {
-	// int		pid;
+	int		pid;
 	int		exit_status;
 	char	**cmd;
-	// char	*path_cmd;
-	// char	**envp_export;
+	char	*path;
 
-	// envp_export = NULL;
 	cmd = ft_split(bin->cmd, ' ');
 	typetree_insert(cmd);
 	typetree_insert_matrix((void **)cmd);
-	exit_status = check_exec_builtin(cmd, envp);
+	exit_status = check_exec_builtin(cmd, envp, fd);
 	if (exit_status != -1)
 		return (exit_status);
-	// pid = fork();
-	// if (pid == -1)
-	// {
-	// 	return (-1);
-	// }
-	// exit_status = 0;
-	// if (cmd[0] == NULL)
-	// 	return (-1);
-	// path_cmd = get_path_cmd(cmd[0], envp_export);
-	// if (pid == 0){
-	// 	execve(path_cmd, cmd, envp_export);
-	// 	if (access(path_cmd, F_OK) != 0)
-	// 	{
-	// 		exit_status = 127;
-	// 	}
-	// 	else if (access(path_cmd, X_OK | F_OK) != 0)
-	// 	{
-	// 		exit_status = 126;
-	// 	}
-	// 	exit_status = (exit_status >> 8) & 0xFF;
-	// }
-	// waitpid(pid, NULL, 0);
+	pid = fork();
+	if (pid == -1 || cmd[0] == NULL)
+		return (-1);
+	exit_status = 0;
+	path = get_path_cmd(envp, cmd[0]);
+	if (pid == 0)
+	{
+		execve(path, cmd, t_envp_to_char(envp));
+		if (access(path, F_OK) != 0)
+			exit_status = 127;
+		else if (access(path, X_OK | F_OK) != 0)
+			exit_status = 126;
+		exit_status = (exit_status >> 8) & 0xFF;
+	}
+	waitpid(pid, NULL, 0);
 	return (exit_status);
 }
 
+char	**t_envp_to_char(t_envp **envp)
+{
+	t_envp	*curr;
+	char	**envp_char;
+	int		i;
 
-// int	exec_or(t_bin *bin, t_envp *envp)
-// {
-// 	int	status;
+	i = size_envp(envp);
+	envp_char = allocate(sizeof(char *) * (i + 1));
+	if (!envp_char)
+		return (NULL);
+	i = 0;
+	curr = *envp;
+	while (curr)
+	{
+		envp_char[i] = ft_strjoin(curr->key, "=");
+		envp_char[i] = ft_strjoin(envp_char[i], curr->value);
+		i++;
+		curr = curr->next;
+	}
+	envp_char[i] = NULL;
+	return (envp_char);
+}
 
-// 	status = exec_cmd(bin->left, envp);
-// 	if (status != 0)
-// 		status = exec_cmd(bin->right, envp);
-// 	return (status);
-// }
+int	size_envp(t_envp **envp)
+{
+	t_envp	*curr;
+	int		i;
 
-// int	exec_and(t_bin *bin, t_envp *envp)
-// {
-// 	int	status;
+	i = 0;
+	curr = *envp;
+	while (curr)
+	{
+		i++;
+		curr = curr->next;
+	}
+	return (i);
+}
 
-// 	status = exec_cmd(bin->left, envp);
-// 	if (status == 0)
-// 		status = exec_cmd(bin->right, envp);
-// 	return (status);
-// }
+char	*get_path_cmd(t_envp **envp, char *cmd)
+{
+	t_envp	*curr;
+	char	*path;
+	char	**split;
+	curr = *envp;
+	while (curr)
+	{
+		if (ft_strncmp(curr->key, "PATH", 4) == 0)
+		{
+			split = ft_split(curr->value, ':');
+			typetree_insert_matrix((void **)split);
+			typetree_insert(split);
+			while (*split)
+			{
+				path = ft_strjoin(*split, "/");
+				typetree_insert(path);
+				path = ft_strjoin(path, cmd);
+				typetree_insert(path);
+				if (access(path, F_OK) == 0)
+					return (path);
+				split++;
+			}
+			return (path);
+		}
+		curr = curr->next;
+	}
+	return (NULL);
+}
 
-int	exec_tree(t_bin *bin, t_envp **envp)
+int	exec_tree(t_bin *bin, t_envp **envp, t_fd *fd)
 {
 	if (bin->type == CMD)
-		return (exec_cmd(bin, envp));
+		return (exec_cmd(bin, envp, fd));
 	// else if (bin->type == AND)
 	// 	return (exec_and(bin, envp));
 	// else if (bin->type == OR)
@@ -104,13 +142,15 @@ int	exec_tree(t_bin *bin, t_envp **envp)
 		return (-1);
 }
 
-//-------------considera a lista de variáveis de ambiente
 void	execute(t_token *tokens, t_envp **envp)
 {
 	int		status;
 	t_bin	*bin;
+	t_fd	fd;
 
+	fd.fd_in = 0;
+	fd.fd_out = 1;
 	bin = create_tree(tokens);
-	status = exec_tree(bin, envp);
+	status = exec_tree(bin, envp, &fd);
 	(void)status;
 }
