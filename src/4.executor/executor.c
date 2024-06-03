@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 13:46:46 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 14:10:18 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,119 +51,6 @@ int	exec_cmd(t_bin *bin, t_envp **envp)
 	}
 	waitpid(pid, &exit_status, 0);
 	return ((exit_status >> 8) & 0xFF);
-}
-
-char	**t_envp_to_char(t_envp **envp)
-{
-	t_envp	*curr;
-	char	**envp_char;
-	int		i;
-
-	i = size_envp(envp);
-	envp_char = allocate(sizeof(char *) * (i + 1));
-	if (!envp_char)
-		return (NULL);
-	i = 0;
-	curr = *envp;
-	while (curr)
-	{
-		envp_char[i] = ft_strjoin(curr->key, "=");
-		typetree_insert(envp_char[i]);
-		envp_char[i] = ft_strjoin(envp_char[i], curr->value);
-		typetree_insert(envp_char[i]);
-		i++;
-		curr = curr->next;
-	}
-	envp_char[i] = NULL;
-	return (envp_char);
-}
-
-int	size_envp(t_envp **envp)
-{
-	t_envp	*curr;
-	int		i;
-
-	i = 0;
-	curr = *envp;
-	while (curr)
-	{
-		i++;
-		curr = curr->next;
-	}
-	return (i);
-}
-
-char	*get_path_cmd(t_envp **envp, char *cmd)
-{
-	t_envp	*curr;
-	char	*path;
-	char	**split;
-	curr = *envp;
-	while (curr)
-	{
-		if (ft_strncmp(curr->key, "PATH", 4) == 0)
-		{
-			split = ft_split(curr->value, ':');
-			typetree_insert_matrix((void **)split);
-			typetree_insert(split);
-			while (*split)
-			{
-				path = ft_strjoin(*split, "/");
-				typetree_insert(path);
-				path = ft_strjoin(path, cmd);
-				typetree_insert(path);
-				if (access(path, F_OK) == 0)
-					return (path);
-				split++;
-			}
-			return (path);
-		}
-		curr = curr->next;
-	}
-	return (NULL);
-}
-
-int	exec_and(t_bin *bin, t_envp **envp)
-{
-	int		status;
-
-	status = exec_tree(bin->left, envp);
-	if (status == 0)
-		status = exec_tree(bin->right, envp);
-	return (status);
-}
-
-int	exec_or(t_bin *bin, t_envp **envp)
-{
-	int		status;
-
-	status = exec_tree(bin->left, envp);
-	if (status != 0)
-		status = exec_tree(bin->right, envp);
-	return (status);
-}
-
-int	exec_pipe(t_bin *bin, t_envp **envp)
-{
-	int		status;
-	int		pipe_fd[2];
-	int		old_fd[2];
-
-	old_fd[0] = dup(STDIN_FILENO);
-	old_fd[1] = dup(STDOUT_FILENO);
-	if (pipe(pipe_fd) == -1)
-		return (-1);
-	dup2(pipe_fd[1], STDOUT_FILENO);
-	close(pipe_fd[1]);
-	status = exec_tree(bin->left, envp);
-	dup2(old_fd[1], STDOUT_FILENO);
-	close(old_fd[1]);
-	dup2(pipe_fd[0], STDIN_FILENO);
-	close(pipe_fd[0]);
-	status = exec_tree(bin->right, envp);
-	dup2(old_fd[0], STDIN_FILENO);
-	close(old_fd[0]);
-	return (status);
 }
 
 int	exec_tree(t_bin *bin, t_envp **envp)
