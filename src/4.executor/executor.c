@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 07:25:11 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:59:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	exec_cmd(t_bin *bin, t_envp **envp)
 
 	// envp_export = NULL;
 	cmd = ft_split(bin->cmd, ' ');
+	typetree_insert(cmd);
+	typetree_insert_matrix((void **)cmd);
 	exit_status = check_exec_builtin(cmd, envp);
 	if (exit_status != -1)
 		return (exit_status);
@@ -56,6 +58,7 @@ int	exec_cmd(t_bin *bin, t_envp **envp)
 	// waitpid(pid, NULL, 0);
 	return (exit_status);
 }
+
 
 // int	exec_or(t_bin *bin, t_envp *envp)
 // {
