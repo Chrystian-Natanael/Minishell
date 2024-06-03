@@ -69,6 +69,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		4.executor/exec_and.c \
 		4.executor/exec_or.c \
 		4.executor/exec_pipe.c \
+		4.executor/exec_sub_shell.c \
 		5.utils/utils_1.c \
 		5.utils/utils_2.c \
 		5.utils/path_envp_utils.c \
