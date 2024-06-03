@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 08:27:53 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 10:49:48 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,13 @@ typedef struct s_bin
 	struct s_bin	*right;
 }	t_bin;
 
+typedef struct s_fd
+{
+	int		pipe[2];
+	int		fd_in;
+	int		fd_out;
+}	t_fd;
+
 char	*envp_get(char *key, t_envp *envp);
 int		count_envp(char **envp);
 void	value_concat(char **split);
@@ -125,18 +132,20 @@ int		precedence(enum e_token type);
 t_bin	*new_node(char *cmd, enum e_token type);
 t_bin	*create_tree(t_token *tokens);
 t_token	*return_token_list(t_token *tokens, t_token *max_prec);
-
-int		exec_cmd(t_bin *bin, t_envp **envp);
-int		exec_tree(t_bin *bin, t_envp **envp);
+char	*get_path_cmd(t_envp **envp, char *cmd);
+int		exec_cmd(t_bin *bin, t_envp **envp, t_fd *fd);
+int		exec_tree(t_bin *bin, t_envp **envp, t_fd *fd);
+char	**t_envp_to_char(t_envp **envp);
+int		size_envp(t_envp **envp);
 
 //--------------------------------------- Builtin
 
-int		check_exec_builtin(char **cmd, t_envp **envp);
-int		ft_echo(char **argv);
-int		ft_env(char **argv, t_envp **envp);
+int		check_exec_builtin(char **cmd, t_envp **envp, t_fd *fd);
+int		ft_echo(char **argv, t_fd *fd);
+int		ft_env(char **argv, t_envp **envp, t_fd *fd);
 int		ft_exit(char **argv);
 int		ft_export(char **argv, t_envp **envp);
-int		ft_pwd(void);
+int		ft_pwd(t_fd *fd);
 int		ft_unset(char **argv, t_envp **envp);
 
 #endif
