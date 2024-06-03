@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 14:41:11 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/03/11 15:13:51 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 08:41:44 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -504,12 +504,13 @@ int			ft_putnbr_hex(long long num, char *base);
 
 /**@brief This function make a error message and exit the program
  * 
+ * @param name of program
  * @param str1 first part of the message
  * @param str2 second part of the message
- * @param str3 third part of the message
+ * @param ret_code return code
  * @return void
 */
-void		ft_error(char *str1, char *str2, char *str3);
+int			ft_error(char *name, char *str1, char *str2, int ret_code);
 
 /**@brief This function free a split
  * 

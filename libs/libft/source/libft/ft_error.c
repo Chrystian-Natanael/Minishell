@@ -6,17 +6,17 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/09 10:27:06 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/03/09 11:35:45 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 08:55:00 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_error(char *str1, char *str2, char *str3)
+int	ft_error(char *name, char *str1, char *str2, int ret_code)
 {
-	ft_putstr_fd("Push_swap: ", ERROR);
+	ft_putstr_fd(name, ERROR);
+	ft_putstr_fd(": ", ERROR);
 	ft_putstr_fd(str1, ERROR);
-	ft_putstr_fd(str2, ERROR);
-	ft_putendl_fd(str3, ERROR);
-	exit(EXIT_FAILURE);
+	ft_putendl_fd(str2, ERROR);
+	return (ret_code);
 }
