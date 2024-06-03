@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/16 15:04:30 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 09:00:23 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ t_token	*cmd_parsing(t_token *token)
 			tmp = tmp->next;
 			cmds->type = SUB_SHELL;
 		}
-		if (tmp->type == REDIR_INPUT || tmp->type == REDIR_OUTPUT
-			|| tmp->type == OUTPUT_APPEND || tmp->type == HEREDOC)
+		if (tmp && (tmp->type == REDIR_INPUT || tmp->type == REDIR_OUTPUT
+			|| tmp->type == OUTPUT_APPEND || tmp->type == HEREDOC))
 		{
 			cmd_parsing_aux(&head, &cmds, &tmp);
 			lst_contatenate_redir(&cmds, tmp->lexema);
@@ -58,7 +58,7 @@ t_token	*cmd_parsing(t_token *token)
 		}
 		else
 		{
-			while (tmp->type != PIPE && tmp->type != OR
+			while (tmp && tmp->type != PIPE && tmp->type != OR
 				&& tmp->type != AND && tmp->type != L_PAREN
 				&& tmp->type != R_PAREN)
 			{
