@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 08:18:37 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 08:36:58 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ int	main(int argc, char **argv, char **envp)
 		token = lexer(line);
 		if (line[0] == '\0' || token == NULL || syntax_error(token))
 		{
-			ft_printf("\033[91mError: \033[0mInvalid syntax\n");
 			line = readline(username);
 			continue ;
 		}
