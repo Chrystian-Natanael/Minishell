@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 14:14:36 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:14:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ int		syntax_error(t_token *token);
 
 //--------------------------------------- Executor + binarytree
 
-void	execute(t_token *tokens, t_envp **envp);
+int		execute(t_token *tokens, t_envp **envp);
 int		precedence(enum e_token type);
 t_bin	*new_node(char *cmd, enum e_token type);
 t_bin	*create_tree(t_token *tokens);
@@ -133,6 +133,7 @@ char	**t_envp_to_char(t_envp **envp);
 int		exec_and(t_bin *bin, t_envp **envp);
 int		exec_or(t_bin *bin, t_envp **envp);
 int		exec_pipe(t_bin *bin, t_envp **envp);
+int	exec_sub_shell(t_bin *bin, t_envp **envp);
 
 //--------------------------------------- Builtin
 
