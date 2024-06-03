@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/02 20:12:15 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:25:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ t_bin	*create_tree(t_token *tokens);
 t_token	*return_token_list(t_token *tokens, t_token *max_prec);
 
 int		exec_cmd(t_bin *bin, t_envp **envp);
-char	*get_path_cmd(char *cmd, char **envp_origin);
 int		exec_tree(t_bin *bin, t_envp **envp);
 
 //--------------------------------------- Builtin
