@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 14:20:30 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:30:48 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,25 +63,22 @@ int	exec_tree(t_bin *bin, t_envp **envp)
 		return (exec_or(bin, envp));
 	else if (bin->type == PIPE)				//! FINISH
 		return (exec_pipe(bin, envp));
-	// else if (bin->type == REDIR_INPUT)
-	// 	return (exec_redir_input(bin, envp));
-	// else if (bin->type == REDIR_OUTPUT)
-	// 	return (exec_redir_output(bin, envp));
-	// else if (bin->type == OUTPUT_APPEND)
-	// 	return (exec_output_append(bin, envp));
-	// else if (bin->type == HEREDOC)
-	// 	return (exec_heredoc(bin, envp));
-	// else if (bin->type == SUB_SHELL)
-	// 	return (exec_sub_shell(bin, envp));
+	// else if (bin->type == REDIR_INPUT || bin->type == HEREDOC)
+	// 	return (exec_redir_in(bin, envp));
+	// else if (bin->type == REDIR_OUTPUT || bin->type == OUTPUT_APPEND)
+	// 	return (exec_redir_out(bin, envp));
+	else if (bin->type == SUB_SHELL)		//! FINISH (Mas falta fazer uns testes... XD)
+		return (exec_sub_shell(bin, envp));
 	else
 		return (-1);
 }
 
-void	execute(t_token *tokens, t_envp **envp)
+int	execute(t_token *tokens, t_envp **envp)
 {
 	int		status;
 	t_bin	*bin;
 
 	bin = create_tree(tokens);
 	status = exec_tree(bin, envp);
+	return (status);
 }
