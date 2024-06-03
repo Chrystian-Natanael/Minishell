@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/02 19:37:10 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:25:11 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,35 +55,6 @@ int	exec_cmd(t_bin *bin, t_envp **envp)
 	// }
 	// waitpid(pid, NULL, 0);
 	return (exit_status);
-}
-
-char	*get_path_cmd(char *cmd, char **envp_origin)
-{
-	char	*part_path;
-	char	**paths;
-	char	*path;
-	int		i;
-
-	i = 0;
-	while (ft_strnstr(envp_origin[i], "PATH", 4) == 0)
-		i++;
-	paths = ft_split(envp_origin[i] + 5, ':');
-	i = 0;
-	while (paths[i])
-	{
-		part_path = ft_strjoin(paths[i], "/");
-		path = ft_strjoin(part_path, cmd);
-		free(part_path);
-		if (access(path, F_OK) == 0)
-		{
-			free_split(paths);
-			return (path);
-		}
-		free(path);
-		i++;
-	}
-	free_split(paths);
-	return (ft_strdup(cmd));	
 }
 
 // int	exec_or(t_bin *bin, t_envp *envp)
