@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:36:33 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 20:58:41 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 10:13:12 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,22 @@
 
 #include "minishell.h"
 
-int	ft_env(char **argv, t_envp **envp)
+int	ft_env(char **argv, t_envp **envp, t_fd *fd)
 {
 	t_envp	*curr;
 
 	curr = *envp;
 	if (argv[1])
 	{
-		ft_putstr_fd("env: \'", 2);
-		ft_putstr_fd(argv[1], 2);
-		ft_putstr_fd("\': No such file or directory\n", 2);
-		return (127);
+		return (ft_error("minishell: env: \'", \
+		argv[1], "\': No such file or directory\n", 127));
 	}
 	while (curr)
 	{
-		ft_putstr_fd(curr->key, 1);
-		ft_putchar_fd('=', 1);
-		ft_putstr_fd(curr->value, 1);
-		ft_putchar_fd('\n', 1);
+		ft_putstr_fd(curr->key, fd->fd_out);
+		ft_putchar_fd('=', fd->fd_out);
+		ft_putstr_fd(curr->value, fd->fd_out);
+		ft_putchar_fd('\n', fd->fd_out);
 		curr = curr->next;
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/31 12:15:35 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 15:37:12 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 10:14:38 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@
 
 #include "minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_fd *fd)
 {
 	char	cwd[PATH_MAX];
 
 	if (getcwd(cwd, PATH_MAX))
 	{
-		ft_putstr_fd(cwd, 1);
-		ft_putchar_fd('\n', 1);
+		ft_putstr_fd(cwd, fd->fd_out);
+		ft_putchar_fd('\n', fd->fd_out);
 	}
 	return (0);
 }

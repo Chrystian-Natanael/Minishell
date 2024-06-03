@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:16:42 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 18:19:39 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/03 10:12:12 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "minishell.h"
 
-int	ft_echo(char **argv)
+int	ft_echo(char **argv, t_fd *fd)
 {
 	int	i;
 	int	n;
@@ -35,14 +35,14 @@ int	ft_echo(char **argv)
 		}
 		while (argv[i])
 		{
-			ft_putstr_fd(argv[i], 1);
+			ft_putstr_fd(argv[i], fd->fd_out);
 			if (argv[i + 1] && argv[i][0] != '\0')
-				ft_putchar_fd(' ', 1);
+				ft_putchar_fd(' ', fd->fd_out);
 			i++;
 		}
 		if (n == 1)
 			return (0);
 	}
-	ft_putchar_fd('\n', 1);
+	ft_putchar_fd('\n', fd->fd_out);
 	return (0);
 }
