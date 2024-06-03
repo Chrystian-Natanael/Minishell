@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:17:42 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/04/22 12:48:49 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:59:06 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,17 @@ void	typetree_insert(void *address)
 
 	typetree = typetree_get();
 	helper(typetree, address);
+}
+
+void	typetree_insert_matrix(void **matrix)
+{
+	int	i;
+
+	i = 0;
+	typetree_insert(matrix[i]);
+	while (matrix[i])
+	{
+		typetree_insert(matrix[i]);
+		i++;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:22:18 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/01 09:27:24 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 07:50:52 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,14 @@ void		typetree_update_height(t_typetree typetree);
  * the binary tree
 */
 void		typetree_insert(void *address);
+
+/**
+ * @brief typetree_insert_matrix
+ * @details insert a matrix of addresses in the binary tree
+ * @param matrix is the matrix of addresses of the allocated memory to be stored in
+ * the binary tree
+*/
+void	typetree_insert_matrix(void **matrix);
 
 /**
  * @brief typetree_rebalance
