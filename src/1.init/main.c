@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/02 19:33:19 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 20:57:11 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,8 @@ int	main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		expr = cmd_parsing(token);
-		// (void)expr;
 		// print_tokens(expr);
 		// ft_printf("\n");
-		// execute(expr, envp);
 		
 		execute(expr, &my_envp);
 		

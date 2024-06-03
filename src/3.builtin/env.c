@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:36:33 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 20:40:25 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 20:58:41 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 
 int	ft_env(char **argv, t_envp **envp)
 {
+	t_envp	*curr;
+
+	curr = *envp;
 	if (argv[1])
 	{
 		ft_putstr_fd("env: \'", 2);
@@ -28,13 +31,13 @@ int	ft_env(char **argv, t_envp **envp)
 		ft_putstr_fd("\': No such file or directory\n", 2);
 		return (127);
 	}
-	while (envp && (*envp))
+	while (curr)
 	{
-		ft_putstr_fd((*envp)->key, 1);
+		ft_putstr_fd(curr->key, 1);
 		ft_putchar_fd('=', 1);
-		ft_putstr_fd((*envp)->value, 1);
+		ft_putstr_fd(curr->value, 1);
 		ft_putchar_fd('\n', 1);
-		(*envp) = (*envp)->next;
+		curr = curr->next;
 	}
 	return (0);
 }

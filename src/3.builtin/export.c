@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 20:40:03 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/02 20:44:10 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_export(char **argv, t_envp **envp)
 	int	i;
 
 	i = 1;
-	if (args_count(argv) == 1)
+	if (!argv[1])
 	{
 		export_print_envp(envp);
 		return (0);
