@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:05:19 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/03 07:53:29 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 13:26:56 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_exit(char **argv)
 		ft_putstr_fd("-minishell: exit: ", 2);
 		ft_putstr_fd(argv[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		quit(2);
+		ending(2);
 	}
 	else if (count > 2)
 	{
@@ -37,8 +37,8 @@ int	ft_exit(char **argv)
 		return (1);
 	}
 	else if (count == 2 && ft_isonlynum(argv[1]))
-		quit(ft_atoi(argv[1]));
+		ending(ft_atoi(argv[1]));
 	else
-		quit(0);
+		ending(0);
 	return (0);
 }	
