@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 07:25:21 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 08:27:53 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,8 @@ typedef struct s_bin
 }	t_bin;
 
 char	*envp_get(char *key, t_envp *envp);
+int		count_envp(char **envp);
+void	value_concat(char **split);
 void	envp_insert(char *key, char *value, t_envp **envp);
 t_envp	*create_envp(char **envp);
 char	*get_username(t_envp *envp);
