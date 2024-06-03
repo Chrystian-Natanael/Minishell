@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 15:25:24 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/03 15:41:58 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ t_token	*cmd_parsing(t_token *token)
 
 char	*return_lexema(t_token *token)
 {
+	if (!token)
+		return ("");
 	if (token->type == WORD || token->type == CMD)
 		return (token->lexema);
 	else if (token->type == REDIR_INPUT)
