@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 15:35:44 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:06:05 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ void	free_split(char **array);
 int		find_key_size(char *str);
 
 //--------------------------------------- Expression Analysis
-t_token	*cmd_parsing(t_token *token);
+t_token	*cmd_parsing(t_token *token, t_envp **envp);
 void	lst_contatenate(t_token **list, char *lexema);
 void	lst_contatenate_redir(t_token **list, char *lexema);
 void	lstadd_back(t_token **lst, t_token *new);
@@ -149,7 +149,8 @@ int		ft_unset(char **argv, t_envp **envp);
 
 
 
-
+void	change_status(t_envp **envp, int status);
+char	*expan_get(t_token *token, t_envp *envp);
 
 void	ending(int status);
 
