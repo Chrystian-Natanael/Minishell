@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:11:32 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 08:33:19 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:42:26 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_envp	*create_envp(char **envp)
 			envp_insert(split[0], split[1], &my_envp);
 		i++;
 	}
+	envp_insert("?", "0", &my_envp);
 	return (my_envp);
 }
 
