@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/03 07:31:24 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:09:33 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,22 @@ int	find_key_size(char *str)
 	while (str[size] && str[size] != '=')
 		size++;
 	return (size);
+}
+void	change_status(t_envp **envp, int status)
+{
+	char	*status_str;
+	t_envp	*curr;
+
+	curr = *envp;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, "?") == 0)
+		{
+			status_str = ft_itoa(status);
+			typetree_insert(status_str);
+			curr->value = status_str;
+			return ;
+		}
+		curr = curr->next;
+	}
 }
