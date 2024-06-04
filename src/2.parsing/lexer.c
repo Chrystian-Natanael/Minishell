@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 14:18:14 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/04 17:50:27 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,26 +80,32 @@ char	*get_word(char *line, int *i)
 char	*quote_word(char *line, int *i)
 {
 	char	*word;
-	char	quote;
+	int		simple_quote;
+	int		quote;
 	int		size;
 	int		idx;
 	int		tmp;
 
 	size = 0;
-	tmp = *i + 1;
-	quote = line[(*i)++];
-	while (line[*i] && line[(*i)] != quote)
+	tmp = *i;
+	quote = 0;
+	simple_quote = 0;
+	while (line[*i] && !(!(simple_quote % 2 != 0 || quote % 2 != 0) && ft_isspace(line[(*i)])))
 	{
+		if (line[*i] == '"')
+			quote++;
+		else if (line[*i] == '\'')
+			simple_quote++;
 		size++;
 		(*i)++;
 	}
-	if (!line[*i])
+	if (!line[tmp] || size == 0 || (simple_quote % 2 != 0 || quote % 2 != 0))
 		return (NULL);
 	word = allocate(sizeof(char) * (size + 1));
 	idx = 0;
 	while (tmp < *i)
 		word[idx++] = line[tmp++];
-	word[size] = '\0';
+	word[idx] = '\0';
 	return (word);
 }
 
@@ -107,6 +113,8 @@ char	*get_token_word(char *line, int *i, int *type)
 {
 	char	*word;
 
+	if (line[*i] == '\0')
+		return (NULL);
 	word = NULL;
 	if (line[*i] == '"' || line[*i] == '\'')
 		word = quote_word(line, i);
@@ -123,8 +131,8 @@ int	get_token_type(char *line, int i)
 		return (L_PAREN);
 	else if (line[i] == ')')
 		return (R_PAREN);
-	else if (line[i] == '$')
-		return (DOLLAR);
+	// else if (line[i] == '$')
+	// 	return (DOLLAR);
 	else if (line[i] == '<' && line[i + 1] == '<')
 		return (HEREDOC);
 	else if (line[i] == '<')
@@ -171,8 +179,8 @@ t_token	*lexer(char *line)
 			word = get_token_word(line, &i, &token_type);
 		if (token_type >= 0)
 			lst_addnew(&list, token_type, word);
-		else
-			return (NULL);
+		// else
+		// 	return (NULL);
 		word = NULL;
 		if (line[i] != '\0' && line[i] != ')' && boolean == 0)
 			i++;

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 15:41:58 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:21:40 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "minishell.h"
 
-t_token	*cmd_parsing(t_token *token)
+t_token	*cmd_parsing(t_token *token, t_envp **envp)
 {
 	int		i;
 	t_token	*tmp;
@@ -29,6 +29,7 @@ t_token	*cmd_parsing(t_token *token)
 	cmds = NULL;
 	head = NULL;
 	tmp = token;
+	(void)envp;
 	i = 0;
 	while (tmp)
 	{
@@ -76,6 +77,22 @@ t_token	*cmd_parsing(t_token *token)
 	return (head);
 }
 
+char	*expan_get(t_token *token, t_envp *envp)
+{
+	t_envp	*current;
+
+	current = envp;
+	if (!token->lexema)
+		token->lexema = return_lexema(token);
+	while (current)
+	{
+		if (ft_strncmp(current->key, token->lexema, ft_strlen(token->lexema)) == 0)
+			return (current->value);
+		current = current->next;
+	}
+	return ("");
+}
+
 char	*return_lexema(t_token *token)
 {
 	if (!token)
@@ -94,8 +111,8 @@ char	*return_lexema(t_token *token)
 		return ("(");
 	else if (token->type == R_PAREN)
 		return (")");
-	else if (token->type == DOLLAR)
-		return ("$");
+	// else if (token->type == DOLLAR)
+	// 	return ("$");
 	else if (token->type == PIPE)
 		return ("|");
 	else if (token->type == OR)

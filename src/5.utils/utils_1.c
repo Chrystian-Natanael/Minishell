@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/02 16:17:02 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/04 16:22:10 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,8 +137,8 @@ void	print_tokens(t_token *token)
 			type = "R_PAREN";
 		else if (tmp->type == CMD)
 			type = "COMMAND";
-		else if (tmp->type == DOLLAR)
-			type = "DOLLAR";
+		// else if (tmp->type == DOLLAR)
+		// 	type = "DOLLAR";
 		else if (tmp->type == OR)
 			type = "OR";
 		else if (tmp->type == AND)

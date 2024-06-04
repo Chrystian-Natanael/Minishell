@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/04 13:09:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:07:53 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	main(int argc, char **argv, char **envp)
 			line = readline(username);
 			continue ;
 		}
+		expander_validation(&token, &my_envp);
 		expr = cmd_parsing(token, &my_envp);
 		if (syntax_expr(expr))
 		{

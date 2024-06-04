@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:07:00 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 14:14:09 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 08:15:35 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,13 @@ char	*get_path_cmd(t_envp **envp, char *cmd)
 	char	*path;
 	char	**split;
 	curr = *envp;
+
+	if (cmd[0] == '/')
+	{
+		path = ft_strdup(cmd);
+		typetree_insert(path);
+		return (path);
+	}
 	while (curr)
 	{
 		if (ft_strncmp(curr->key, "PATH", 4) == 0)

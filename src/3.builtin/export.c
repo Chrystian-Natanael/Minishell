@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 20:44:10 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/04 10:49:23 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,9 @@ void	export_env(t_envp **envp, char *str)
 	curr = allocate(sizeof(t_envp));
 	key_size = find_key_size(str);
 	curr->key = ft_substr(str, 0, key_size);
+	typetree_insert(curr->key);
 	curr->value = ft_substr(str, (key_size + 1), (ft_strlen(str) - key_size - 1));
+	typetree_insert(curr->value);
 	curr->next = *envp;
 	*envp = curr;
 }

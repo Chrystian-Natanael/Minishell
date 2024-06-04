@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 15:30:48 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 08:13:33 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	exec_cmd(t_bin *bin, t_envp **envp)
 		}
 		else if (access(path, X_OK | F_OK) != 0)
 			exit_status = 126;
-		quit (exit_status);
+		ending (exit_status);
 	}
 	waitpid(pid, &exit_status, 0);
 	return ((exit_status >> 8) & 0xFF);

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:06:21 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 15:38:17 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 09:45:08 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	exec_sub_shell(t_bin *bin, t_envp **envp)
 	token = lexer(new_line);
 	if (new_line[0] == '\0' || token == NULL || syntax_error(token))
 		return (1);
-	expr = cmd_parsing(token);
+	expr = cmd_parsing(token, envp);
 	if (syntax_expr(expr) != 0)
 		return (syntax_expr(expr));
 	status = execute(expr, envp);

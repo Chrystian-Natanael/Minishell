@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/04 13:09:33 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 19:07:26 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,4 +69,11 @@ void	change_status(t_envp **envp, int status)
 		}
 		curr = curr->next;
 	}
+}
+
+int	ternary(int condition, int if_true, int if_false)
+{
+	if (condition)
+		return (if_true);
+	return (if_false);
 }
