@@ -57,6 +57,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		2.parsing/syntax.c \
 		2.parsing/cmd.c \
 		2.parsing/lexer.c \
+		2.parsing/expander.c \
 		3.builtin/builtin.c \
 		3.builtin/pwd.c \
 		3.builtin/echo.c \
