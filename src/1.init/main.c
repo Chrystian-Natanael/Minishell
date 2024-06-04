@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 15:37:46 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/04 13:09:20 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
+	int		status;
 	char	*username;
 	t_envp	*my_envp;
 	t_token	*token;
@@ -31,30 +32,29 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	expr = NULL;
 	my_envp = create_envp(envp);
-	username = get_username(my_envp);
-	line = readline(username);
-	while ((line))
+	while (1)
 	{
 		username = get_username(my_envp);
+		line = readline(username);
+		add_history(line);
 		typetree_insert(line);
 		token = lexer(line);
 		if (line[0] == '\0' || token == NULL || syntax_error(token))
 		{
+			change_status(&my_envp, 2);
 			line = readline(username);
 			continue ;
 		}
-		add_history(line);
-		expr = cmd_parsing(token);
+		expr = cmd_parsing(token, &my_envp);
 		if (syntax_expr(expr))
 		{
+			change_status(&my_envp, syntax_expr(expr));
 			line = readline(username);
 			continue ;
 		}
-		(void)execute(expr, &my_envp);
-		line = readline(username);
+		status = execute(expr, &my_envp);
+		change_status(&my_envp, status);
 	}
-	ft_printf("\033[91mEnding Minishell\033[0m, \033[92mThanks!\033[0m\n");
-	ending(0);
 }
 
 void	ending(int status)
