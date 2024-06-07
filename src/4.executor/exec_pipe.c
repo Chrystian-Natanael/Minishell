@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:04:31 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/03 14:05:35 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:13:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,20 +24,38 @@ int	exec_pipe(t_bin *bin, t_envp **envp)
 	int		status;
 	int		pipe_fd[2];
 	int		old_fd[2];
+	int		pid[2];
 
 	old_fd[0] = dup(STDIN_FILENO);
 	old_fd[1] = dup(STDOUT_FILENO);
 	if (pipe(pipe_fd) == -1)
 		return (-1);
-	dup2(pipe_fd[1], STDOUT_FILENO);
+	pid[0] = fork();
+	if (pid[0] == 0)
+	{
+		close(pipe_fd[0]);
+		dup2(pipe_fd[1], STDOUT_FILENO);
+		close(pipe_fd[1]);
+		close(old_fd[0]);
+		close(old_fd[1]);
+		ending(exec_tree(bin->left, envp));
+	}
 	close(pipe_fd[1]);
-	status = exec_tree(bin->left, envp);
+	pid[1] = fork();
+	if (pid[1] == 0)
+	{
+		close(old_fd[1]);
+		close(old_fd[0]);
+		dup2(pipe_fd[0], STDIN_FILENO);
+		close(pipe_fd[0]);
+		ending(exec_tree(bin->right, envp));
+	}
+	close(pipe_fd[0]);
 	dup2(old_fd[1], STDOUT_FILENO);
 	close(old_fd[1]);
-	dup2(pipe_fd[0], STDIN_FILENO);
-	close(pipe_fd[0]);
-	status = exec_tree(bin->right, envp);
 	dup2(old_fd[0], STDIN_FILENO);
 	close(old_fd[0]);
-	return (status);
+	waitpid(pid[0], &status, 0);
+	waitpid(pid[1], &status, 0);
+	return ((status >> 8) & 0xFF);
 }
