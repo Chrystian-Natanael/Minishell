@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/04 16:21:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:48:42 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,9 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 		{
 			while (tmp && tmp->type != PIPE && tmp->type != OR
 				&& tmp->type != AND && tmp->type != L_PAREN
-				&& tmp->type != R_PAREN)
+				&& tmp->type != R_PAREN && tmp->type != REDIR_INPUT
+				&& tmp->type != REDIR_OUTPUT && tmp->type != OUTPUT_APPEND
+				&& tmp->type != HEREDOC)
 			{
 				if ((tmp->lexema && *tmp->lexema != '\0') || tmp->type != WORD)
 					lst_contatenate(&cmds, return_lexema(tmp));
