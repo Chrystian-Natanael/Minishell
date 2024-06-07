@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/04 19:08:34 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:40:20 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,9 @@
 
 /*For use system functions */
 # include <stdio.h>
+
+/*For use errno*/
+# include <string.h>
 
 /**/
 # include <sys/wait.h>
@@ -158,6 +161,11 @@ void	expander_validation(t_token **tokens, t_envp **envp);
 int		is_valid_var(char letter);
 int		ternary(int condition, int if_true, int if_false);
 void	add_char(char **line, char c);
+
+
+int	exec_redir_out(t_bin *bin, t_envp **envp);
+int	exec_redir_output(t_bin *bin, t_envp **envp);
+int	exec_redir_append(t_bin *bin, t_envp **envp);
 
 void	ending(int status);
 

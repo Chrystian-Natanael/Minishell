@@ -71,6 +71,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		4.executor/exec_or.c \
 		4.executor/exec_pipe.c \
 		4.executor/exec_sub_shell.c \
+		4.executor/exec_redir_out.c \
 		5.utils/utils_1.c \
 		5.utils/utils_2.c \
 		5.utils/path_envp_utils.c \
@@ -79,6 +80,7 @@ TEST = $(addprefix $(TEST_DIR),\
 		test_lexer.c \
 		test_exp.c \
 		test_utils.c \
+		test_exec.c \
 		test_main.c) $(addprefix $(SRCS_PATH),\
 		1.init/envp.c \
 		2.parsing/syntax.c \
@@ -98,6 +100,7 @@ TEST = $(addprefix $(TEST_DIR),\
 		4.executor/exec_or.c \
 		4.executor/exec_pipe.c \
 		4.executor/exec_sub_shell.c \
+		4.executor/exec_redir_out.c \
 		5.utils/utils_1.c \
 		5.utils/utils_2.c \
 		5.utils/path_envp_utils.c)
