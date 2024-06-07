@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:56:02 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 15:14:22 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:05:59 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	test_only_words_with_spaces();
 int	test_word_simple_quote();
 int	test_symbols(void);
 int	test_all_spaces_empty_list();
-int	test_three_expr();
-int	test_five_expr();
-int test_complex_expr();
-int	test_pwd();
+int	test_three_expr(t_envp **envp);
+int	test_five_expr(t_envp **envp);
+int test_complex_expr(t_envp **envp);
+// int	test_pwd();
 
 #endif

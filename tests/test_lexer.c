@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_lexer.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:18:31 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 15:03:51 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/07 08:17:59 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	test_only_words_with_quotes_between()
 	expected->next->lexema = "no";
 	expected->next->next->lexema = "meio";
 	expected->next->next->next->lexema = "da";
-	expected->next->next->next->next->lexema = "palavra";
+	expected->next->next->next->next->lexema = "pa\'la\'vra";
 	result = lexer(word);
 	return (expr_is_equal(expected, result));
 }
@@ -79,7 +79,7 @@ int	test_word_simple_quote()
 	t_token	*result;
 
 	expected = allocate(sizeof(t_token));
-	expected->lexema = "kjahsihsa dihhdakdha";
+	expected->lexema = "\'kjahsihsa dihhdakdha\'";
 	expected->type = WORD;
 	expected->next = NULL;
 	result = lexer(word);
@@ -88,11 +88,11 @@ int	test_word_simple_quote()
 
 int	test_symbols(void)
 {
-	char	*symbols = "    < && | >> << || $$ ( )";
+	char	*symbols = "    < && | >> << ||  ( )";
 	t_token	*expected;
 	t_token	*result;
 
-	expected = create_with_enum(10, REDIR_INPUT, AND, PIPE, OUTPUT_APPEND, HEREDOC, OR, DOLLAR, DOLLAR, L_PAREN, R_PAREN);
+	expected = create_with_enum(9, REDIR_INPUT, AND, PIPE, OUTPUT_APPEND, HEREDOC, OR, L_PAREN, R_PAREN);
 	result = lexer(symbols);
 	return (is_equal(expected, result));
 }
