@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:59:26 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/07 08:25:15 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 10:21:54 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main (int	argc, char	**argv, char	**envp) {
 	(void)argc;
 	(void)argv;
 	my_envp = create_envp(envp);
-	ft_printf("\n\033[92mRunning tests simbols/expr/tokens...\033[0m\n");
+	printf("\n\033[92mRunning tests simbols/expr/tokens...\033[0m\n");
 	if (!test_all_spaces_empty_list())
 		printf("\n\033[91mfailed test_all_spaces_empty_list\033[0m\n");
 	if (!test_symbols())
@@ -39,11 +39,19 @@ int	main (int	argc, char	**argv, char	**envp) {
 		printf("\n\033[91mfailed test_complex_expr\033[0m\n");
 
 	// ! TESTES DE EXECUÇÃO
+	printf("\n\n\033[92mRunning tests execution...\033[0m\n");
+
 	if (!test_hello_world(&my_envp))
 		printf("\n\033[91mfailed test_hello_world\033[0m\n");
-	if (!test_echo_n(&my_envp))
-		printf("\n\033[91mfailed test_echo_n\033[0m\n");
+	if (!test_echo_pipe(&my_envp))
+		printf("\n\033[91mfailed test_echo_pipe\033[0m\n");
+	// if (!test_echo_n(&my_envp))
+	// 	printf("\n\033[91mfailed test_echo_n\033[0m\n");
 	
 	printf("\n");
+	close(0);
+	close(1);
+	close(2);
+	close(3);
 	quit (EXIT_SUCCESS);
 }

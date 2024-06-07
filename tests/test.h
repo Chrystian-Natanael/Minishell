@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:56:02 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/07 08:05:59 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:57:23 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	test_all_spaces_empty_list();
 int	test_three_expr(t_envp **envp);
 int	test_five_expr(t_envp **envp);
 int test_complex_expr(t_envp **envp);
+int	test_hello_world(t_envp **envp);
+int	test_echo_pipe(t_envp **envp);
 // int	test_pwd();
 
 #endif

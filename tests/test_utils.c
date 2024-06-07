@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 14:55:16 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/01 15:04:27 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/07 09:38:42 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,16 @@ int	is_equal_str(const char *a, const char *b)
 {
 	int idx = 0;
 
+	if (a && !b)
+	{
+		printf("\033[91m. \033[0m");
+		return (0);
+	}
+	if (!a && b)
+	{
+		printf("\033[91m. \033[0m");
+		return (0);
+	}
 	while (a && b && a[idx] && b[idx])
 	{
 		if (a[idx] != b[idx])
