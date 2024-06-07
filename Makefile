@@ -80,13 +80,27 @@ TEST = $(addprefix $(TEST_DIR),\
 		test_exp.c \
 		test_utils.c \
 		test_main.c) $(addprefix $(SRCS_PATH),\
-		2.parsing/lexer.c \
 		1.init/envp.c \
-		5.utils/utils_1.c \
-		5.utils/utils_2.c \
 		2.parsing/syntax.c \
 		2.parsing/cmd.c \
-		4.executor/executor.c)
+		2.parsing/lexer.c \
+		2.parsing/expander.c \
+		3.builtin/builtin.c \
+		3.builtin/pwd.c \
+		3.builtin/echo.c \
+		3.builtin/env.c \
+		3.builtin/exit.c \
+		3.builtin/export.c \
+		3.builtin/unset.c \
+		4.executor/binary_tree.c \
+		4.executor/executor.c \
+		4.executor/exec_and.c \
+		4.executor/exec_or.c \
+		4.executor/exec_pipe.c \
+		4.executor/exec_sub_shell.c \
+		5.utils/utils_1.c \
+		5.utils/utils_2.c \
+		5.utils/path_envp_utils.c)
 TEST_B = $(addprefix $(TEST_B_DIR),\
 		test_echo_pwd.c) $(addprefix $(SRCS_PATH),\
 		3.builtin/builtin.c \
