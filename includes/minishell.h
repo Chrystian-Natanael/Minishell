@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 10:40:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:04:18 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,9 @@ void	add_char(char **line, char c);
 int	exec_redir_out(t_bin *bin, t_envp **envp);
 int	exec_redir_output(t_bin *bin, t_envp **envp);
 int	exec_redir_append(t_bin *bin, t_envp **envp);
+
+int	exec_redir_in(t_bin *bin, t_envp **envp);
+int	exec_redir_input(t_bin *bin, t_envp **envp);
 
 void	ending(int status);
 

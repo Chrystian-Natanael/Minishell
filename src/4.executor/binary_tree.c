@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:26:16 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/05/28 16:27:37 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:12:42 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@
 int	precedence(enum e_token type)
 {
 	if (type == AND || type == OR)
-		return (5);
+		return (6);
 	else if (type == PIPE)
-		return (4);
+		return (5);
 	else if (type == REDIR_INPUT || type == REDIR_OUTPUT
 		|| type == OUTPUT_APPEND || type == HEREDOC)
+		return (4);
+	else if (type == FILE_NAME)
 		return (3);
 	else if (type == SUB_SHELL)
 		return (2);

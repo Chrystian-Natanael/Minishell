@@ -72,6 +72,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		4.executor/exec_pipe.c \
 		4.executor/exec_sub_shell.c \
 		4.executor/exec_redir_out.c \
+		4.executor/exec_redir_in.c \
 		5.utils/utils_1.c \
 		5.utils/utils_2.c \
 		5.utils/path_envp_utils.c \
@@ -101,6 +102,7 @@ TEST = $(addprefix $(TEST_DIR),\
 		4.executor/exec_pipe.c \
 		4.executor/exec_sub_shell.c \
 		4.executor/exec_redir_out.c \
+		4.executor/exec_redir_in.c \
 		5.utils/utils_1.c \
 		5.utils/utils_2.c \
 		5.utils/path_envp_utils.c)

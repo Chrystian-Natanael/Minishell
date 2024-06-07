@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:30:37 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 10:42:29 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 11:01:09 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	exec_redir_append(t_bin *bin, t_envp **envp)
 	fd = open(bin->right->cmd, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd == -1)
 	{
-		ft_printf("minishell: %s: \n", bin->right->cmd);
+		ft_printf("minishell: %s: ", bin->right->cmd); // ! descobrir como printar o erro
 		return (1);
 	}
 	dup2(fd, STDOUT_FILENO);
