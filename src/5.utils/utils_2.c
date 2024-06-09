@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/07 08:08:06 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:06:26 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file pwd.c
+ * @file utils_2.c
  * @brief This file contains the pwd function
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/01

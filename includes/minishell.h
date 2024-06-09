@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 11:04:18 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:09:39 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct s_bin
 	struct s_bin	*right;
 }	t_bin;
 
+//----------- DISTRIBUTE OR REORGANIZE ###
+
 char	*envp_get(char *key, t_envp *envp);
 int		count_envp(char **envp);
 int		size_envp(t_envp **envp);
@@ -110,8 +112,10 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_isonlynum(char *str);
 void	free_split(char **array);
 int		find_key_size(char *str);
+char	*ft_strndup(const char *s, int n);
 
 //--------------------------------------- Expression Analysis
+
 t_token	*cmd_parsing(t_token *token, t_envp **envp);
 void	lst_contatenate(t_token **list, char *lexema);
 void	lst_contatenate_redir(t_token **list, char *lexema);
@@ -120,6 +124,7 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp);
 char	*return_lexema(t_token *token);
 
 //--------------------------------------- Syntax Analysis
+
 int		syntax_error(t_token *token);
 int		syntax_expr(t_token *expr);
 
@@ -137,7 +142,7 @@ char	**t_envp_to_char(t_envp **envp);
 int		exec_and(t_bin *bin, t_envp **envp);
 int		exec_or(t_bin *bin, t_envp **envp);
 int		exec_pipe(t_bin *bin, t_envp **envp);
-int	exec_sub_shell(t_bin *bin, t_envp **envp);
+int		exec_sub_shell(t_bin *bin, t_envp **envp);
 
 //--------------------------------------- Builtin
 
@@ -149,12 +154,12 @@ int		ft_export(char **argv, t_envp **envp);
 int		ft_pwd(void);
 int		ft_unset(char **argv, t_envp **envp);
 
-
-
+//----------- DISTRIBUTE OR REORGANIZE ###
 
 void	change_status(t_envp **envp, int status);
 char	*expan_get(t_token *token, t_envp *envp);
 
+//----------- DISTRIBUTE OR REORGANIZE ###
 
 void	expander(int	*idx, t_token	**token, t_envp	*envp, char	**dst);
 void	expander_validation(t_token **tokens, t_envp **envp);
@@ -162,13 +167,15 @@ int		is_valid_var(char letter);
 int		ternary(int condition, int if_true, int if_false);
 void	add_char(char **line, char c);
 
+//----------- DISTRIBUTE OR REORGANIZE ###
 
-int	exec_redir_out(t_bin *bin, t_envp **envp);
-int	exec_redir_output(t_bin *bin, t_envp **envp);
-int	exec_redir_append(t_bin *bin, t_envp **envp);
+int		exec_redir_out(t_bin *bin, t_envp **envp);
+int		exec_redir_output(t_bin *bin, t_envp **envp);
+int		exec_redir_append(t_bin *bin, t_envp **envp);
+int		exec_redir_in(t_bin *bin, t_envp **envp);
+int		exec_redir_input(t_bin *bin, t_envp **envp);
 
-int	exec_redir_in(t_bin *bin, t_envp **envp);
-int	exec_redir_input(t_bin *bin, t_envp **envp);
+//----------- DISTRIBUTE OR REORGANIZE ###
 
 void	ending(int status);
 

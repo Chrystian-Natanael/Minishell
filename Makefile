@@ -75,6 +75,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		4.executor/exec_redir_in.c \
 		5.utils/utils_1.c \
 		5.utils/utils_2.c \
+		5.utils/utils_3.c \
 		5.utils/path_envp_utils.c \
 		)
 TEST = $(addprefix $(TEST_DIR),\
