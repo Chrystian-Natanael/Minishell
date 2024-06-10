@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:16:48 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:34:37 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,8 @@ void	loadingBar()
 		printf("%-20s\n", bar2 + (length - i));
 		printf("%-20s\n", bar3 + (length - i));
 		printf("\n");
-	while (j <= __INT_MAX__ / 50)
-		j++;
+		while (j <= __INT_MAX__ / 80)
+			j++;
 	}
 
 }

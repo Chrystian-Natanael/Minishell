@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 10:40:50 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:48:28 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "minishell.h"
 
-int	exec_cmd(t_bin *bin, t_envp **envp)
+int	exec_cmd(t_bin *bin, t_envp **envp, t_data *data)
 {
 	int		pid;
 	int		exit_status;
@@ -29,7 +29,7 @@ int	exec_cmd(t_bin *bin, t_envp **envp)
 	cmd = ft_split(bin->cmd, ' ');
 	typetree_insert(cmd);
 	typetree_insert_matrix((void **)cmd);
-	exit_status = check_exec_builtin(cmd, envp);
+	exit_status = check_exec_builtin(cmd, envp, data);
 	if (exit_status != -1)
 		return (exit_status);
 	pid = fork();
@@ -47,38 +47,38 @@ int	exec_cmd(t_bin *bin, t_envp **envp)
 		}
 		else if (access(path, X_OK | F_OK) != 0)
 			exit_status = 126;
-		ending (exit_status);
+		ending (exit_status, data);
 	}
 	waitpid(pid, &exit_status, 0);
 	return ((exit_status >> 8) & 0xFF);
 }
 
-int	exec_tree(t_bin *bin, t_envp **envp)
+int	exec_tree(t_bin *bin, t_envp **envp, t_data *data)
 {
 	if (bin->type == CMD)					//! FINISH
-		return (exec_cmd(bin, envp));
+		return (exec_cmd(bin, envp, data));
 	else if (bin->type == AND)				//! FINISH
-		return (exec_and(bin, envp));
+		return (exec_and(bin, envp, data));
 	else if (bin->type == OR)				//! FINISH
-		return (exec_or(bin, envp));
+		return (exec_or(bin, envp, data));
 	else if (bin->type == PIPE)				//! FINISH
-		return (exec_pipe(bin, envp));
+		return (exec_pipe(bin, envp, data));
 	else if (bin->type == REDIR_INPUT)
-		return (exec_redir_input(bin, envp));
+		return (exec_redir_input(bin, envp, data));
 	else if (bin->type == REDIR_OUTPUT || bin->type == OUTPUT_APPEND) //! FINISH (Mas falta fazer uns testes... XD)
-		return (exec_redir_out(bin, envp));
+		return (exec_redir_out(bin, envp, data));
 	else if (bin->type == SUB_SHELL)		//! FINISH (Mas falta fazer uns testes... XD)
-		return (exec_sub_shell(bin, envp));
+		return (exec_sub_shell(bin, envp, data));
 	else
 		return (-1);
 }
 
-int	execute(t_token *tokens, t_envp **envp)
+int	execute(t_token *tokens, t_envp **envp, t_data *data)
 {
 	int		status;
 	t_bin	*bin;
 
 	bin = create_tree(tokens);
-	status = exec_tree(bin, envp);
+	status = exec_tree(bin, envp, data);
 	return (status);
 }

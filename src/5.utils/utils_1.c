@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 10:56:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:32:48 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@
 
 #include "minishell.h"
 
-char	*get_username(t_envp *envp)
+char	*get_readline(t_envp *envp)
 {
-	char	*username;
+	char	*readline;
 	char	*final_string;
 	char	*pwd;
 	char	*str1;
@@ -29,16 +29,16 @@ char	*get_username(t_envp *envp)
 	char	cwd[PATH_MAX];
 
 	pwd = NULL;
-	username = envp_get("USER", envp);
+	readline = envp_get("USER", envp);
 	if (getcwd(cwd, PATH_MAX))
 		pwd = ft_strdup(cwd);
-	if (!username)
-		username = "minishell";
+	if (!readline)
+		readline = "minishell";
 	str2 = ft_strrchr(pwd, '/');
 	if (!str2)
 		str2 = "//";
 	str1 = ft_strjoin(++str2, " $\033[0m ");
-	str2 = ft_strjoin("\033[92m", username);
+	str2 = ft_strjoin("\033[92m", readline);
 	typetree_insert(str2);
 	typetree_insert(pwd);
 	str2 = ft_strjoin(str2, "\033[0m:\033[34m");

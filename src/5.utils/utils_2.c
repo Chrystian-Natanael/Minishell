@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/10 11:09:51 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:00:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,23 @@ int	ternary(int condition, int if_true, int if_false)
 	return (if_false);
 }
 
-void	ending(int status)
+void	ending(int status, t_data *data)
 {
+	int		idx;
+	char	*fl_name;
+
+	idx = 1;
 	rl_clear_history();
 	close(0);
 	close(1);
 	close(2);
 	close(3);
+	while(idx <= data->count_files)
+	{
+		fl_name = ft_strmerge(ft_strdup("/tmp/heredoc-0x"), ft_itoa(idx));
+		typetree_insert(fl_name);
+		unlink(fl_name);
+		idx++;
+	}
 	quit(status);
 }

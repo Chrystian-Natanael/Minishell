@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:04:31 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 13:04:14 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:51:47 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * @date 2024/06/03
 */
 
-int	exec_pipe(t_bin *bin, t_envp **envp)
+int	exec_pipe(t_bin *bin, t_envp **envp, t_data *data)
 {
 	int		status;
 	int		pipe_fd[2];
@@ -38,7 +38,7 @@ int	exec_pipe(t_bin *bin, t_envp **envp)
 		close(pipe_fd[1]);
 		close(old_fd[0]);
 		close(old_fd[1]);
-		ending(exec_tree(bin->left, envp));
+		ending(exec_tree(bin->left, envp, data), data);
 	}
 	close(pipe_fd[1]);
 	pid[1] = fork();
@@ -48,7 +48,7 @@ int	exec_pipe(t_bin *bin, t_envp **envp)
 		close(old_fd[0]);
 		dup2(pipe_fd[0], STDIN_FILENO);
 		close(pipe_fd[0]);
-		ending(exec_tree(bin->right, envp));
+		ending(exec_tree(bin->right, envp, data), data);
 	}
 	close(pipe_fd[0]);
 	dup2(old_fd[1], STDOUT_FILENO);

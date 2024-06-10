@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:08:36 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:49:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,17 @@ typedef struct s_bin
 	struct s_bin	*right;
 }	t_bin;
 
+typedef struct s_data
+{
+	int		status;
+	int		count_files;
+	char	*line;
+	char	*read_line;
+	t_envp	*my_envp;
+	t_token	*token;
+	t_token	*expr;
+}	t_data;
+
 //----------- DISTRIBUTE OR REORGANIZE ###
 
 char	*envp_get(char *key, t_envp *envp);
@@ -95,7 +106,7 @@ int		size_envp(t_envp **envp);
 void	value_concat(char **split);
 void	envp_insert(char *key, char *value, t_envp **envp);
 t_envp	*create_envp(char **envp);
-char	*get_username(t_envp *envp);
+char	*get_readline(t_envp *envp);
 
 //--------------------------------------- Lexical Analysis
 
@@ -131,26 +142,26 @@ int		syntax_expr(t_token *expr);
 
 //--------------------------------------- Executor + binarytree
 
-int		execute(t_token *tokens, t_envp **envp);
+int		execute(t_token *tokens, t_envp **envp, t_data *data);
 int		precedence(enum e_token type);
 t_bin	*new_node(char *cmd, enum e_token type);
 t_bin	*create_tree(t_token *tokens);
 t_token	*return_token_list(t_token *tokens, t_token *max_prec);
 char	*get_path_cmd(t_envp **envp, char *cmd);
-int		exec_cmd(t_bin *bin, t_envp **envp);
-int		exec_tree(t_bin *bin, t_envp **envp);
+int		exec_cmd(t_bin *bin, t_envp **envp, t_data *data);
+int		exec_tree(t_bin *bin, t_envp **envp, t_data *data);
 char	**t_envp_to_char(t_envp **envp);
-int		exec_and(t_bin *bin, t_envp **envp);
-int		exec_or(t_bin *bin, t_envp **envp);
-int		exec_pipe(t_bin *bin, t_envp **envp);
-int		exec_sub_shell(t_bin *bin, t_envp **envp);
+int		exec_and(t_bin *bin, t_envp **envp, t_data *data);
+int		exec_or(t_bin *bin, t_envp **envp, t_data *data);
+int		exec_pipe(t_bin *bin, t_envp **envp, t_data *data);
+int		exec_sub_shell(t_bin *bin, t_envp **envp, t_data *data);
 
 //--------------------------------------- Builtin
 
-int		check_exec_builtin(char **cmd, t_envp **envp);
+int		check_exec_builtin(char **cmd, t_envp **envp, t_data *data);
 int		ft_echo(char **argv);
 int		ft_env(char **argv, t_envp **envp);
-int		ft_exit(char **argv);
+int		ft_exit(char **argv, t_data *data);
 int		ft_export(char **argv, t_envp **envp);
 int		ft_pwd(void);
 int		ft_unset(char **argv, t_envp **envp);
@@ -171,19 +182,19 @@ void	add_char(char **line, char c);
 
 //----------- DISTRIBUTE OR REORGANIZE ###
 
-int		exec_redir_out(t_bin *bin, t_envp **envp);
-int		exec_redir_output(t_bin *bin, t_envp **envp);
-int		exec_redir_append(t_bin *bin, t_envp **envp);
+int		exec_redir_out(t_bin *bin, t_envp **envp, t_data *data);
+int		exec_redir_output(t_bin *bin, t_envp **envp, t_data *data);
+int		exec_redir_append(t_bin *bin, t_envp **envp, t_data *data);
 
-int		exec_redir_input(t_bin *bin, t_envp **envp);
+int		exec_redir_input(t_bin *bin, t_envp **envp, t_data *data);
 
 
 //----------- HEREDOC ###
 
-int		exec_heredoc(t_token **token);
-void	heredoc_validation(t_token **tokens);
+int		exec_heredoc(t_token **token, int *count_files);
+void	heredoc_validation(t_token **tokens, int *count_files);
 
-void	ending(int status);
+void	ending(int status, t_data *data);
 
 
 // -------------- Menu
