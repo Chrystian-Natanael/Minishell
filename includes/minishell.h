@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 11:04:18 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:25:11 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/04/08
 */
+
+# define TRUN 0x00000242
 
 /*For use libft functions*/
 # include "libft.h"
@@ -169,6 +171,8 @@ int	exec_redir_append(t_bin *bin, t_envp **envp);
 
 int	exec_redir_in(t_bin *bin, t_envp **envp);
 int	exec_redir_input(t_bin *bin, t_envp **envp);
+
+int	exec_heredoc(t_bin *bin, t_envp **envp, char *eof);
 
 void	ending(int status);
 
