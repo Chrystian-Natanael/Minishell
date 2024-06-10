@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/04 19:31:23 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 09:36:55 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ void	expander_validation(t_token **tokens, t_envp **envp)
 				flag = ternary(flag == 0, 1, 0);
 			else if (tmp->lexema[idx] == '\"' && (flag == 0 || flag == 2))
 				flag = ternary(flag == 0, 2, 0);
-			else if (tmp->lexema[idx] == '$' && flag != 1)
+			else if (tmp->lexema[idx] == '$' && flag != 1 && tmp->lexema[idx + 1]
+				&& is_valid_var(tmp->lexema[idx + 1]))
 				expander(&idx, &tmp, *envp, &line);
 			else
 				add_char(&line, tmp->lexema[idx]);

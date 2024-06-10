@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:35:36 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/09 22:12:46 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:27:10 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ int	go_to_path(int dest, char *arg, t_envp **envp)
 	free(arg);
 	return (exit_status);
 }
-# include <errno.h>
+# include <errno.h> // ! Essa biblioteca nn é permitida
 int	ft_cd(char **argv, t_envp **envp)
 {
 	int	exit_status;

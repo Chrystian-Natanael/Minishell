@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/09 17:06:32 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:30:14 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,17 @@ char	*get_username(t_envp *envp)
 	char	*pwd;
 	char	*str1;
 	char	*str2;
+	char	cwd[PATH_MAX];
 
 	username = envp_get("USER", envp);
-	pwd = envp_get("PWD", envp);
+	if (getcwd(cwd, PATH_MAX))
+		pwd = ft_strdup(cwd);
 	if (!username)
 		username = "minishell";
 	str2 = ft_strrchr(pwd, '/');
 	if (!str2)
 		str2 = "//";
-	str1 = ft_strjoin(++str2, "$\033[0m ");
+	str1 = ft_strjoin(++str2, " $\033[0m ");
 	str2 = ft_strjoin("\033[92m", username);
 	typetree_insert(str2);
 	str2 = ft_strjoin(str2, "\033[0m:\033[34m");
