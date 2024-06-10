@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 10:30:14 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:56:40 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ char	*get_username(t_envp *envp)
 	char	*str2;
 	char	cwd[PATH_MAX];
 
+	pwd = NULL;
 	username = envp_get("USER", envp);
 	if (getcwd(cwd, PATH_MAX))
 		pwd = ft_strdup(cwd);
@@ -39,6 +40,7 @@ char	*get_username(t_envp *envp)
 	str1 = ft_strjoin(++str2, " $\033[0m ");
 	str2 = ft_strjoin("\033[92m", username);
 	typetree_insert(str2);
+	typetree_insert(pwd);
 	str2 = ft_strjoin(str2, "\033[0m:\033[34m");
 	final_string = ft_strjoin(str2, str1);
 	typetree_insert(final_string);

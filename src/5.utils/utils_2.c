@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/09 17:06:26 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:09:51 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,5 +84,6 @@ void	ending(int status)
 	close(0);
 	close(1);
 	close(2);
+	close(3);
 	quit(status);
 }

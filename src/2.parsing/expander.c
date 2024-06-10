@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 09:36:55 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:26:55 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_valid_var(char letter)
 	return ((letter >= 'a' && letter <= 'z')
 		|| (letter >= 'A' && letter <= 'Z')
 		|| (letter >= '0' && letter <= '9')
-		|| letter == '_');
+		|| letter == '_' || letter == '?');
 }
 
 void	expander_validation(t_token **tokens, t_envp **envp)

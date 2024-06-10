@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:35:36 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/10 10:27:10 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:19:32 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,8 @@ void	update_oldpwd(t_envp **envp)
 		{
 			if (ft_strcmp("OLDPWD", curr->key) == 0)
 			{
-				free(curr->value);
 				curr->value = ft_strdup(cwd);
+				typetree_insert(curr->value);
 				return ;
 			}
 			curr = curr->next;
@@ -57,6 +57,7 @@ char	*find_path(char *dest, t_envp **envp)
 		if (ft_strcmp(dest, curr->key) == 0)
 		{
 			path = ft_strdup(curr->value);
+			typetree_insert(path);
 			return (path);
 		}
 		curr = curr->next;
@@ -88,7 +89,6 @@ int	go_to_path(int dest, char *arg, t_envp **envp)
 	}
 	update_oldpwd(envp);
 	exit_status = chdir(arg);
-	free(arg);
 	return (exit_status);
 }
 # include <errno.h> // ! Essa biblioteca nn é permitida
@@ -99,7 +99,10 @@ int	ft_cd(char **argv, t_envp **envp)
 
 	exit_status = 0;
 	if (argv[1])
+	{
 		arg_one = ft_strdup(argv[1]);
+		typetree_insert(arg_one);
+	}
 	if (argv[2])
 	{
 		ft_putstr_fd("-minishell: cd: too many arguments\n", 2);

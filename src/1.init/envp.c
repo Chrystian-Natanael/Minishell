@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 18:11:32 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 09:55:01 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:31:40 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*envp_get(char *key, t_envp *envp)
 	t_envp	*current;
 
 	current = envp;
-	while (current && current->next != NULL)
+	while (current)
 	{
 		if (ft_strncmp(current->key, key, ft_strlen(key)) == 0)
 			return (current->value);

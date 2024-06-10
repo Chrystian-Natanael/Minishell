@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 08:07:57 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:53:59 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,10 @@ int	main(int argc, char **argv, char **envp)
 		add_history(line);
 		typetree_insert(line);
 		token = lexer(line);
+		heredoc_validation(&token);
 		if (line[0] == '\0' || token == NULL || syntax_error(token))
 		{
 			change_status(&my_envp, 2);
-			line = readline(username);
 			continue ;
 		}
 		expander_validation(&token, &my_envp);
@@ -50,7 +50,6 @@ int	main(int argc, char **argv, char **envp)
 		if (syntax_expr(expr))
 		{
 			change_status(&my_envp, syntax_expr(expr));
-			line = readline(username);
 			continue ;
 		}
 		status = execute(expr, &my_envp);

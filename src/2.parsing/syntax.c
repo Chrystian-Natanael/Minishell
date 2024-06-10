@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:41:15 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/04 09:29:32 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:25:06 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	syntax_error(t_token *token)
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
 		if (tmp->type == L_PAREN && !tmp->next)
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
-		if (tmp->type == REDIR_INPUT && tmp->next->type != WORD)
+		if (tmp->type == REDIR_INPUT && (tmp->next->type != WORD && tmp->next->type != FILE_NAME))
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
 		if (tmp->type == REDIR_OUTPUT && tmp->next->type != WORD)
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
@@ -63,7 +63,7 @@ int	syntax_error(t_token *token)
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
 		if (tmp->type == OR && (tmp->next->type != WORD && tmp->next->type != L_PAREN))
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
-		if (tmp->type == AND && (tmp->next->type != WORD && tmp->next->type != L_PAREN))
+		if (tmp->type == AND && (tmp->next->type != WORD && tmp->next->type != L_PAREN && tmp->next->type != REDIR_INPUT))
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexema(tmp), 2));
 		tmp = tmp->next;
 	}

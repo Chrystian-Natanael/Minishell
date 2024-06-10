@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 12:27:45 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:58:57 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,6 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/07
 */
-
-int	exec_redir_in(t_bin *bin, t_envp **envp)
-{
-	if (bin->type == REDIR_INPUT)
-		return (exec_redir_input(bin, envp));
-	else
-		return (exec_heredoc(bin, envp, bin->right->cmd));
-}
 
 int	exec_redir_input(t_bin *bin, t_envp **envp)
 {

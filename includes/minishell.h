@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 10:13:56 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:50:10 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,13 +173,13 @@ int		exec_redir_out(t_bin *bin, t_envp **envp);
 int		exec_redir_output(t_bin *bin, t_envp **envp);
 int		exec_redir_append(t_bin *bin, t_envp **envp);
 
-int		exec_redir_in(t_bin *bin, t_envp **envp);
 int		exec_redir_input(t_bin *bin, t_envp **envp);
 
 
 //----------- HEREDOC ###
 
-int		exec_heredoc(t_bin *bin, t_envp **envp, char *eof);
+int		exec_heredoc(t_token **token);
+void	heredoc_validation(t_token **tokens);
 
 void	ending(int status);
 

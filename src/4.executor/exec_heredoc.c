@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 14:42:15 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 10:52:50 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,23 +51,41 @@ static int	heredoc_loop(char **buff, char *eof, const int std_in, int fd)
 	return (1);
 }
 
-int	exec_heredoc(t_bin *bin, t_envp **envp, char *eof)
+int	exec_heredoc(t_token **token)
 {
 	int			fd;
 	char		*buff;
 	char		*fl_name;
+	char		*eof;
 	const int	std_in = dup(STDIN_FILENO);
 
+	eof = (*token)->next->lexema;
 	if (!heredoc_file_creation(1, &fd, &fl_name))
 		return (0);
 	while (heredoc_loop(&buff, eof, std_in, fd))
 		;
 	close(fd);
 	close (std_in);
-	if (bin->left && bin->left->type == FILE_NAME)
-		bin->left->cmd = fl_name;
-	else if (bin->right && bin->right->type == FILE_NAME)
-		bin->right->cmd = fl_name;
-	bin->type = REDIR_INPUT;
-	return (exec_tree(bin, envp));
+	if (*token && (*token)->type == HEREDOC)
+		(*token)->type = REDIR_INPUT;
+	if (token && (*token)->next->type == WORD)
+	{
+		(*token)->next->lexema = fl_name;
+		(*token)->next->type = FILE_NAME;
+	}
+	return (0);
+}
+
+
+void	heredoc_validation(t_token **tokens)
+{
+	t_token	*tmp;
+
+	tmp = *tokens;
+	while (tmp)
+	{
+		if (tmp->type == HEREDOC)
+			exec_heredoc(&tmp);
+		tmp = tmp->next;
+	}
 }
