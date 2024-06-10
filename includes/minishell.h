@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 10:50:10 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:08:36 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 */
 
 # define TRUN 0x00000242
+
+#include <termios.h>
 
 /*For use libft functions*/
 # include "libft.h"
@@ -182,5 +184,12 @@ int		exec_heredoc(t_token **token);
 void	heredoc_validation(t_token **tokens);
 
 void	ending(int status);
+
+
+// -------------- Menu
+
+void clearScreen(void);
+void setTextColor(int color);
+void loadingBar(void);
 
 #endif

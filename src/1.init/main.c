@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 10:53:59 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 11:50:35 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	expr = NULL;
 	my_envp = create_envp(envp);
+	loadingBar();
 	while (1)
 	{
 		username = get_username(my_envp);
