@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:04:42 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 12:16:48 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	setTextColor(int color)
 void	loadingBar()
 {
 	int	i;
+	int	j;
 	const char *bar1 = "Bem vindo ao minishell!";
 	const char *bar2 = "Criado por:";
 	const char *bar3 = "Chrystian Natanael && Kelly Hayd";
@@ -40,12 +41,15 @@ void	loadingBar()
 	i = -1;
 	while (++i <= length)
 	{
+		j = 0;
 		clearScreen();
 		setTextColor(96);
 		printf("%-20s\n", bar1 + (length - i));
 		printf("%-20s\n", bar2 + (length - i));
 		printf("%-20s\n", bar3 + (length - i));
 		printf("\n");
-		usleep(100000);
+	while (j <= __INT_MAX__ / 50)
+		j++;
 	}
+
 }
