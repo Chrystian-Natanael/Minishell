@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/09 17:09:39 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/09 20:29:32 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,6 +153,7 @@ int		ft_exit(char **argv);
 int		ft_export(char **argv, t_envp **envp);
 int		ft_pwd(void);
 int		ft_unset(char **argv, t_envp **envp);
+int		ft_cd(char **argv, t_envp **envp);
 
 //----------- DISTRIBUTE OR REORGANIZE ###
 

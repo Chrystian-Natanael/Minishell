@@ -6,12 +6,12 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:06:11 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/09 17:08:28 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:35:57 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file utils_2.c
+ * @file utils_3.c
  * @brief This file contains the pwd function
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/01

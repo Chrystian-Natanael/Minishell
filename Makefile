@@ -65,6 +65,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		3.builtin/exit.c \
 		3.builtin/export.c \
 		3.builtin/unset.c \
+		3.builtin/cd.c \
 		4.executor/binary_tree.c \
 		4.executor/executor.c \
 		4.executor/exec_and.c \
