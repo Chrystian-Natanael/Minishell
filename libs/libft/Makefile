@@ -95,6 +95,7 @@ SRCS_LIB :=	ft_isalpha.c \
 			ft_atol.c \
 			ft_lstpickel.c \
 			ft_lstpop.c \
+			ft_merge.c \
 			ft_lstnewelement.c \
 			ft_lstadd_after.c \
 			ft_lstadd_before.c \
