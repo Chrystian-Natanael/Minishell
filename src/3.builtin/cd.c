@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:35:36 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/09 22:08:25 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/09 22:12:46 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	ft_cd(char **argv, t_envp **envp)
 		ft_putstr_fd("-minishell: cd: too many arguments\n", 2);
 		return (1);
 	}
-	else if (ft_strcmp(argv[1], "~") == 0 || !argv[1])
+	else if (!argv[1] || (ft_strcmp(argv[1], "~") == 0) || !argv)
 		exit_status = go_to_path(0, NULL, envp);
 	else if (ft_strcmp(argv[1], "-") == 0)
 		exit_status = go_to_path(1, NULL, envp);
