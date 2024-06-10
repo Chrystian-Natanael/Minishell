@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/09 17:24:11 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:50:13 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,8 @@ void	export_env(t_envp **envp, char *str)
 	key_size = find_key_size(str);
 	curr->key = ft_substr(str, 0, key_size);
 	typetree_insert(curr->key);
-	curr->value = ft_substr(str, (key_size + 1), (ft_strlen(str) - key_size - 1));
+	curr->value = ft_substr(str, (key_size + 1), \
+	(ft_strlen(str) - key_size - 1));
 	typetree_insert(curr->value);
 	curr->next = *envp;
 	*envp = curr;
@@ -43,7 +44,7 @@ int	check_and_replace_env(char *str, t_envp **envp)
 
 	size = ft_strchr(str, '=') - str;
 	key_to_find = ft_strndup(str, size);
-	new_value = ft_strdup(&str[size+1]);
+	new_value = ft_strdup(&str[size + 1]);
 	curr = *envp;
 	while (curr)
 	{
@@ -110,7 +111,7 @@ int	ft_export(char **argv, t_envp **envp)
 			if (!validate_var(argv[i]) && !ft_strchr(argv[i], '='))
 				return (1);
 			if (!check_and_replace_env(argv[i], envp))
-					export_env(envp, argv[i]);
+				export_env(envp, argv[i]);
 			i++;
 		}
 	}

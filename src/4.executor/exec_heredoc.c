@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:39:12 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:53:50 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@ static int	heredoc_file_creation(int count, int *fd, char **fl_name)
 		return (1);
 	return (0);
 }
-
 
 static int	heredoc_loop(char **buff, char *eof, const int std_in, int fd)
 {
@@ -76,7 +75,6 @@ int	exec_heredoc(t_token **token, int *count_files)
 	*count_files += 1;
 	return (0);
 }
-
 
 void	heredoc_validation(t_token **tokens, int *count_files)
 {

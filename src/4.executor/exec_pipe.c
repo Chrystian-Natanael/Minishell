@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:04:31 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:51:47 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:51:02 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,5 +59,3 @@ int	exec_pipe(t_bin *bin, t_envp **envp, t_data *data)
 	waitpid(pid[1], &status, 0);
 	return ((status >> 8) & 0xFF);
 }
-
-// << eof cat | grep 'alecrim' > outfile && cat outfile

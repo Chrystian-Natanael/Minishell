@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:46:16 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:15:27 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,15 +29,17 @@ static void	init_data(t_data *data, int argc, char **argv, char **envp)
 	data->expr = NULL;
 	data->my_envp = create_envp(envp);
 	data->count_files = 0;
-	loadingBar();
+	loadingbar();
 }
 
 static void	reading_line(t_data *data)
 {
-	data->read_line = get_readline(data->my_envp);
+	data->line = NULL;
+	data->read_line = NULL;
+	data->read_line = get_readline(data->my_envp, data);
 	data->line = readline(data->read_line);
 	add_history(data->line);
-	typetree_insert(data->line);	
+	typetree_insert(data->line);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -67,4 +69,3 @@ int	main(int argc, char **argv, char **envp)
 		change_status(&data.my_envp, data.status);
 	}
 }
-

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/10 13:00:24 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:14:22 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	find_key_size(char *str)
 		size++;
 	return (size);
 }
+
 void	change_status(t_envp **envp, int status)
 {
 	char	*status_str;
@@ -71,13 +72,6 @@ void	change_status(t_envp **envp, int status)
 	}
 }
 
-int	ternary(int condition, int if_true, int if_false)
-{
-	if (condition)
-		return (if_true);
-	return (if_false);
-}
-
 void	ending(int status, t_data *data)
 {
 	int		idx;
@@ -89,7 +83,7 @@ void	ending(int status, t_data *data)
 	close(1);
 	close(2);
 	close(3);
-	while(idx <= data->count_files)
+	while (idx <= data->count_files)
 	{
 		fl_name = ft_strmerge(ft_strdup("/tmp/heredoc-0x"), ft_itoa(idx));
 		typetree_insert(fl_name);

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:35:36 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/10 11:19:32 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:46:53 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	update_oldpwd(t_envp **envp)
 	new = NULL;
 	if (getcwd(cwd, PATH_MAX))
 	{
-		while(curr)
+		while (curr)
 		{
 			if (ft_strcmp("OLDPWD", curr->key) == 0)
 			{
@@ -91,19 +91,18 @@ int	go_to_path(int dest, char *arg, t_envp **envp)
 	exit_status = chdir(arg);
 	return (exit_status);
 }
-# include <errno.h> // ! Essa biblioteca nn é permitida
+
 int	ft_cd(char **argv, t_envp **envp)
 {
-	int	exit_status;
+	int		exit_status;
 	char	*arg_one;
 
-	exit_status = 0;
 	if (argv[1])
 	{
 		arg_one = ft_strdup(argv[1]);
 		typetree_insert(arg_one);
 	}
-	if (argv[2])
+	if (argv[1] && argv[2])
 	{
 		ft_putstr_fd("-minishell: cd: too many arguments\n", 2);
 		return (1);
@@ -116,9 +115,7 @@ int	ft_cd(char **argv, t_envp **envp)
 		exit_status = go_to_path(2, argv[1], envp);
 	if (exit_status < 0)
 	{
-		ft_putstr_fd("-minishell: cd: ", 2);
-		ft_putstr_fd(arg_one, 2);
-		ft_putstr_fd(": No such file or directory\n", 2);
+		ft_error("-minishell: cd: ", arg_one, ": No such file or directory", 2);
 		exit_status = 1;
 	}
 	return (exit_status);

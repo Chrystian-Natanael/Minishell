@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:48:28 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:52:44 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,19 +55,19 @@ int	exec_cmd(t_bin *bin, t_envp **envp, t_data *data)
 
 int	exec_tree(t_bin *bin, t_envp **envp, t_data *data)
 {
-	if (bin->type == CMD)					//! FINISH
+	if (bin->type == CMD)
 		return (exec_cmd(bin, envp, data));
-	else if (bin->type == AND)				//! FINISH
+	else if (bin->type == AND)
 		return (exec_and(bin, envp, data));
-	else if (bin->type == OR)				//! FINISH
+	else if (bin->type == OR)
 		return (exec_or(bin, envp, data));
-	else if (bin->type == PIPE)				//! FINISH
+	else if (bin->type == PIPE)
 		return (exec_pipe(bin, envp, data));
 	else if (bin->type == REDIR_INPUT)
 		return (exec_redir_input(bin, envp, data));
-	else if (bin->type == REDIR_OUTPUT || bin->type == OUTPUT_APPEND) //! FINISH (Mas falta fazer uns testes... XD)
+	else if (bin->type == REDIR_OUTPUT || bin->type == OUTPUT_APPEND)
 		return (exec_redir_out(bin, envp, data));
-	else if (bin->type == SUB_SHELL)		//! FINISH (Mas falta fazer uns testes... XD)
+	else if (bin->type == SUB_SHELL)
 		return (exec_sub_shell(bin, envp, data));
 	else
 		return (-1);

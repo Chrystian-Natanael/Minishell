@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 10:48:42 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:56:14 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 			cmds->type = SUB_SHELL;
 		}
 		if (tmp && (tmp->type == REDIR_INPUT || tmp->type == REDIR_OUTPUT
-			|| tmp->type == OUTPUT_APPEND || tmp->type == HEREDOC))
+				|| tmp->type == OUTPUT_APPEND || tmp->type == HEREDOC))
 		{
 			cmd_parsing_aux(&head, &cmds, &tmp);
 			lst_contatenate_redir(&cmds, tmp->lexema);
@@ -95,36 +95,6 @@ char	*expan_get(t_token *token, t_envp *envp)
 	return ("");
 }
 
-char	*return_lexema(t_token *token)
-{
-	if (!token)
-		return ("");
-	if (token->type == WORD || token->type == CMD)
-		return (token->lexema);
-	else if (token->type == REDIR_INPUT)
-		return ("<");
-	else if (token->type == REDIR_OUTPUT)
-		return (">");
-	else if (token->type == OUTPUT_APPEND)
-		return (">>");
-	else if (token->type == HEREDOC)
-		return ("<<");
-	else if (token->type == L_PAREN)
-		return ("(");
-	else if (token->type == R_PAREN)
-		return (")");
-	// else if (token->type == DOLLAR)
-	// 	return ("$");
-	else if (token->type == PIPE)
-		return ("|");
-	else if (token->type == OR)
-		return ("||");
-	else if (token->type == AND)
-		return ("&&");
-	else
-		return ("");
-}
-
 void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 {
 	t_token	*aux;
@@ -133,7 +103,7 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 	if (*cmds != NULL)
 		*cmds = (*cmds)->next;
 	if (*tmp && (((*tmp)->type == PIPE || (*tmp)->type == OR
-			|| (*tmp)->type == AND) || (*tmp)->type == L_PAREN
+				|| (*tmp)->type == AND) || (*tmp)->type == L_PAREN
 			|| (*tmp)->type == R_PAREN || (*tmp)->type == REDIR_INPUT
 			|| (*tmp)->type == REDIR_OUTPUT || (*tmp)->type == OUTPUT_APPEND
 			|| (*tmp)->type == HEREDOC))
@@ -149,9 +119,7 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 void	lst_contatenate(t_token **list, char *lexema)
 {
 	t_token	*new;
-	// t_token	*tmp;
 
-	// tmp = *list;
 	new = (t_token *)allocate(sizeof(t_token));
 	new->type = CMD;
 	new->lexema = lexema;
@@ -182,19 +150,4 @@ void	lst_contatenate_redir(t_token **list, char *lexema)
 		(*list)->lexema = ft_strjoin((*list)->lexema, lexema);
 		typetree_insert((*list)->lexema);
 	}
-}
-
-void	lstadd_back(t_token **lst, t_token *new)
-{
-	t_token	*aux;
-
-	aux = *lst;
-	if (aux == NULL)
-	{
-		*lst = new;
-		return ;
-	}
-	while (aux->next)
-		aux = aux->next;
-	aux->next = new;
 }

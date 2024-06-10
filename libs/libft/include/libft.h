@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/07 14:41:11 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 12:15:37 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:58:51 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,7 +388,7 @@ void		ft_striteri(char *s, void (*f)(unsigned int, char *));
  * @param s2 The second string.
  * @return The merged string.
  */
-char	*ft_strmerge(char *s1, char *s2);
+char		*ft_strmerge(char *s1, char *s2);
 
 //! ***************************************************************************#
 //!                                   FT_MEM                                   #

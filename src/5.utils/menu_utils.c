@@ -6,11 +6,11 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:34:37 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:13:54 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "minishell.h"
 
 /**
  * @brief This function frees the tokens
@@ -19,37 +19,33 @@
  * @date 2024/06/10
 */
 
-void	clearScreen()
+void	clearscreen(void)
 {
 	printf("\033[H\033[J");
 }
 
-void	setTextColor(int color)
+void	settextcolor(int color)
 {
 	printf("\033[%dm", color);
 }
 
-void	loadingBar()
+void	loadingbar(void)
 {
-	int	i;
-	int	j;
-	const char *bar1 = "Bem vindo ao minishell!";
-	const char *bar2 = "Criado por:";
-	const char *bar3 = "Chrystian Natanael && Kelly Hayd";
-	const int length = 24;
+	int			i;
+	int			j;
+	const int	length = 72;
+	const char	*bar = "Bem vindo ao minishell!\nCriado por: \
+		\nChrystian Natanael && Kelly Hayd";
 
 	i = -1;
 	while (++i <= length)
 	{
 		j = 0;
-		clearScreen();
-		setTextColor(96);
-		printf("%-20s\n", bar1 + (length - i));
-		printf("%-20s\n", bar2 + (length - i));
-		printf("%-20s\n", bar3 + (length - i));
+		clearscreen();
+		settextcolor(96);
+		printf("%-20s\n", bar + (length - i));
 		printf("\n");
 		while (j <= __INT_MAX__ / 80)
 			j++;
 	}
-
 }

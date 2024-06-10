@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 12:49:17 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 16:00:08 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 
 # define TRUN 0x00000242
 
-#include <termios.h>
+# include <termios.h>
 
 /*For use libft functions*/
 # include "libft.h"
@@ -58,7 +58,6 @@ enum e_token
 	CMD,
 	FILE_NAME,
 	SUB_SHELL,
-	// DOLLAR,
 	OR,
 	AND,
 	HEREDOC,
@@ -106,7 +105,8 @@ int		size_envp(t_envp **envp);
 void	value_concat(char **split);
 void	envp_insert(char *key, char *value, t_envp **envp);
 t_envp	*create_envp(char **envp);
-char	*get_readline(t_envp *envp);
+char	*create_path(t_envp *envp, char *cmd);
+char	*get_readline(t_envp *envp, t_data *data);
 
 //--------------------------------------- Lexical Analysis
 
@@ -188,7 +188,6 @@ int		exec_redir_append(t_bin *bin, t_envp **envp, t_data *data);
 
 int		exec_redir_input(t_bin *bin, t_envp **envp, t_data *data);
 
-
 //----------- HEREDOC ###
 
 int		exec_heredoc(t_token **token, int *count_files);
@@ -196,11 +195,10 @@ void	heredoc_validation(t_token **tokens, int *count_files);
 
 void	ending(int status, t_data *data);
 
-
 // -------------- Menu
 
-void clearScreen(void);
-void setTextColor(int color);
-void loadingBar(void);
+void	clearscreen(void);
+void	settextcolor(int color);
+void	loadingbar(void);
 
 #endif

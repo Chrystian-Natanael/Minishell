@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:07:00 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/04 08:15:35 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:11:38 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,8 @@ char	*get_path_cmd(t_envp **envp, char *cmd)
 {
 	t_envp	*curr;
 	char	*path;
-	char	**split;
-	curr = *envp;
 
+	curr = *envp;
 	if (cmd[0] == '/')
 	{
 		path = ft_strdup(cmd);
@@ -35,25 +34,31 @@ char	*get_path_cmd(t_envp **envp, char *cmd)
 	while (curr)
 	{
 		if (ft_strncmp(curr->key, "PATH", 4) == 0)
-		{
-			split = ft_split(curr->value, ':');
-			typetree_insert_matrix((void **)split);
-			typetree_insert(split);
-			while (*split)
-			{
-				path = ft_strjoin(*split, "/");
-				typetree_insert(path);
-				path = ft_strjoin(path, cmd);
-				typetree_insert(path);
-				if (access(path, F_OK) == 0)
-					return (path);
-				split++;
-			}
-			return (path);
-		}
+			return (create_path(curr, cmd));
 		curr = curr->next;
 	}
 	return (NULL);
+}
+
+char	*create_path(t_envp *envp, char *cmd)
+{
+	char	**split;
+	char	*path;
+
+	split = ft_split(envp->value, ':');
+	typetree_insert_matrix((void **)split);
+	typetree_insert(split);
+	while (*split)
+	{
+		path = ft_strjoin(*split, "/");
+		typetree_insert(path);
+		path = ft_strjoin(path, cmd);
+		typetree_insert(path);
+		if (access(path, F_OK) == 0)
+			return (path);
+		split++;
+	}
+	return (path);
 }
 
 char	**t_envp_to_char(t_envp **envp)

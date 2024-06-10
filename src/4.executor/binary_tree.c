@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:26:16 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 11:12:42 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 15:53:14 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@ t_bin	*create_tree(t_token *tokens)
 	t_token	*curr;
 	t_token	*max_prec;
 	t_bin	*bin;
-	t_token *left_list;
-	t_token *right_list;
+	t_token	*left_list;
+	t_token	*right_list;
 	int		max_prec_val;
 
 	curr = tokens;
@@ -75,7 +75,6 @@ t_bin	*create_tree(t_token *tokens)
 		curr = curr->next;
 	}
 	bin = new_node(max_prec->lexema, max_prec->type);
-
 	if (max_prec->type != CMD)
 	{
 		left_list = return_token_list(tokens, max_prec);
