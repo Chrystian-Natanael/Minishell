@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/07 08:13:58 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/09 17:06:32 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /**
- * @file utils.c
+ * @file utils_1.c
  * @brief This file contains the utils functions
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/04/27
