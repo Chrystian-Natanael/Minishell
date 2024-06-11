@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 15:55:13 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 16:28:34 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,9 @@ void	expander_validation(t_token **tokens, t_envp **envp)
 				add_char(&line, tmp->lexema[idx]);
 			idx++;
 		}
-		if (line)
-			tmp->lexema = line;
+		// if (line || ((!line && (tmp->lexema[0] == '\'' || tmp->lexema[0] == '\"'))
+		// 	&& (!line && (tmp->lexema[1] == '\'' || tmp->lexema[1] == '\"'))))
+		tmp->lexema = line;
 		tmp = tmp->next;
 	}
 }
@@ -71,30 +72,35 @@ void	expander(int *idx, t_token **token, t_envp *envp, char **dst)
 		|| ft_isdigit((*token)->lexema[*(idx) + 1])
 		|| (*token)->lexema[*(idx) + 1] == '$')
 		return ;
-	if ((*idx) != 0)
-		line = ft_substr((*token)->lexema, 1, (*idx) - 1);
-	typetree_insert(line);
+	if (*dst)
+	{
+		line = ft_strdup(*dst);
+		typetree_insert(line);
+	}
 	(*idx)++;
 	size = *idx;
 	while ((*token)->lexema && (*token)->lexema[size]
 		&& is_valid_var((*token)->lexema[size]))
+	{
+		if ((*token)->lexema[size - 1] == '$' && (*token)->lexema[size] == '?' && size == (*idx))
+		{
+			size++;
+			break ;
+		}
 		size++;
+	}
 	key = ft_substr((*token)->lexema, (*idx), size - (*idx));
 	typetree_insert(key);
 	if (!line)
 	{
 		line = ft_strdup("");
 		typetree_insert(line);
-		size--;
 	}
 	line = ft_strjoin(line, envp_get(key, envp));
 	typetree_insert(line);
-	*idx = size;
-	key = ft_substr((*token)->lexema, size, \
-	ft_strlen((*token)->lexema) - (size + 1));
-	typetree_insert(key);
-	line = ft_strjoin(line, key);
-	typetree_insert(line);
+	if ((*token)->lexema[size] == '?')
+		size++;
+	*idx = size - 1;
 	(*dst) = line;
 }
 

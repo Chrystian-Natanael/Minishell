@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/10 15:54:05 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:48:45 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,9 +68,9 @@ char	*get_word(char *line, int *i)
 	idx = 0;
 	while (tmp < *i)
 	{
-		if (quote)
-			if (line[(tmp)] == '"')
-				tmp++;
+		// if (quote)
+			// if (line[(tmp)] == '"')
+			// 	tmp++;
 		word[idx++] = line[tmp++];
 	}
 	word[idx] = '\0';
@@ -80,32 +80,29 @@ char	*get_word(char *line, int *i)
 char	*quote_word(char *line, int *i)
 {
 	char	*word;
-	int		simple_quote;
+	char	type_quote;
 	int		quote;
 	int		size;
 	int		tmp;
 
 	size = 0;
 	tmp = *i;
+	type_quote = line[(*i)];
 	quote = 0;
-	simple_quote = 0;
-	while (line[*i] && !(!(simple_quote % 2 != 0 || quote % 2 != 0)
+	while (line[*i] && !(!(quote % 2 != 0)
 			&& ft_isspace(line[(*i)])))
 	{
-		if (line[*i] == '"')
+		if (line[*i] == type_quote)
 			quote++;
-		else if (line[*i] == '\'')
-			simple_quote++;
 		size++;
 		(*i)++;
 	}
-	if (!line[tmp] || size == 0 || (simple_quote % 2 != 0 || quote % 2 != 0))
+	if (!line[tmp] || size == 0 || (quote % 2 != 0))
 		return (NULL);
 	word = allocate(sizeof(char) * (size + 1));
 	size = 0;
 	while (tmp < *i)
 		word[size++] = line[tmp++];
-	word[size] = '\0';
 	return (word);
 }
 

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 08:00:14 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:34:52 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	main(int argc, char **argv, char **envp)
 		data.token = lexer(data.line);
 		heredoc_validation(&data.token, &data.count_files);
 		if (data.line[0] == '\0' || data.token == NULL
-			|| syntax_error(data.token))
+			|| syntax_error(data.token) || quote_error(data.token))
 		{
 			change_status(&data.my_envp, 2);
 			continue ;

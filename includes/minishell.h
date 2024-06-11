@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 09:25:35 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 15:07:49 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,7 @@ t_envp	*create_envp(char **envp);
 char	*create_path(t_envp *envp, char *cmd);
 char	*get_readline(t_envp *envp, t_data *data);
 int		exist_content(char *str);
+int		quote_error(t_token *tokens);
 
 //--------------------------------------- Lexical Analysis
 
