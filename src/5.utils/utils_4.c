@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 08:57:36 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:08:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int	exist_content(char *str)
 	int	equal;
 
 	equal = 0;
-
 	while (*str)
 	{
 		if (*str == '=')

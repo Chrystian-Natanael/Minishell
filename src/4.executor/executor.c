@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 07:31:50 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:27:10 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 
 #include "minishell.h"
 
+void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data)
+{
+	*cmd = ft_split(bin->cmd, ' ');
+	typetree_insert(*cmd);
+	typetree_insert_matrix((void **)(*cmd));
+	*exit_status = check_exec_builtin(*cmd, &(*data)->my_envp, *data);
+}
+
 int	exec_cmd(t_bin *bin, t_data **data)
 {
 	int		pid;
@@ -26,10 +34,7 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	char	**cmd;
 	char	*path;
 
-	cmd = ft_split(bin->cmd, ' ');
-	typetree_insert(cmd);
-	typetree_insert_matrix((void **)cmd);
-	exit_status = check_exec_builtin(cmd, &(*data)->my_envp, *data);
+	exec_init(&cmd, &exit_status, bin, data);
 	if (exit_status != -1)
 		return (exit_status);
 	pid = fork();

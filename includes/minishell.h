@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 08:54:38 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:25:35 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,8 +116,6 @@ t_token	*lexer(char *line);
 //--------------------------------------- Utils
 
 void	lst_addnew(t_token **list, enum e_token type, char *lexema);
-void	print_tokens(t_token *token); // ! Apagar
-void	print_tree(t_bin *bin, int level); // ! Apagar
 int		is_metacharacter(char a, char b);
 int		get_token_type(char *line, int i);
 int		args_count(char **argv);
@@ -147,8 +145,11 @@ int		execute(t_token *tokens, t_data *data);
 int		precedence(enum e_token type);
 t_bin	*new_node(char *cmd, enum e_token type);
 t_bin	*create_tree(t_token *tokens);
+void	create_left_right(t_token *max_prec, t_token **list, \
+t_token **tokens, t_bin **bin);
 t_token	*return_token_list(t_token *tokens, t_token *max_prec);
 char	*get_path_cmd(t_envp **envp, char *cmd);
+void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data);
 int		exec_cmd(t_bin *bin, t_data **data);
 int		exec_tree(t_bin *bin, t_data **data);
 char	**t_envp_to_char(t_envp **envp);

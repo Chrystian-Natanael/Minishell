@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/11 09:04:22 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:08:02 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,6 @@ void	export_print_envp(t_envp **envp)
 		curr = curr->next;
 	}
 }
-
 
 int	ft_export(char **argv, t_envp **envp)
 {
