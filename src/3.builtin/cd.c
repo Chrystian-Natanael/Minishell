@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:35:36 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/10 15:46:53 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/10 21:40:56 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,28 @@
 
 #include "minishell.h"
 
-void	update_oldpwd(t_envp **envp)
+static void	update_pwd(t_envp **envp)
+{
+	char	cwd[PATH_MAX];
+	t_envp	*curr;
+
+	curr = *envp;
+	if (getcwd(cwd, PATH_MAX))
+	{
+		while (curr)
+		{
+			if (ft_strcmp("PWD", curr->key) == 0)
+			{
+				curr->value = ft_strdup(cwd);
+				typetree_insert(curr->value);
+				return ;
+			}
+			curr = curr->next;
+		}
+	}
+}
+
+static void	update_oldpwd(t_envp **envp)
 {
 	char	cwd[PATH_MAX];
 	t_envp	*curr;
@@ -46,7 +67,7 @@ void	update_oldpwd(t_envp **envp)
 	}
 }
 
-char	*find_path(char *dest, t_envp **envp)
+static char	*find_path(char *dest, t_envp **envp)
 {
 	t_envp	*curr;
 	char	*path;
@@ -65,7 +86,7 @@ char	*find_path(char *dest, t_envp **envp)
 	return (NULL);
 }
 
-int	go_to_path(int dest, char *arg, t_envp **envp)
+static int	go_to_path(int dest, char *arg, t_envp **envp)
 {
 	int	exit_status;
 
@@ -89,6 +110,7 @@ int	go_to_path(int dest, char *arg, t_envp **envp)
 	}
 	update_oldpwd(envp);
 	exit_status = chdir(arg);
+	update_pwd(envp);
 	return (exit_status);
 }
 
