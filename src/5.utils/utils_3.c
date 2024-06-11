@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:06:11 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/10 15:27:19 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 08:15:51 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ char	*ft_strndup(const char *s, int n)
 	char	*dup;
 	int		idx;
 
-	dup = ft_calloc(n, sizeof(char));
+	dup = ft_calloc(n + 1, sizeof(char));
 	if (!dup)
 		return (NULL);
 	idx = 0;

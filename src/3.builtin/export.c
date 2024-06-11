@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/10 15:50:13 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 09:04:22 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,18 @@ int	check_and_replace_env(char *str, t_envp **envp)
 	size = ft_strchr(str, '=') - str;
 	key_to_find = ft_strndup(str, size);
 	new_value = ft_strdup(&str[size + 1]);
+	typetree_insert(new_value);
+	typetree_insert(key_to_find);
 	curr = *envp;
 	while (curr)
 	{
 		if (ft_strcmp(key_to_find, curr->key) == 0)
 		{
-			free(key_to_find);
-			free(curr->value);
 			curr->value = new_value;
 			return (1);
 		}
 		curr = curr->next;
 	}
-	free(key_to_find);
-	free(new_value);
 	return (0);
 }
 
@@ -72,7 +70,8 @@ int	validate_var(char *str)
 	while (str[i] && str[i] != '=')
 	{
 		if (str[i] != '_' && !ft_isalnum(str[i]) && !ft_isalpha(str[i]))
-			return (0);
+			return (ft_error("minishell: export: `", str, \
+			"': not a valid identifier", 0));
 		i++;
 	}
 	return (1);
@@ -94,6 +93,7 @@ void	export_print_envp(t_envp **envp)
 	}
 }
 
+
 int	ft_export(char **argv, t_envp **envp)
 {
 	int	i;
@@ -110,6 +110,8 @@ int	ft_export(char **argv, t_envp **envp)
 		{
 			if (!validate_var(argv[i]) && !ft_strchr(argv[i], '='))
 				return (1);
+			if (!exist_content(argv[i]))
+				return (0);
 			if (!check_and_replace_env(argv[i], envp))
 				export_env(envp, argv[i]);
 			i++;

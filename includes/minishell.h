@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 07:31:10 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 08:54:38 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	envp_insert(char *key, char *value, t_envp **envp);
 t_envp	*create_envp(char **envp);
 char	*create_path(t_envp *envp, char *cmd);
 char	*get_readline(t_envp *envp, t_data *data);
+int		exist_content(char *str);
 
 //--------------------------------------- Lexical Analysis
 

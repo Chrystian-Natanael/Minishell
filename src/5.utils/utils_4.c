@@ -1,20 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   menu_utils.c                                       :+:      :+:    :+:   */
+/*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 15:13:54 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 08:57:36 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * @brief This function frees the tokens
- * @param tokens the tokens to be freed
+ * @brief This file cotains functions utils
  * @author @Chrystian-Natanael
  * @date 2024/06/10
 */
@@ -48,4 +47,21 @@ void	loadingbar(void)
 		while (j <= __INT_MAX__ / 80)
 			j++;
 	}
+}
+
+int	exist_content(char *str)
+{
+	int	equal;
+
+	equal = 0;
+
+	while (*str)
+	{
+		if (*str == '=')
+			equal = 1;
+		str++;
+	}
+	if (!equal)
+		return (0);
+	return (1);
 }

@@ -78,8 +78,8 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		5.utils/utils_1.c \
 		5.utils/utils_2.c \
 		5.utils/utils_3.c \
+		5.utils/utils_4.c \
 		5.utils/path_envp_utils.c \
-		5.utils/menu_utils.c \
 		)
 TEST = $(addprefix $(TEST_DIR),\
 		test_lexer.c \

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 07:20:51 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/11 08:00:14 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static void	init_data(t_data *data, int argc, char **argv, char **envp)
 	data->expr = NULL;
 	data->my_envp = create_envp(envp);
 	data->count_files = 0;
-	loadingbar();
+	// loadingbar();
 }
 
 static void	reading_line(t_data *data)
