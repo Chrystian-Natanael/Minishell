@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 09:27:10 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:24:48 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	if (exit_status != -1)
 		return (exit_status);
 	pid = fork();
+	define_signals_exec(pid);
 	if (pid == -1 || cmd[0] == NULL)
 		return (-1);
 	exit_status = 0;

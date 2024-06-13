@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 15:53:50 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/13 19:28:16 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,11 @@ static int	heredoc_file_creation(int count, int *fd, char **fl_name)
 static int	heredoc_loop(char **buff, char *eof, const int std_in, int fd)
 {
 	*buff = readline("> ");
+	if (g_sign == SIGINT)
+	{
+		dup2(std_in, STDIN_FILENO);
+		return (0);
+	}
 	(void)std_in;
 	if (!*buff || !ft_strncmp(*buff, eof, ft_strlen(eof) + 1))
 		return (0);
@@ -65,6 +70,8 @@ int	exec_heredoc(t_token **token, int *count_files)
 		;
 	close(fd);
 	close (std_in);
+	if (g_sign == SIGINT)
+		return (-1);
 	if (*token && (*token)->type == HEREDOC)
 		(*token)->type = REDIR_INPUT;
 	if (token && (*token)->next->type == WORD)
@@ -84,7 +91,11 @@ void	heredoc_validation(t_token **tokens, int *count_files)
 	while (tmp)
 	{
 		if (tmp->type == HEREDOC)
-			exec_heredoc(&tmp, count_files);
+		{
+			heredoc_signals();
+			if (exec_heredoc(&tmp, count_files) == -1)
+				break ;
+		}
 		tmp = tmp->next;
 	}
 }

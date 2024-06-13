@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 15:34:52 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/13 19:35:03 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 */
 
 #include "minishell.h"
+
+int	g_sign;
 
 static void	init_data(t_data *data, int argc, char **argv, char **envp);
 static void	reading_line(t_data *data);
@@ -38,8 +40,11 @@ static void	reading_line(t_data *data)
 	data->read_line = NULL;
 	data->read_line = get_readline(data->my_envp, data);
 	data->line = readline(data->read_line);
-	add_history(data->line);
-	typetree_insert(data->line);
+	if (data->line != NULL)
+	{
+		add_history(data->line);
+		typetree_insert(data->line);
+	}
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -49,10 +54,16 @@ int	main(int argc, char **argv, char **envp)
 	init_data(&data, argc, argv, envp);
 	while (1)
 	{
+		init_signals();
 		reading_line(&data);
+		if (data.line == NULL)
+			break ;
 		data.token = lexer(data.line);
+		g_sign = 0;
 		heredoc_validation(&data.token, &data.count_files);
-		if (data.line[0] == '\0' || data.token == NULL
+		if (g_sign == SIGINT)
+			continue ;
+		if (data.token == NULL || data.line[0] == '\0'
 			|| syntax_error(data.token) || quote_error(data.token))
 		{
 			change_status(&data.my_envp, 2);

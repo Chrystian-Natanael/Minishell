@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 15:07:49 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/13 18:57:21 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,10 @@
 
 /**/
 # include <sys/wait.h>
+
+# include <signal.h>
+
+extern int	g_sign;
 
 /**
  * @brief Enum e_token
@@ -203,5 +207,9 @@ void	ending(int status, t_data *data);
 void	clearscreen(void);
 void	settextcolor(int color);
 void	loadingbar(void);
+
+void	init_signals(void);
+void	define_signals_exec(int pid);
+void	heredoc_signals(void);
 
 #endif

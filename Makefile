@@ -54,6 +54,7 @@ TEST_B_DIR := tests/builtin/
 SRCS =	$(addprefix $(SRCS_PATH),\
 		1.init/main.c \
 		1.init/envp.c \
+		1.init/signals.c \
 		2.parsing/syntax.c \
 		2.parsing/cmd.c \
 		2.parsing/lexer.c \
@@ -147,7 +148,7 @@ SHELL := /bin/bash
 CFLAGS = -Wall -Wextra -Werror -g3
 DFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
 LDLIBS = -ldl -lglfw -pthread -lreadline
-LDFLAGS = $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a 
+LDFLAGS = $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
 CPPFLAGS = $(addprefix -I, $(INCS_PATH)) -MMD -MP
 COMP_OBJ = $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 COMP_EXE = $(CC) $(OBJS) $(LDFLAGS) $(LDLIBS) -o $(NAME)
