@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 07:25:31 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:51:02 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	exec_redir_input(t_bin *bin, t_data **data)
 	std_in = dup(STDIN_FILENO);
 	fd = open(bin->right->cmd, O_RDONLY);
 	if (fd == -1)
-		return (ft_error("minishell: %s: \n", bin->right->cmd, \
-		"No such file or directory", 1));
+		return (ft_error("minishell: \n", bin->right->cmd, \
+		": No such file or directory", 1));
 	dup2(fd, STDIN_FILENO);
 	close(fd);
 	if (bin->left)

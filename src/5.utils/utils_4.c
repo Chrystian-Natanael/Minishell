@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 15:14:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:15:29 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,13 @@ int	exist_content(char *str)
 	if (!equal)
 		return (0);
 	return (1);
+}
+
+int	is_directory(char *path)
+{
+	struct stat	statbuf;
+
+	if (stat(path, &statbuf) == -1)
+		return (0);
+	return ((((statbuf.st_mode) & 0170000) == (0040000)));
 }

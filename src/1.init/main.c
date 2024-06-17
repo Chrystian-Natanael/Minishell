@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/13 19:35:03 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:57:27 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ static void	init_data(t_data *data, int argc, char **argv, char **envp)
 static void	reading_line(t_data *data)
 {
 	data->line = NULL;
+	data->status = 0;
 	data->read_line = NULL;
 	data->read_line = get_readline(data->my_envp, data);
 	data->line = readline(data->read_line);
@@ -57,18 +58,18 @@ int	main(int argc, char **argv, char **envp)
 		init_signals();
 		reading_line(&data);
 		if (data.line == NULL)
-			break ;
+			ending(data.status, &data);
 		data.token = lexer(data.line);
 		g_sign = 0;
 		heredoc_validation(&data.token, &data.count_files);
 		if (g_sign == SIGINT)
 			continue ;
-		if (data.token == NULL || data.line[0] == '\0'
-			|| syntax_error(data.token) || quote_error(data.token))
-		{
-			change_status(&data.my_envp, 2);
-			continue ;
-		}
+		// if (data.token == NULL || data.line[0] == '\0'
+			// || syntax_error(data.token) || quote_error(data.token))
+		// {
+			// change_status(&data.my_envp, 2);
+			// continue ;
+		// }
 		expander_validation(&data.token, &data.my_envp);
 		data.expr = cmd_parsing(data.token, &data.my_envp);
 		if (syntax_expr(data.expr))

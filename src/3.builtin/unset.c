@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/02 20:49:36 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:35:30 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_unset(char **argv, t_envp **envp)
 		prev = curr;
 		curr = curr->next;
 	}
-	if (ft_strcmp(argv[1], curr->key) == 0)
+	if (curr && ft_strcmp(argv[1], curr->key) == 0)
 	{
 		if (curr == *envp)
 			*envp = (*envp)->next;
@@ -40,7 +40,7 @@ int	ft_unset(char **argv, t_envp **envp)
 			prev->next = curr->next;
 		free(curr->key);
 		free(curr->value);
-		deallocate(curr);
+		// deallocate(curr);
 	}
 	return (0);
 }

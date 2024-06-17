@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:30:37 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 07:26:15 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/17 10:30:44 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,12 @@ int	exec_redir_output(t_bin *bin, t_data **data)
 		"No such file or directory", 1));
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
-	status = exec_tree(bin->left, data);
+	if (bin->left)
+		status = exec_tree(bin->left, data);
+	if (bin->right->left)
+		status = exec_tree(bin->right->left, data);
+	if (bin->right->right)
+		status = exec_tree(bin->right->right, data);
 	dup2(std_out, STDOUT_FILENO);
 	close(std_out);
 	return (status);

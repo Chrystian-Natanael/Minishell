@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/13 18:24:48 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/17 12:28:23 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,14 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	if (pid == 0)
 	{
 		execve(path, cmd, t_envp_to_char(&(*data)->my_envp));
-		if (access(path, F_OK) != 0)
+		if (access(path, F_OK | X_OK) != 0)
 			exit_status = ft_error("minishell: ", cmd[0], \
 			": command not found", 127);
-		else if (access(path, X_OK | F_OK) != 0)
-			exit_status = 126;
+		else if (access(path, X_OK) != 0 || is_directory(path))
+			exit_status = ft_error("minishell: ", cmd[0], \
+			": No such file or directory", 126);
+		else
+			exit_status = 1;
 		ending (exit_status, *data);
 	}
 	waitpid(pid, &exit_status, 0);

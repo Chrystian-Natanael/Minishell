@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/13 18:57:21 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/17 14:25:51 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # define TRUN 0x00000242
 
 # include <termios.h>
+# include <sys/stat.h>
 
 /*For use libft functions*/
 # include "libft.h"
@@ -100,6 +101,16 @@ typedef struct s_data
 	t_token	*token;
 	t_token	*expr;
 }	t_data;
+
+typedef struct s_aux_token
+{
+	int		i;
+	int		state;
+	int		token_type;
+	int		str_length;
+	int		lexeme_length;
+	char	*lexeme;
+}	t_aux_token;
 
 //----------- DISTRIBUTE OR REORGANIZE ###
 
@@ -211,5 +222,29 @@ void	loadingbar(void);
 void	init_signals(void);
 void	define_signals_exec(int pid);
 void	heredoc_signals(void);
+
+
+int		is_directory(char *path);
+
+
+// ! ???????
+
+int		get_next_state(int state, char character);
+int		is_metacharacter_char(char character);
+int		state_is_final(int state);
+void	aux_state_final(t_aux_token *aux, char *str, \
+		t_token **token_list);
+int		state_require_backtrack(int state);
+int		token_get_token_type(int state);
+t_token	*token_create_node(char *lexema, int token_type);
+void	token_add_to_list(t_token **tok_lst, char *lex, int token_type);
+int		token_get_state_1(char character);
+int		token_get_state_40(char character);
+int		token_get_state_50(char character);
+int		token_get_state_60(char character);
+int		token_get_state_70(char character);
+int		token_get_state_80(char character);
+int		token_get_state_81(char character);
+int		token_get_state_82(char character);
 
 #endif
