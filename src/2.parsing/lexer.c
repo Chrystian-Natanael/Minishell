@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/18 15:47:31 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/18 16:14:12 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,24 @@ int	quote_is_closed(char *line, int *i)
 	return (1);
 }
 
+int	close_quote(char *line, int **i)
+{
+	int		size;
+	char	type_quote;
+
+	type_quote = line[(**i)++];
+	size = 0;
+	while (line[**i] && line[**i] != type_quote)
+	{
+		(**i)++;
+		size++;
+	}
+	if (!line[**i] || line[**i] != type_quote)
+		return (0);
+	size -= 1;
+	return (size);
+}
+
 char	*get_word(char *line, int *i)
 {
 	int		tmp;
@@ -58,6 +76,8 @@ char	*get_word(char *line, int *i)
 	while (line[*i] && !is_metacharacter(line[*i], line[(*i) + 1])
 		&& !ft_isspace(line[*i]))
 	{
+		if (line[*i] == '\'' || line[*i] == '"')
+			idx += close_quote(line, &i);
 		idx++;
 		(*i)++;
 	}
