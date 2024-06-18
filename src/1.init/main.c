@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/13 19:35:03 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:51:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	main(int argc, char **argv, char **envp)
 		init_signals();
 		reading_line(&data);
 		if (data.line == NULL)
-			break ;
+			ending(data.status, &data) ;
 		data.token = lexer(data.line);
 		g_sign = 0;
 		heredoc_validation(&data.token, &data.count_files);
