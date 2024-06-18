@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/11 15:48:45 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/18 15:47:31 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,12 +67,7 @@ char	*get_word(char *line, int *i)
 	word = allocate(sizeof(char) * (idx + 1));
 	idx = 0;
 	while (tmp < *i)
-	{
-		// if (quote)
-			// if (line[(tmp)] == '"')
-			// 	tmp++;
 		word[idx++] = line[tmp++];
-	}
 	word[idx] = '\0';
 	return (word);
 }
