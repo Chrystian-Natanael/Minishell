@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 15:50:47 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/19 20:25:01 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,68 @@
  * @date 2024/06/07
 */
 
-int	exec_redir_input(t_bin *bin, t_data **data)
+int	is_redirect_input(int type)
 {
-	int		fd;
-	int		status;
-	int		std_in;
+	return (type == REDIR_INPUT || type == HEREDOC);
+}
 
-	std_in = dup(STDIN_FILENO);
-	fd = open(bin->right->cmd, O_RDONLY);
-	if (fd == -1)
+void	open_redirect(t_bin *bin)
+{
+	if (bin->type == REDIR_INPUT)
+		bin->fd = open(bin->right->cmd, O_RDONLY);
+	else if (bin->type == REDIR_OUTPUT)
+		bin->fd = open(bin->right->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	else if (bin->type == OUTPUT_APPEND)
+		bin->fd = open(bin->right->cmd, O_WRONLY | O_CREAT | O_APPEND, 0777);
+}
+
+int open_files(t_bin *bin)
+{
+	int	status;
+
+	status = 0;
+	if (is_redirect(bin->left->type) && bin->left->fd != -1)
+		status = open_files(bin->left);
+	if (bin->left->fd != -1)
+		open_redirect(bin);
+	if (bin->left->fd != -1 && bin->fd == -1)
 		return (ft_error("minishell: ", bin->right->cmd, \
 		": No such file or directory", 1));
-	dup2(fd, STDIN_FILENO);
-	close(fd);
+	else if (bin->left->fd == -1)
+		return (status);
+	if (is_redirect_input(bin->type))
+		dup2(bin->fd, STDIN_FILENO);
+	else
+		dup2(bin->fd, STDOUT_FILENO);
+	close(bin->fd);
+	return (status);
+}
+
+void	close_dup_fd(const int *fd)
+{
+		dup2(fd[0], STDIN_FILENO);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+}
+
+int	exec_redirect(t_bin *bin, t_data **data)
+{
+	int		status;
+	const int keep_fd[2] = {dup(STDIN_FILENO), dup(STDOUT_FILENO)};
+
+	status = 0;
+	if (!bin->fd)
+		status = open_files(bin);
+	if (status == 1 || bin->fd == -1)
+	{
+		close_dup_fd(keep_fd);
+		return (status);
+	}
 	if (bin->left)
 		status = exec_tree(bin->left, data);
-	else if (bin->right->left)
-		status = exec_tree(bin->right->left, data);
-	else if (bin->right->right)
-		status = exec_tree(bin->right->right, data);
 	else
 		status = -1;
-	dup2(std_in, STDIN_FILENO);
-	close(std_in);
+	close_dup_fd(keep_fd);
 	return (status);
 }

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/19 15:44:21 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:14:02 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,10 +70,8 @@ int	exec_tree(t_bin *bin, t_data **data)
 		return (exec_or(bin, data));
 	else if (bin->type == PIPE)
 		return (exec_pipe(bin, data));
-	else if (bin->type == REDIR_INPUT)
-		return (exec_redir_input(bin, data));
-	else if (bin->type == REDIR_OUTPUT || bin->type == OUTPUT_APPEND)
-		return (exec_redir_out(bin, data));
+	else if (is_redirect(bin->type))
+		return (exec_redirect(bin, data));
 	else if (bin->type == SUB_SHELL)
 		return (exec_sub_shell(bin, data));
 	else

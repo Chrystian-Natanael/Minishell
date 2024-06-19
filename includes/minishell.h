@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/19 15:08:54 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/19 19:13:28 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ typedef struct s_envp
 typedef struct s_bin
 {
 	char			*cmd;
+	int				fd;
 	enum e_token	type;
 	struct s_bin	*left;
 	struct s_bin	*right;
@@ -201,7 +202,7 @@ int		exec_redir_out(t_bin *bin, t_data **data);
 int		exec_redir_output(t_bin *bin, t_data **data);
 int		exec_redir_append(t_bin *bin, t_data **data);
 
-int		exec_redir_input(t_bin *bin, t_data **data);
+int		exec_redirect(t_bin *bin, t_data **data);
 
 //----------- HEREDOC ###
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   binary_tree.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:26:16 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 21:45:54 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:45:51 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_bin	*new_node(char *cmd, enum e_token type)
 	node->type = type;
 	node->left = NULL;
 	node->right = NULL;
+	node->fd = 0;
 	return (node);
 }
 

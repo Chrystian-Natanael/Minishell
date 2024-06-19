@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 23:35:02 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:32:23 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,29 @@
 
 #include "minishell.h"
 
-t_token	*lstpickel(t_token *lst, int index)
+t_token	*lstpickel(t_token **lst, int index)
 {
 	t_token	*el;
 	t_token	*prev;
 
-	if (!lst)
+	if (!lst || !(*lst))
 		return (NULL);
 	else
 	{
-		el = lst;
+		el = *lst;
 		while (index--)
 		{
 			prev = el;
 			el = el->next;
 		}
-		if (el == lst)
-			lst = el->next;
+		if (el == *lst)
+			*lst = el->next;
 		else
 			prev->next = el->next;
 	}
 	return (el);
 }
-t_token	*lstpop(t_token *lst, int index)
+t_token	*lstpop(t_token **lst, int index)
 {
 	t_token	*el;
 
@@ -97,8 +97,8 @@ void	organize_redirects(t_token **token)
 			while (count_redir--)
 			{
 				redir[odx] = allocate(sizeof(t_aux_redirect));
-				redir[odx]->redir = lstpop(*token, idx);
-				redir[odx]->file_name = lstpop(*token, idx);
+				redir[odx]->redir = lstpop(token, idx);
+				redir[odx]->file_name = lstpop(token, idx);
 				tmp = *token;
 				idx = 0;
 				while ((tmp && !is_redirect(tmp->type) && count_redir) || idx < point)
