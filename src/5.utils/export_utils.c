@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 10:45:10 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/19 10:46:06 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:51:50 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 
 #include "minishell.h"
 
-static char	**create_envp_array(t_envp **envp)
+char	**create_envp_array(t_envp **envp)
 {
 	char	**envp_array;
 	int		size;

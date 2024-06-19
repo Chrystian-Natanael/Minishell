@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:41:15 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 21:46:14 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:25:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ int	syntax_error(t_token *token)
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
 		if (tmp->type == HEREDOC && tmp->next->type != WORD)
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-		if (tmp->type == PIPE && (tmp->next->type != WORD && tmp->next->type != L_PAREN))
-			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
+		// if (tmp->type == PIPE && (tmp->next->type != WORD && tmp->next->type != L_PAREN))
+			// return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
 		if (tmp->type == OR && (tmp->next->type != WORD && tmp->next->type != L_PAREN))
 			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
 		if (tmp->type == AND && (tmp->next->type != WORD && tmp->next->type != L_PAREN && tmp->next->type != REDIR_INPUT))

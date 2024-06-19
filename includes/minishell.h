@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/19 10:46:27 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:08:54 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ char	*get_path_cmd(t_envp **envp, char *cmd);
 void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data);
 int		exec_cmd(t_bin *bin, t_data **data);
 int		exec_tree(t_bin *bin, t_data **data);
-char	**t_envp_to_char(t_envp **envp);
+char	**create_envp_array(t_envp **envp);
 int		exec_and(t_bin *bin, t_data **data);
 int		exec_or(t_bin *bin, t_data **data);
 int		exec_pipe(t_bin *bin, t_data **data);
@@ -223,5 +223,8 @@ void	heredoc_signals(void);
 void	organize_redirects(t_token **token);
 int		is_redirect(int	type);
 int		count_redirects(t_token *token);
+
+
+int		verify_line(char **line);
 
 #endif

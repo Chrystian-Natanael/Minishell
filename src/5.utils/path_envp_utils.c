@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:07:00 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 15:11:38 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/19 14:53:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,31 +59,6 @@ char	*create_path(t_envp *envp, char *cmd)
 		split++;
 	}
 	return (path);
-}
-
-char	**t_envp_to_char(t_envp **envp)
-{
-	t_envp	*curr;
-	char	**envp_char;
-	int		i;
-
-	i = size_envp(envp);
-	envp_char = allocate(sizeof(char *) * (i + 1));
-	if (!envp_char)
-		return (NULL);
-	i = 0;
-	curr = *envp;
-	while (curr)
-	{
-		envp_char[i] = ft_strjoin(curr->key, "=");
-		typetree_insert(envp_char[i]);
-		envp_char[i] = ft_strjoin(envp_char[i], curr->value);
-		typetree_insert(envp_char[i]);
-		i++;
-		curr = curr->next;
-	}
-	envp_char[i] = NULL;
-	return (envp_char);
 }
 
 int	size_envp(t_envp **envp)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/13 18:24:48 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:44:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	int		exit_status;
 	char	**cmd;
 	char	*path;
+	char	**envp;
 
 	exec_init(&cmd, &exit_status, bin, data);
 	if (exit_status != -1)
@@ -45,12 +46,14 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	path = get_path_cmd(&(*data)->my_envp, cmd[0]);
 	if (pid == 0)
 	{
-		execve(path, cmd, t_envp_to_char(&(*data)->my_envp));
-		if (access(path, F_OK) != 0)
+		envp = create_envp_array(&(*data)->my_envp);
+		execve(path, cmd, envp);
+		if (access(cmd[0], F_OK) != 0 || ft_strchr(cmd[0], '/') == NULL)
 			exit_status = ft_error("minishell: ", cmd[0], \
 			": command not found", 127);
-		else if (access(path, X_OK | F_OK) != 0)
+		else
 			exit_status = 126;
+		free_split(envp);
 		ending (exit_status, *data);
 	}
 	waitpid(pid, &exit_status, 0);

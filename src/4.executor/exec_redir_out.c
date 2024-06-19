@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:30:37 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 15:50:36 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/19 15:30:09 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,11 @@ int	exec_redir_output(t_bin *bin, t_data **data)
 	std_out = dup(STDOUT_FILENO);
 	fd = open(bin->right->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == -1)
+	{
+		close (std_out);
 		return (ft_error("minishell: ", bin->right->cmd, \
 		": No such file or directory", 1));
+	}
 	dup2(fd, STDOUT_FILENO);
 	close(fd);
 	status = exec_tree(bin->left, data);
