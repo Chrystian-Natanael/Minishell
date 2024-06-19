@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:36:33 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/18 22:18:36 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:40:50 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_env(char **argv, t_envp **envp)
 	}
 	while (curr)
 	{
-		if (ft_strncmp(curr->key, "?", 2) == 0 || curr->key == NULL)
+		if (ft_strncmp(curr->key, "?", 2) == 0 || curr->key == NULL || curr->value == NULL)
 		{
 			curr = curr->next;
 			continue ;
