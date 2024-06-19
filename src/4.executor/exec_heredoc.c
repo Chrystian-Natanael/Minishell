@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/13 19:28:16 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:45:54 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ int	exec_heredoc(t_token **token, int *count_files)
 	char		*eof;
 	const int	std_in = dup(STDIN_FILENO);
 
-	eof = (*token)->next->lexema;
+	eof = (*token)->next->lexeme;
 	if (!heredoc_file_creation(1, &fd, &fl_name))
 		return (0);
 	while (heredoc_loop(&buff, eof, std_in, fd))
@@ -76,7 +76,7 @@ int	exec_heredoc(t_token **token, int *count_files)
 		(*token)->type = REDIR_INPUT;
 	if (token && (*token)->next->type == WORD)
 	{
-		(*token)->next->lexema = fl_name;
+		(*token)->next->lexeme = fl_name;
 		(*token)->next->type = FILE_NAME;
 	}
 	*count_files += 1;

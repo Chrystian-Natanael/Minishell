@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 20:55:12 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/18 23:35:02 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,7 +152,7 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 			i++;
 			while (tmp && (tmp->type != R_PAREN || i != 0))
 			{
-				lst_contatenate(&cmds, return_lexema(tmp));
+				lst_contatenate(&cmds, return_lexeme(tmp));
 				tmp = tmp->next;
 				if (tmp && tmp->type == R_PAREN)
 					i--;
@@ -160,7 +160,7 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 					i++;
 			}
 			if (tmp && tmp->type == R_PAREN)
-				lst_contatenate(&cmds, return_lexema(tmp));
+				lst_contatenate(&cmds, return_lexeme(tmp));
 			if (!tmp && i != 0)
 				return (NULL);
 			tmp = tmp->next;
@@ -170,7 +170,7 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 				|| tmp->type == OUTPUT_APPEND || tmp->type == HEREDOC))
 		{
 			cmd_parsing_aux(&head, &cmds, &tmp);
-			lst_contatenate_redir(&cmds, tmp->lexema);
+			lst_contatenate_redir(&cmds, tmp->lexeme);
 			tmp = tmp->next;
 		}
 		else
@@ -181,8 +181,8 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 				&& tmp->type != REDIR_OUTPUT && tmp->type != OUTPUT_APPEND
 				&& tmp->type != HEREDOC)
 			{
-				if ((tmp->lexema && *tmp->lexema != '\0') || tmp->type != WORD)
-					lst_contatenate(&cmds, return_lexema(tmp));
+				if ((tmp->lexeme && *tmp->lexeme != '\0') || tmp->type != WORD)
+					lst_contatenate(&cmds, return_lexeme(tmp));
 				tmp = tmp->next;
 				if (!tmp)
 					break ;
@@ -198,11 +198,11 @@ char	*expan_get(t_token *token, t_envp *envp)
 	t_envp	*current;
 
 	current = envp;
-	if (!token->lexema)
-		token->lexema = return_lexema(token);
+	if (!token->lexeme)
+		token->lexeme = return_lexeme(token);
 	while (current)
 	{
-		if (ft_strncmp(current->key, token->lexema, ft_strlen(token->lexema)) == 0)
+		if (ft_strncmp(current->key, token->lexeme, ft_strlen(token->lexeme)) == 0)
 			return (current->value);
 		current = current->next;
 	}
@@ -224,44 +224,44 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 	{
 		aux = (*tmp)->next;
 		(*tmp)->next = NULL;
-		(*tmp)->lexema = return_lexema(*tmp);
+		(*tmp)->lexeme = return_lexeme(*tmp);
 		lstadd_back(head, *tmp);
 		*tmp = aux;
 	}
 }
 
-void	lst_contatenate(t_token **list, char *lexema)
+void	lst_contatenate(t_token **list, char *lexeme)
 {
 	t_token	*new;
 
 	new = (t_token *)allocate(sizeof(t_token));
 	new->type = CMD;
-	new->lexema = lexema;
+	new->lexeme = lexeme;
 	new->next = NULL;
 	if (*list == NULL)
 		*list = new;
 	else
 	{
-		(*list)->lexema = ft_strjoin((*list)->lexema, " ");
-		typetree_insert((*list)->lexema);
-		(*list)->lexema = ft_strjoin((*list)->lexema, lexema);
-		typetree_insert((*list)->lexema);
+		(*list)->lexeme = ft_strjoin((*list)->lexeme, " ");
+		typetree_insert((*list)->lexeme);
+		(*list)->lexeme = ft_strjoin((*list)->lexeme, lexeme);
+		typetree_insert((*list)->lexeme);
 	}
 }
 
-void	lst_contatenate_redir(t_token **list, char *lexema)
+void	lst_contatenate_redir(t_token **list, char *lexeme)
 {
 	t_token	*new;
 
 	new = (t_token *)allocate(sizeof(t_token));
 	new->type = FILE_NAME;
-	new->lexema = lexema;
+	new->lexeme = lexeme;
 	new->next = NULL;
 	if (*list == NULL)
 		*list = new;
 	else
 	{
-		(*list)->lexema = ft_strjoin((*list)->lexema, lexema);
-		typetree_insert((*list)->lexema);
+		(*list)->lexeme = ft_strjoin((*list)->lexeme, lexeme);
+		typetree_insert((*list)->lexeme);
 	}
 }

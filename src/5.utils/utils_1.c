@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/10 15:14:46 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:46:14 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*get_readline(t_envp *envp, t_data *data)
 	return (final_string);
 }
 
-void	lst_addnew(t_token **list, enum e_token type, char *lexema)
+void	lst_addnew(t_token **list, enum e_token type, char *lexeme)
 {
 	t_token	*new;
 	t_token	*tmp;
@@ -55,7 +55,7 @@ void	lst_addnew(t_token **list, enum e_token type, char *lexema)
 	tmp = *list;
 	new = allocate(sizeof(t_token));
 	new->type = type;
-	new->lexema = lexema;
+	new->lexeme = lexeme;
 	new->next = NULL;
 	if (*list == NULL)
 		*list = new;

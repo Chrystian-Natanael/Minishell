@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 15:14:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/18 22:52:37 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,17 @@ int	exist_content(char *str)
 	if (!equal)
 		return (0);
 	return (1);
+}
+
+int	ft_envp_size(t_envp *lst)
+{
+	int	size_list;
+
+	size_list = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		size_list++;
+	}
+	return (size_list);
 }

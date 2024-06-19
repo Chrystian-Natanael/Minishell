@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/11 09:08:02 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/18 23:27:13 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,19 +77,73 @@ int	validate_var(char *str)
 	return (1);
 }
 
-void	export_print_envp(t_envp **envp)
+char	**create_envp_array(t_envp **envp)
 {
+	char	**envp_array;
+	int		size;
+	int		i;
 	t_envp	*curr;
-
+	
+	size = ft_envp_size(*envp);
+	envp_array = malloc(sizeof(char*) * (size + 1));
 	curr = *envp;
+	i = 0;
 	while (curr)
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(curr->key, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd(curr->value, 1);
-		ft_putstr_fd("\n", 1);
+		size = ft_strlen(curr->key) + ft_strlen(curr->value) + 2;
+		envp_array[i] = ft_calloc(sizeof(char), size);
+		ft_strlcpy(envp_array[i], curr->key, size);
+		if (curr->value)
+		{
+			ft_strlcat(envp_array[i], "=", size);
+			ft_strlcat(envp_array[i], curr->value, size);
+		} 
 		curr = curr->next;
+		i++;
+	}
+	envp_array[i] = NULL;
+	return (envp_array);
+}
+
+char	**sort_envp(t_envp **envp)
+{
+	char	**envp_array;
+	char	*tmp;
+	int		i;
+	int		j;
+
+	i = 1;
+	tmp = NULL;
+	envp_array = create_envp_array(envp);
+	while (envp_array[i])
+	{
+		j = 0;
+		while (j < i)
+		{
+			if (ft_strcmp(envp_array[j], envp_array[i]) > 0)
+			{
+				tmp = envp_array[i];
+				envp_array[i] = envp_array[j];
+				envp_array[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	return (envp_array);
+}
+
+void	export_print_envp(t_envp **envp)
+{
+	char	**sorted_envp;
+	int		i;
+
+	i = 0;
+	sorted_envp = sort_envp(envp);
+	while (sorted_envp[i])
+	{
+		ft_printf("declare -x %s\n", sorted_envp[i]);
+		i++;
 	}
 }
 
