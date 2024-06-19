@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/18 23:27:13 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 11:34:14 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ void	export_env(t_envp **envp, char *str)
 	key_size = find_key_size(str);
 	curr->key = ft_substr(str, 0, key_size);
 	typetree_insert(curr->key);
+	if (!ft_strchr(str, '='))
+	{
+		curr->value = NULL;
+		curr->next = *envp;
+		*envp = curr;
+		return ;
+	}
 	curr->value = ft_substr(str, (key_size + 1), \
 	(ft_strlen(str) - key_size - 1));
 	typetree_insert(curr->value);
@@ -42,6 +49,8 @@ int	check_and_replace_env(char *str, t_envp **envp)
 	char	*new_value;
 	int		size;
 
+	if (!ft_strchr(str, '='))
+		return (0);
 	size = ft_strchr(str, '=') - str;
 	key_to_find = ft_strndup(str, size);
 	new_value = ft_strdup(&str[size + 1]);
@@ -77,62 +86,6 @@ int	validate_var(char *str)
 	return (1);
 }
 
-char	**create_envp_array(t_envp **envp)
-{
-	char	**envp_array;
-	int		size;
-	int		i;
-	t_envp	*curr;
-	
-	size = ft_envp_size(*envp);
-	envp_array = malloc(sizeof(char*) * (size + 1));
-	curr = *envp;
-	i = 0;
-	while (curr)
-	{
-		size = ft_strlen(curr->key) + ft_strlen(curr->value) + 2;
-		envp_array[i] = ft_calloc(sizeof(char), size);
-		ft_strlcpy(envp_array[i], curr->key, size);
-		if (curr->value)
-		{
-			ft_strlcat(envp_array[i], "=", size);
-			ft_strlcat(envp_array[i], curr->value, size);
-		} 
-		curr = curr->next;
-		i++;
-	}
-	envp_array[i] = NULL;
-	return (envp_array);
-}
-
-char	**sort_envp(t_envp **envp)
-{
-	char	**envp_array;
-	char	*tmp;
-	int		i;
-	int		j;
-
-	i = 1;
-	tmp = NULL;
-	envp_array = create_envp_array(envp);
-	while (envp_array[i])
-	{
-		j = 0;
-		while (j < i)
-		{
-			if (ft_strcmp(envp_array[j], envp_array[i]) > 0)
-			{
-				tmp = envp_array[i];
-				envp_array[i] = envp_array[j];
-				envp_array[j] = tmp;
-			}
-			j++;
-		}
-		i++;
-	}
-	return (envp_array);
-}
-
 void	export_print_envp(t_envp **envp)
 {
 	char	**sorted_envp;
@@ -161,10 +114,8 @@ int	ft_export(char **argv, t_envp **envp)
 	{
 		while (argv[i])
 		{
-			if (!validate_var(argv[i]) && !ft_strchr(argv[i], '='))
+			if (!validate_var(argv[i]))
 				return (1);
-			if (!exist_content(argv[i]))
-				return (0);
 			if (!check_and_replace_env(argv[i], envp))
 				export_env(envp, argv[i]);
 			i++;

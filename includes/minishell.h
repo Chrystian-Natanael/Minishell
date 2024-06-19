@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 23:34:08 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/19 10:46:27 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,7 @@ void	free_split(char **array);
 int		find_key_size(char *str);
 char	*ft_strndup(const char *s, int n);
 int		ft_envp_size(t_envp *lst);
+char	**sort_envp(t_envp **envp);
 
 //--------------------------------------- Expression Analysis
 
