@@ -8,3 +8,4 @@ test
 includes/minishell.h.gch
 .nfs0000000005dbc4fd000001ef
 test_b
+minishell_tester

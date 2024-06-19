@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/13 18:57:21 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/18 18:13:48 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,12 @@ typedef struct s_token
 	char			*lexema;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_aux_redirect
+{
+	t_token	*redir;
+	t_token	*file_name;
+}	t_aux_redirect;
 
 typedef struct s_envp
 {
@@ -211,5 +217,9 @@ void	loadingbar(void);
 void	init_signals(void);
 void	define_signals_exec(int pid);
 void	heredoc_signals(void);
+
+void	organize_redirects(t_token **token);
+int		is_redirect(int	type);
+int		count_redirects(t_token *token);
 
 #endif

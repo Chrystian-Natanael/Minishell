@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 16:28:34 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:32:39 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ void	expander_validation(t_token **tokens, t_envp **envp)
 				add_char(&line, tmp->lexema[idx]);
 			idx++;
 		}
-		// if (line || ((!line && (tmp->lexema[0] == '\'' || tmp->lexema[0] == '\"'))
-		// 	&& (!line && (tmp->lexema[1] == '\'' || tmp->lexema[1] == '\"'))))
 		tmp->lexema = line;
 		tmp = tmp->next;
 	}
