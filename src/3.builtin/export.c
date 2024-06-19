@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/19 14:55:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:35:25 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,8 @@ void	export_print_envp(t_envp **envp)
 	sorted_envp = sort_envp(envp);
 	while (sorted_envp[i])
 	{
-		ft_printf("declare -x %s\n", sorted_envp[i]);
+		if (ft_strncmp(sorted_envp[i], "?", 1))
+			ft_printf("declare -x %s\n", sorted_envp[i]);
 		i++;
 	}
 	free_split(sorted_envp);

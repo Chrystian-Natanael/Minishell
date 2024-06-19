@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/19 10:45:10 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/19 14:51:50 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/19 17:28:09 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ char	**create_envp_array(t_envp **envp)
 	int		size;
 	int		i;
 	t_envp	*curr;
-	
+
 	size = ft_envp_size(*envp);
-	envp_array = malloc(sizeof(char*) * (size + 1));
+	envp_array = malloc(sizeof(char *) * (size + 1));
 	curr = *envp;
 	i = 0;
 	while (curr)
@@ -39,7 +39,7 @@ char	**create_envp_array(t_envp **envp)
 		{
 			ft_strlcat(envp_array[i], "=", size);
 			ft_strlcat(envp_array[i], curr->value, size);
-		} 
+		}
 		curr = curr->next;
 		i++;
 	}
