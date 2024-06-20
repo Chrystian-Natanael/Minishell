@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:55:35 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:09:33 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,14 @@ int	valid_var_export(char *str)
 	return (1);
 }
 
+static void	update_envp(t_envp **envp, t_envp *curr, t_envp *prev)
+{
+	if (curr == *envp)
+		*envp = (*envp)->next;
+	else
+		prev->next = curr->next;
+}
+
 int	ft_unset(char **argv, t_envp **envp)
 {
 	t_envp	*prev;
@@ -58,14 +66,10 @@ int	ft_unset(char **argv, t_envp **envp)
 			curr = curr->next;
 		}
 		if (curr && ft_strcmp(argv[var_name], curr->key) == 0)
-		{
-			if (curr == *envp)
-				*envp = (*envp)->next;
-			else
-				prev->next = curr->next;
-		}
+			update_envp(envp, curr, prev);
 		if (!valid_var_export(argv[var_name]))
-			exit_status = ft_error("minishell: unset: '", argv[var_name], "': not a valid identifier", 1);
+			exit_status = ft_error("minishell: unset: '", argv[var_name],
+					"': not a valid identifier", 1);
 		var_name++;
 	}
 	return (exit_status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   aux_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 16:52:49 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:00:58 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,10 @@ int	ternary(int condition, int if_true, int if_false)
 	if (condition)
 		return (if_true);
 	return (if_false);
+}
+
+void	line_feed(int sig)
+{
+	g_sign = sig;
+	ft_putstr_fd("\n", 1);
 }
