@@ -78,6 +78,8 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		5.utils/lexer_utils.c \
 		5.utils/main_utils.c \
 		5.utils/path_envp_utils.c \
+		5.utils/signal_utils.c \
+		5.utils/executor_utils.c \
 		5.utils/struct_utils.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
