@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 17:00:36 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:39:08 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,25 +36,24 @@ void	expander_validation(t_data **data, char **cmd)
 
 	line = NULL;
 	flag = 0;
-	odx = 0;
-	while (cmd && cmd[odx])
+	odx = -1;
+	while (cmd && cmd[++odx])
 	{
-		idx = 0;
-		while (cmd[odx] && cmd[odx][idx])
+		idx = -1;
+		while (cmd[odx] && cmd[odx][++idx])
 		{
 			if (cmd[odx][idx] == '\'' && (flag == 0 || flag == 1))
 				flag = ternary(flag == 0, 1, 0);
 			else if (cmd[odx][idx] == '\"' && (flag == 0 || flag == 2))
 				flag = ternary(flag == 0, 2, 0);
-			else if (cmd[odx][idx] == '$' && flag != 1 && cmd[odx][idx + 1] && is_valid_var(cmd[odx][idx + 1]))
-				expander(&idx, &cmd[odx],(*data)->my_envp, &line);
+			else if (cmd[odx][idx] == '$' && flag != 1 && cmd[odx][idx + 1]
+				&& is_valid_var(cmd[odx][idx + 1]))
+				expander(&idx, &cmd[odx], (*data)->my_envp, &line);
 			else
 				add_char(&line, cmd[odx][idx]);
-			idx++;
 		}
 		cmd[odx] = line;
 		line = "";
-		odx++;
 	}
 }
 
