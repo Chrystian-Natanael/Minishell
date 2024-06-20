@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:55:35 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:03:51 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int	valid_var_export(char *str)
 	return (1);
 }
 
+
+
 int	ft_unset(char **argv, t_envp **envp)
 {
 	t_envp	*prev;
@@ -65,7 +67,8 @@ int	ft_unset(char **argv, t_envp **envp)
 				prev->next = curr->next;
 		}
 		if (!valid_var_export(argv[var_name]))
-			exit_status = ft_error("minishell: unset: '", argv[var_name], "': not a valid identifier", 1);
+			exit_status = ft_error("minishell: unset: '", argv[var_name],
+					"': not a valid identifier", 1);
 		var_name++;
 	}
 	return (exit_status);
