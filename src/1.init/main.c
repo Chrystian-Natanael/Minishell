@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:16:35 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:05:28 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,10 @@ int	main(int argc, char **argv, char **envp)
 		reading_line(&data);
 
 		if (data.line == NULL)
-			ending(data.status, &data) ;
+		{
+			data.line = ft_strdup("exit");
+			typetree_insert(data.line);
+		}
 		if (!verify_line(&data.line))
 		{
 			change_status(&data.my_envp, 0);

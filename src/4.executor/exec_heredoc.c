@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:22:48 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:16:25 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static int	heredoc_loop(char **buff, char *eof, const int std_in, int fd)
 		return (0);
 	}
 	(void)std_in;
-	if (!*buff || !ft_strncmp(*buff, eof, ft_strlen(eof) + 1))
+	if (!buff || !*buff || !ft_strncmp(*buff, eof, ft_strlen(eof) + 1))
 		return (0);
 	ft_putstr_fd(*buff, fd);
 	write(fd, "\n", 1);
@@ -90,7 +90,7 @@ void	heredoc_validation(t_token **tokens, int *count_files)
 	tmp = *tokens;
 	while (tmp)
 	{
-		if (tmp->type == HEREDOC)
+		if (tmp->type == HEREDOC && tmp->next && tmp->next->type == WORD)
 		{
 			heredoc_signals();
 			if (exec_heredoc(&tmp, count_files) == -1)
