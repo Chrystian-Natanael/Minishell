@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:04:31 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 17:25:59 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:05:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int	exec_pipe(t_bin *bin, t_data **data)
 	int		old_fd[2];
 	int		pid[2];
 
+	if (g_sign != 0)
+		return (130);
 	old_fd[0] = dup(STDIN_FILENO);
 	old_fd[1] = dup(STDOUT_FILENO);
 	if (pipe(pipe_fd) == -1)
@@ -65,5 +67,7 @@ int	exec_pipe(t_bin *bin, t_data **data)
 	close(old_fd[0]);
 	waitpid(pid[0], &status[0], 0);
 	waitpid(pid[1], &status[1], 0);
-	return ((status[1] >> 8) & 0xFF);
+	if (g_sign == 0)
+		return (get_return_value(status[1]));
+	return (130);
 }

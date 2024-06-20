@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 16:26:02 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:01:20 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -212,5 +212,10 @@ void	change_status(t_envp **envp, int status);
 void	value_concat(char **split);
 char	*create_path(t_envp *envp, char *cmd);
 int		quote_error(t_token *tokens);
+int		term_by_signal(int status);
+int		term_normaly(int status);
+int		exit_status(int status);
+int		term_signal(int status);
+int		get_return_value(int status);
 
 #endif
