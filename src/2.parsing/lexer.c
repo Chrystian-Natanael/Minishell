@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 09:43:59 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 09:44:22 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*get_word(char *line, int *i, int *state)
 		(*state)++;
 	quote = quote_is_closed(line, i);
 	if (quote == 0)
-		return (NULL)
+		return (NULL);
 	word = allocate(sizeof(char) * (idx + 1));
 	idx = 0;
 	while (tmp < *i)
