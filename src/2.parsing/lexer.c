@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:18:25 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:24:10 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,51 +18,6 @@
 */
 
 #include "minishell.h"
-
-int	quote_is_closed(char *line, int *i)
-{
-	int	tmp;
-
-	tmp = *i;
-	while (line[tmp] && !is_metacharacter(line[tmp], line[(tmp) + 1])
-		&& !ft_isspace(line[tmp]))
-	{
-		if (line[tmp] == '"')
-		{
-			while (line[tmp] != '\0' && line[tmp] != '"')
-				tmp++;
-			if (line[tmp] == '\0')
-				return (0);
-		}
-		else if (line[tmp] == '\'')
-		{
-			while (line[tmp] != '\0' && line[tmp] != '\'')
-				tmp++;
-			if (line[tmp] == '\0')
-				return (0);
-		}
-		tmp++;
-	}
-	return (1);
-}
-
-int	close_quote(char *line, int **i)
-{
-	int		size;
-	char	type_quote;
-
-	type_quote = line[(**i)++];
-	size = 1;
-	while (line[**i] && line[**i] != type_quote)
-	{
-		(**i)++;
-		size++;
-	}
-	if (!line[**i] || line[**i] != type_quote)
-		return (0);
-	// size -= 1;
-	return (size);
-}
 
 char	*get_word(char *line, int *i, int *state)
 {

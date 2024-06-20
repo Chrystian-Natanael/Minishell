@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:29:13 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:22:07 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,34 +18,6 @@
 */
 
 #include "minishell.h"
-
-char	*get_readline(t_envp *envp, t_data *data)
-{
-	char	*final_string;
-	char	*pwd;
-	char	*str1;
-	char	cwd[PATH_MAX];
-
-	pwd = NULL;
-	data->read_line = envp_get("USER", envp);
-	if (getcwd(cwd, PATH_MAX))
-		pwd = ft_strdup(cwd);
-	if (!data->read_line)
-		data->read_line = "minishell";
-	data->line = ft_strrchr(pwd, '/');
-	if (!data->line)
-		data->line = "//";
-	str1 = ft_strjoin(++data->line, " $\033[0m ");
-	data->line = ft_strjoin("\033[92m", data->read_line);
-	typetree_insert(data->line);
-	typetree_insert(pwd);
-	data->line = ft_strjoin(data->line, "\033[0m:\033[34m");
-	final_string = ft_strjoin(data->line, str1);
-	typetree_insert(final_string);
-	typetree_insert(data->line);
-	typetree_insert(str1);
-	return (final_string);
-}
 
 void	lst_addnew(t_token **list, enum e_token type, char *lexeme)
 {
@@ -67,6 +39,34 @@ void	lst_addnew(t_token **list, enum e_token type, char *lexeme)
 	}
 }
 
+void	lstadd_back(t_token **lst, t_token *new)
+{
+	t_token	*aux;
+
+	aux = *lst;
+	if (aux == NULL)
+	{
+		*lst = new;
+		return ;
+	}
+	while (aux->next)
+		aux = aux->next;
+	aux->next = new;
+}
+
+int	ft_envp_size(t_envp *lst)
+{
+	int	size_list;
+
+	size_list = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		size_list++;
+	}
+	return (size_list);
+}
+
 void	free_split(char **array)
 {
 	int	i;
@@ -80,14 +80,7 @@ void	free_split(char **array)
 	free(array);
 }
 
-int	is_metacharacter(char a, char b)
-{
-	if (a == '|' || a == '(' || a == ')' || a == '<' || a == '>')
-		return (1);
-	else if (a == '&' && b == '&')
-		return (1);
-	return (0);
-}
+
 
 int	args_count(char **argv)
 {
@@ -97,4 +90,34 @@ int	args_count(char **argv)
 	while (argv[count])
 		count++;
 	return (count);
+}
+
+
+int	find_key_size(char *str)
+{
+	int	size;
+
+	size = 0;
+	while (str[size] && str[size] != '=')
+		size++;
+	return (size);
+}
+
+void	change_status(t_envp **envp, int status)
+{
+	char	*status_str;
+	t_envp	*curr;
+
+	curr = *envp;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, "?") == 0)
+		{
+			status_str = ft_itoa(status);
+			typetree_insert(status_str);
+			curr->value = status_str;
+			return ;
+		}
+		curr = curr->next;
+	}
 }

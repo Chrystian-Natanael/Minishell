@@ -75,12 +75,12 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		4.executor/exec_sub_shell.c \
 		4.executor/exec_redir.c \
 		4.executor/exec_heredoc.c \
-		5.utils/utils_1.c \
-		5.utils/utils_2.c \
-		5.utils/utils_3.c \
-		5.utils/utils_4.c \
+		5.utils/aux_utils.c \
+		5.utils/export_utils.c \
+		5.utils/lexer_utils.c \
+		5.utils/main_utils.c \
 		5.utils/path_envp_utils.c \
-		5.utils/export_utils.c)
+		5.utils/struct_utils.c)
 TEST = $(addprefix $(TEST_DIR),\
 		test_lexer.c \
 		test_exp.c \

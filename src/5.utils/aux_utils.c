@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:29:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:22:40 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,52 +43,32 @@ int	ft_isonlynum(char *str)
 	return (0);
 }
 
-int	find_key_size(char *str)
+char	*ft_strndup(const char *s, int n)
 {
-	int	size;
-
-	size = 0;
-	while (str[size] && str[size] != '=')
-		size++;
-	return (size);
-}
-
-void	change_status(t_envp **envp, int status)
-{
-	char	*status_str;
-	t_envp	*curr;
-
-	curr = *envp;
-	while (curr)
-	{
-		if (ft_strcmp(curr->key, "?") == 0)
-		{
-			status_str = ft_itoa(status);
-			typetree_insert(status_str);
-			curr->value = status_str;
-			return ;
-		}
-		curr = curr->next;
-	}
-}
-
-void	ending(int status, t_data *data)
-{
+	char	*dup;
 	int		idx;
-	char	*fl_name;
 
-	idx = 1;
-	rl_clear_history();
-	close(0);
-	close(1);
-	close(2);
-	close(3);
-	while (idx <= data->count_files)
-	{
-		fl_name = ft_strmerge(ft_strdup("/tmp/heredoc-0x"), ft_itoa(idx));
-		typetree_insert(fl_name);
-		unlink(fl_name);
-		idx++;
-	}
-	quit(status);
+	dup = ft_calloc(n + 1, sizeof(char));
+	if (!dup)
+		return (NULL);
+	idx = 0;
+	while (*s && idx < n)
+		dup[idx++] = *(s++);
+	return (dup);
+}
+
+int	ternary(int condition, int if_true, int if_false)
+{
+	if (condition)
+		return (if_true);
+	return (if_false);
+}
+
+int	is_metacharacter(char a, char b)
+{
+	if (a == '|' || a == '(' || a == ')' || a == '<' || a == '>')
+		return (1);
+	else if (a == '&' && b == '&')
+		return (1);
+	return (0);
 }

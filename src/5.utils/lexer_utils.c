@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_3.c                                          :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:06:11 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:29:28 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 15:24:06 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,6 @@
 */
 
 #include "minishell.h"
-
-char	*ft_strndup(const char *s, int n)
-{
-	char	*dup;
-	int		idx;
-
-	dup = ft_calloc(n + 1, sizeof(char));
-	if (!dup)
-		return (NULL);
-	idx = 0;
-	while (*s && idx < n)
-		dup[idx++] = *(s++);
-	return (dup);
-}
-
-int	ternary(int condition, int if_true, int if_false)
-{
-	if (condition)
-		return (if_true);
-	return (if_false);
-}
 
 int	get_token_type(char *line, int i)
 {
@@ -92,17 +71,47 @@ char	*return_lexeme(t_token *token)
 		return ("");
 }
 
-void	lstadd_back(t_token **lst, t_token *new)
+int	quote_is_closed(char *line, int *i)
 {
-	t_token	*aux;
+	int	tmp;
 
-	aux = *lst;
-	if (aux == NULL)
+	tmp = *i;
+	while (line[tmp] && !is_metacharacter(line[tmp], line[(tmp) + 1])
+		&& !ft_isspace(line[tmp]))
 	{
-		*lst = new;
-		return ;
+		if (line[tmp] == '"')
+		{
+			while (line[tmp] != '\0' && line[tmp] != '"')
+				tmp++;
+			if (line[tmp] == '\0')
+				return (0);
+		}
+		else if (line[tmp] == '\'')
+		{
+			while (line[tmp] != '\0' && line[tmp] != '\'')
+				tmp++;
+			if (line[tmp] == '\0')
+				return (0);
+		}
+		tmp++;
 	}
-	while (aux->next)
-		aux = aux->next;
-	aux->next = new;
+	return (1);
 }
+
+int	close_quote(char *line, int **i)
+{
+	int		size;
+	char	type_quote;
+
+	type_quote = line[(**i)++];
+	size = 1;
+	while (line[**i] && line[**i] != type_quote)
+	{
+		(**i)++;
+		size++;
+	}
+	if (!line[**i] || line[**i] != type_quote)
+		return (0);
+	return (size);
+}
+
