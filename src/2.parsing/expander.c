@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:18:08 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:00:36 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	expander_validation(t_data **data, char **cmd)
 			idx++;
 		}
 		cmd[odx] = line;
-		line = NULL;
+		line = "";
 		odx++;
 	}
 }
