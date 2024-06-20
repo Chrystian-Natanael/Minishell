@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 10:50:39 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 11:11:31 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,33 @@ void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data)
 	*exit_status = check_exec_builtin(*cmd, &(*data)->my_envp, *data);
 }
 
+int	verify_cmd(char **cmd)
+{
+	int	idx;
+
+	if (cmd == NULL)
+		return (0);
+	idx = 0;
+	while (cmd[idx])
+	{
+		if (verify_line(&cmd[idx]) == 0 && cmd[idx + 1] != NULL)
+		{
+			while (cmd[idx + 1])
+			{
+				cmd[idx] = cmd[idx + 1];
+				idx++;
+			}
+			cmd[idx] = NULL;
+			idx = 0;
+			continue ;
+		}
+		else if (verify_line(&cmd[idx]) == 0)
+			return (0);
+		idx++;
+	}
+	return (1);
+}
+
 int	exec_cmd(t_bin *bin, t_data **data)
 {
 	int		pid;
@@ -72,6 +99,8 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	exec_init(&cmd, &exit_status, bin, data);
 	if (exit_status != -1)
 		return (exit_status);
+	else if (!verify_cmd(cmd))
+		return (0);
 	pid = fork();
 	define_signals_exec(pid);
 	if (pid == -1 || cmd[0] == NULL)
