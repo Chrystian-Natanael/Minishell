@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 17:36:33 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:20:06 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:34:44 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ int	ft_env(char **argv, t_envp **envp)
 	}
 	while (curr)
 	{
-		if (ft_strncmp(curr->key, "?", 2) == 0 || curr->key == NULL || curr->value == NULL)
+		if (ft_strncmp(curr->key, "?", 2) == 0 || curr->key == NULL
+			|| curr->value == NULL)
 		{
 			curr = curr->next;
 			continue ;
