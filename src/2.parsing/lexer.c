@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/18 16:14:12 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 09:43:59 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	close_quote(char *line, int **i)
 	return (size);
 }
 
-char	*get_word(char *line, int *i)
+char	*get_word(char *line, int *i, int *state)
 {
 	int		tmp;
 	int		idx;
@@ -81,9 +81,11 @@ char	*get_word(char *line, int *i)
 		idx++;
 		(*i)++;
 	}
+	if (is_metacharacter(line[*i], 0))
+		(*state)++;
 	quote = quote_is_closed(line, i);
 	if (quote == 0)
-		return (NULL);
+		return (NULL)
 	word = allocate(sizeof(char) * (idx + 1));
 	idx = 0;
 	while (tmp < *i)
@@ -121,7 +123,7 @@ char	*quote_word(char *line, int *i)
 	return (word);
 }
 
-char	*get_token_word(char *line, int *i, int *type)
+char	*get_token_word(char *line, int *i, int *type, int *state)
 {
 	char	*word;
 
@@ -131,7 +133,7 @@ char	*get_token_word(char *line, int *i, int *type)
 	if (line[*i] == '"' || line[*i] == '\'')
 		word = quote_word(line, i);
 	else
-		word = get_word(line, i);
+		word = get_word(line, i, state);
 	if (word)
 		*type = WORD;
 	return (word);
@@ -140,7 +142,7 @@ char	*get_token_word(char *line, int *i, int *type)
 t_token	*lexer(char *line)
 {
 	int		i;
-	int		boolean;
+	int		state;
 	int		token_type;
 	char	*word;
 	t_token	*list;
@@ -153,20 +155,20 @@ t_token	*lexer(char *line)
 		while (ft_isspace(line[i]))
 			i++;
 		token_type = get_token_type(line, i);
-		boolean = 0;
+		state = 0;
 		if (token_type >= OR || line[i] == ')')
 		{
 			if (token_type >= OR)
 				i++;
 			i++;
-			boolean = 1;
+			state = 1;
 		}
 		if (token_type < 0)
-			word = get_token_word(line, &i, &token_type);
+			word = get_token_word(line, &i, &token_type, &state);
 		if (token_type >= 0)
 			lst_addnew(&list, token_type, word);
 		word = NULL;
-		if (line[i] != '\0' && line[i] != ')' && boolean == 0)
+		if (line[i] != '\0' && line[i] != ')' && state == 0)
 			i++;
 	}
 	return (list);
