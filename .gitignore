@@ -9,3 +9,12 @@ includes/minishell.h.gch
 .nfs0000000005dbc4fd000001ef
 test_b
 minishell_tester
+.tests/test_exec.c
+.tests/test_exp.c
+.tests/test_main.c
+.gitignore
+.tests/test_lexer.c
+.tests/test_utils.c
+.tests/test.h
+.tests/builtin/diff_echo_pwd.sh
+.tests/builtin/test_echo_pwd.c
