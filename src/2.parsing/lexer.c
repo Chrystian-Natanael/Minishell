@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 11:24:38 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:10:45 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	close_quote(char *line, int **i)
 	char	type_quote;
 
 	type_quote = line[(**i)++];
-	size = 0;
+	size = 1;
 	while (line[**i] && line[**i] != type_quote)
 	{
 		(**i)++;
@@ -60,7 +60,7 @@ int	close_quote(char *line, int **i)
 	}
 	if (!line[**i] || line[**i] != type_quote)
 		return (0);
-	size -= 1;
+	// size -= 1;
 	return (size);
 }
 

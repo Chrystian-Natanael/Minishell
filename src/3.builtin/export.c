@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 08:36:46 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:47:19 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,7 @@ int	validate_var(char *str)
 	while (str[i] && str[i] != '=')
 	{
 		if (str[i] != '_' && !ft_isalnum(str[i]) && !ft_isalpha(str[i]))
-			return (ft_error("minishell: export: `", str, \
-			"': not a valid identifier", 0));
+			return (0);
 		i++;
 	}
 	return (1);
@@ -117,7 +116,8 @@ int	ft_export(char **argv, t_envp **envp)
 		while (argv[i])
 		{
 			if (!validate_var(argv[i]))
-				return (1);
+				return (ft_error("minishell: export: `", argv[i], \
+				"': not a valid identifier", 1));
 			if (!check_and_replace_env(argv[i], envp))
 				export_env(envp, argv[i]);
 			i++;
