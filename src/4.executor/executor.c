@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 08:23:21 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 10:50:39 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,45 @@
 
 #include "minishell.h"
 
+char	**separate_args(t_token *token)
+{
+	t_token	*tmp;
+	char	**cmd;
+	int		i;
+	int		size_token;
+
+	tmp = token;
+	i = 0;
+	size_token = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		size_token++;
+	}
+	cmd = (char **)allocate(sizeof(char *) * (size_token + 1));
+	if (!cmd)
+		return (NULL);
+	tmp = token;
+	while (tmp)
+	{
+		cmd[i] = ft_strdup(tmp->lexeme);
+		typetree_insert(cmd[i]);
+		tmp = tmp->next;
+		i++;
+	}
+	cmd[i] = NULL;
+	return (cmd);
+}
+
 void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data)
 {
+	t_token	*token;
+
+	token = lexer(bin->cmd);
+	*cmd = separate_args(token);
 	if (bin->type == CMD)
-		expander_validation(data, &bin->cmd);
-	*cmd = ft_split(bin->cmd, ' ');
+		expander_validation(data, *cmd);
 	typetree_insert(*cmd);
-	typetree_insert_matrix((void **)(*cmd));
 	*exit_status = check_exec_builtin(*cmd, &(*data)->my_envp, *data);
 }
 

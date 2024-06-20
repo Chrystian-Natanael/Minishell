@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 08:40:17 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 10:41:50 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,24 +31,31 @@ void	expander_validation(t_data **data, char **cmd)
 {
 	int		flag;
 	int		idx;
+	int		odx;
 	char	*line;
 
 	line = NULL;
 	flag = 0;
-	idx = 0;
-	while ((*cmd) && (*cmd)[idx])
+	odx = 0;
+	while (cmd && cmd[odx])
 	{
-		if ((*cmd)[idx] == '\'' && (flag == 0 || flag == 1))
-			flag = ternary(flag == 0, 1, 0);
-		else if ((*cmd)[idx] == '\"' && (flag == 0 || flag == 2))
-			flag = ternary(flag == 0, 2, 0);
-		else if ((*cmd)[idx] == '$' && flag != 1 && (*cmd)[idx + 1] && is_valid_var((*cmd)[idx + 1]))
-			expander(&idx, cmd,(*data)->my_envp, &line);
-		else
-			add_char(&line, (*cmd)[idx]);
-		idx++;
+		idx = 0;
+		while (cmd[odx] && cmd[odx][idx])
+		{
+			if (cmd[odx][idx] == '\'' && (flag == 0 || flag == 1))
+				flag = ternary(flag == 0, 1, 0);
+			else if (cmd[odx][idx] == '\"' && (flag == 0 || flag == 2))
+				flag = ternary(flag == 0, 2, 0);
+			else if (cmd[odx][idx] == '$' && flag != 1 && cmd[odx][idx + 1] && is_valid_var(cmd[odx][idx + 1]))
+				expander(&idx, &cmd[odx],(*data)->my_envp, &line);
+			else
+				add_char(&line, cmd[odx][idx]);
+			idx++;
+		}
+		cmd[odx] = line;
+		line = NULL;
+		odx++;
 	}
-	*cmd = line;
 }
 
 void	expander(int *idx, char **cmd,t_envp *envp, char **dst)
