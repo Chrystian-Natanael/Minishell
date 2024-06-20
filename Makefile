@@ -3,10 +3,8 @@
 #! ******************************************************************************#
 
 NAME = minishell
-NAME_TEST = test
-NAME_TEST_B = test_b
 .DEFAULT_GOAL := all
-.PHONY: all clean fclean re rebonus help test retest
+.PHONY: all clean fclean re rebonus help
 .SILENT:
 
 #! ******************************************************************************#
@@ -81,49 +79,6 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		5.utils/main_utils.c \
 		5.utils/path_envp_utils.c \
 		5.utils/struct_utils.c)
-TEST = $(addprefix $(TEST_DIR),\
-		test_lexer.c \
-		test_exp.c \
-		test_utils.c \
-		test_exec.c \
-		test_main.c) $(addprefix $(SRCS_PATH),\
-	1.init/envp.c \
-		1.init/signals.c \
-		2.parsing/syntax.c \
-		2.parsing/cmd.c \
-		2.parsing/lexer.c \
-		2.parsing/expander.c \
-		3.builtin/builtin.c \
-		3.builtin/pwd.c \
-		3.builtin/echo.c \
-		3.builtin/env.c \
-		3.builtin/exit.c \
-		3.builtin/export.c \
-		3.builtin/unset.c \
-		3.builtin/cd.c \
-		4.executor/binary_tree.c \
-		4.executor/executor.c \
-		4.executor/exec_and.c \
-		4.executor/exec_or.c \
-		4.executor/exec_pipe.c \
-		4.executor/exec_sub_shell.c \
-		4.executor/exec_redir.c \
-		4.executor/exec_heredoc.c \
-		5.utils/aux_utils.c \
-		5.utils/export_utils.c \
-		5.utils/lexer_utils.c \
-		5.utils/main_utils.c \
-		5.utils/path_envp_utils.c \
-		5.utils/struct_utils.c)
-TEST_B = $(addprefix $(TEST_B_DIR),\
-		test_echo_pwd.c) $(addprefix $(SRCS_PATH),\
-		3.builtin/builtin.c \
-		3.builtin/pwd.c \
-		3.builtin/echo.c \
-		3.builtin/env.c \
-		3.builtin/exit.c \
-		3.builtin/export.c \
-		3.builtin/unset.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
 LIBS := $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
@@ -264,12 +219,6 @@ $(LIBFT):
 
 $(GARB):
 	$(call comp_garb)
-
-test: $(LIBFT) $(GARB) $(OBJS_TEST)
-	$(call comp_tests)
-
-test_b: $(LIBFT) $(GARB) $(OBJS_TEST_B)
-	$(call comp_tests_b)
 
 clean:
 	$(RM) $(BUILD_DIR)
