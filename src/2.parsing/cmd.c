@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 17:34:34 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:11:59 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ void	organize_redirects(t_token **token)
 			}
 		}
 		point = idx;
-		if ((tmp->next && tmp->next->type != WORD && redir) || (!tmp->next && redir))
+		if ((tmp && tmp->next && tmp->next->type != WORD && redir) || (tmp && !tmp->next && redir))
 		{
 			odx = 0;
 			while (redir[odx])

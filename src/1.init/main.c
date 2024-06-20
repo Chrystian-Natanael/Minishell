@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 19:42:24 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:16:22 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	main(int argc, char **argv, char **envp)
 		data.expr = cmd_parsing(data.token, &data.my_envp);
 		if (syntax_expr(data.expr))
 		{
-			change_status(&data.my_envp, syntax_expr(data.expr));
+			change_status(&data.my_envp, 2);
 			continue ;
 		}
 		data.status = execute(data.expr, &data);
