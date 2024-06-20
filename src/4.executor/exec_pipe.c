@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:04:31 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:23:30 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:25:59 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,25 @@
 */
 
 #include "minishell.h"
+
+void	child_one(int *pipe_fd, int *old_fd, t_bin *bin, t_data **data)
+{
+	close(old_fd[1]);
+	close(old_fd[0]);
+	dup2(pipe_fd[0], STDIN_FILENO);
+	close(pipe_fd[0]);
+	ending(exec_tree(bin->right, data), *data);
+}
+
+void	child_zero(int *pipe_fd, int *old_fd, t_bin *bin, t_data **data)
+{
+	close(pipe_fd[0]);
+	dup2(pipe_fd[1], STDOUT_FILENO);
+	close(pipe_fd[1]);
+	close(old_fd[0]);
+	close(old_fd[1]);
+	ending(exec_tree(bin->left, data), *data);
+}
 
 int	exec_pipe(t_bin *bin, t_data **data)
 {
@@ -33,25 +52,12 @@ int	exec_pipe(t_bin *bin, t_data **data)
 	pid[0] = fork();
 	define_signals_exec(pid[0]);
 	if (pid[0] == 0)
-	{
-		close(pipe_fd[0]);
-		dup2(pipe_fd[1], STDOUT_FILENO);
-		close(pipe_fd[1]);
-		close(old_fd[0]);
-		close(old_fd[1]);
-		ending(exec_tree(bin->left, data), *data);
-	}
+		child_zero(pipe_fd, old_fd, bin, data);
 	close(pipe_fd[1]);
 	pid[1] = fork();
 	define_signals_exec(pid[1]);
 	if (pid[1] == 0)
-	{
-		close(old_fd[1]);
-		close(old_fd[0]);
-		dup2(pipe_fd[0], STDIN_FILENO);
-		close(pipe_fd[0]);
-		ending(exec_tree(bin->right, data), *data);
-	}
+		child_one(pipe_fd, old_fd, bin, data);
 	close(pipe_fd[0]);
 	dup2(old_fd[1], STDOUT_FILENO);
 	close(old_fd[1]);
