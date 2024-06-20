@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_envp_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:07:00 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:29:05 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:12:58 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,4 +74,23 @@ int	size_envp(t_envp **envp)
 		curr = curr->next;
 	}
 	return (i);
+}
+
+void	change_status(t_envp **envp, int status)
+{
+	char	*status_str;
+	t_envp	*curr;
+
+	curr = *envp;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, "?") == 0)
+		{
+			status_str = ft_itoa(status);
+			typetree_insert(status_str);
+			curr->value = status_str;
+			return ;
+		}
+		curr = curr->next;
+	}
 }
