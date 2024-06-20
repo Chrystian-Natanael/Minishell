@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 19:30:22 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:42:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	init_data(t_data *data, int argc, char **argv, char **envp)
 	data->my_envp = create_envp(envp);
 	data->count_files = 0;
 	data->status = 0;
-	// loadingbar();
 }
 
 static void	reading_line(t_data *data)
@@ -71,6 +70,32 @@ int	verify_line(char **line)
 	return (exist_line);
 }
 
+int	lexing(t_data *data)
+{
+	if (data->line == NULL)
+	{
+		data->line = ft_strdup("exit");
+		typetree_insert(data->line);
+	}
+	if (!verify_line(&data->line))
+	{
+		change_status(&data->my_envp, 0);
+		return (0);
+	}
+	data->token = lexer(data->line);
+	g_sign = 0;
+	heredoc_validation(&data->token, &data->count_files);
+	if (g_sign == SIGINT)
+		return (0);
+	if (data->token == NULL || data->line[0] == '\0'
+		|| syntax_error(data->token) || quote_error(data->token))
+	{
+		change_status(&data->my_envp, 2);
+		return (0);
+	}
+	return (1);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -80,28 +105,8 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_signals();
 		reading_line(&data);
-
-		if (data.line == NULL)
-		{
-			data.line = ft_strdup("exit");
-			typetree_insert(data.line);
-		}
-		if (!verify_line(&data.line))
-		{
-			change_status(&data.my_envp, 0);
+		if (!lexing(&data))
 			continue ;
-		}
-		data.token = lexer(data.line);
-		g_sign = 0;
-		heredoc_validation(&data.token, &data.count_files);
-		if (g_sign == SIGINT)
-			continue ;
-		if (data.token == NULL || data.line[0] == '\0'
-			|| syntax_error(data.token) || quote_error(data.token))
-		{
-			change_status(&data.my_envp, 2);
-			continue ;
-		}
 		data.expr = cmd_parsing(data.token, &data.my_envp);
 		if (syntax_expr(data.expr))
 		{

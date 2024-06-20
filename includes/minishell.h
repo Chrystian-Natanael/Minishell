@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 19:01:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:57:47 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,15 +110,11 @@ typedef struct s_data
 	t_token	*expr;
 }	t_data;
 
-//--------------------------------------- Menu
-void	clearscreen(void);
-void	settextcolor(int color);
-void	loadingbar(void);
-
 //--------------------------------------- Init
 void	ending(int status, t_data *data);
 int		verify_line(char **line);
 char	*get_readline(t_envp *envp, t_data *data);
+int		lexing(t_data *data);
 
 //--------------------------------------- Signal
 void	init_signals(void);
@@ -217,5 +213,7 @@ int		term_normaly(int status);
 int		exit_status(int status);
 int		term_signal(int status);
 int		get_return_value(int status);
+int		verify_cmd(char **cmd);
+char	**separate_args(t_token *token);
 
 #endif
