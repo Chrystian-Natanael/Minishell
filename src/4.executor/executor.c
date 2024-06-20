@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 17:30:51 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:55:56 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,8 @@ int	exec_cmd(t_bin *bin, t_data **data)
 			exit_status = ft_error("minishell: ", cmd[0], \
 			": command not found", 127);
 		else
-			exit_status = 126;
+			exit_status = ft_error("minishell: ", cmd[0], \
+			": Permission denied or is a directory", 126);
 		free_split(envp);
 		ending (exit_status, *data);
 	}

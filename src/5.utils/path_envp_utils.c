@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path_envp_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:07:00 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 17:12:58 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 18:53:20 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,19 +25,18 @@ char	*get_path_cmd(t_envp **envp, char *cmd)
 	char	*path;
 
 	curr = *envp;
-	if (cmd[0] == '/')
+	if (ft_strlen(cmd) > 0 && ft_strchr(cmd, '/') == NULL)
 	{
-		path = ft_strdup(cmd);
-		typetree_insert(path);
-		return (path);
+		while (curr)
+		{
+			if (ft_strncmp(curr->key, "PATH", 4) == 0)
+				return (create_path(curr, cmd));
+			curr = curr->next;
+		}
 	}
-	while (curr)
-	{
-		if (ft_strncmp(curr->key, "PATH", 4) == 0)
-			return (create_path(curr, cmd));
-		curr = curr->next;
-	}
-	return (NULL);
+	path = ft_strdup(cmd);
+	typetree_insert(path);
+	return (path);
 }
 
 char	*create_path(t_envp *envp, char *cmd)
