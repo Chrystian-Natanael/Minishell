@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:12:14 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:17:26 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,18 +135,19 @@ void	organize_redirects(t_token **token)
 t_token	*cmd_parsing(t_token *token, t_envp **envp)
 {
 	int		i;
-	t_token	*head;
 	t_token	*tmp;
 	t_token	*cmds;
+	t_token	*head;
 
-	(void)envp;
+	cmds = NULL;
+	head = NULL;
 	tmp = token;
+	(void)envp;
 	i = 0;
 	organize_redirects(&tmp);
 	while (tmp)
 	{
-		cmds = NULL;
-		if (tmp && tmp->type == L_PAREN) // * Se for subshell
+		if (tmp && tmp->type == L_PAREN)
 		{
 			i++;
 			while (tmp && (tmp->type != R_PAREN || i != 0))
@@ -162,6 +163,7 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 				lst_contatenate(&cmds, return_lexeme(tmp));
 			if (!tmp && i != 0)
 				return (NULL);
+			tmp = tmp->next;
 			cmds->type = SUB_SHELL;
 		}
 		if (tmp && (tmp->type == REDIR_INPUT || tmp->type == REDIR_OUTPUT
@@ -186,67 +188,10 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 					break ;
 			}
 		}
-		lstadd_back(&head, cmds);
+		cmd_parsing_aux(&head, &cmds, &tmp);
 	}
 	return (head);
 }
-
-// t_token	*cmd_parsing(t_token *token, t_envp **envp)
-// {
-// 	int		i;
-// 	t_token	*tmp;
-// 	t_token	*cmds;
-// 	t_token	*head;
-
-// 	cmds = NULL;
-// 	head = NULL;
-// 	tmp = token;
-// 	(void)envp; //! tirar a envp daqui
-// 	i = 0;
-// 	while (tmp)
-// 	{
-// 		if (tmp && tmp->type == L_PAREN)
-// 		{
-// 			i++;
-// 			while (tmp && (tmp->type != R_PAREN || i != 0))
-// 			{
-// 				lst_contatenate(&cmds, return_lexema(tmp));
-// 				tmp = tmp->next;
-// 				if (tmp && tmp->type == R_PAREN)
-// 					i--;
-// 				else if (tmp && tmp->type == L_PAREN)
-// 					i++;
-// 			}
-// 			if (tmp && tmp->type == R_PAREN)
-// 				lst_contatenate(&cmds, return_lexema(tmp));
-// 			if (!tmp && i != 0)
-// 				return (NULL);
-// 			tmp = tmp->next;
-// 			cmds->type = SUB_SHELL;
-// 		}
-// 		while (tmp && tmp->type != PIPE && tmp->type != OR
-// 			&& tmp->type != AND && tmp->type != L_PAREN
-// 			&& tmp->type != R_PAREN && tmp->type != REDIR_INPUT
-// 			&& tmp->type != REDIR_OUTPUT && tmp->type != OUTPUT_APPEND
-// 			&& tmp->type != HEREDOC)
-// 		{
-// 			if ((tmp->lexema && *tmp->lexema != '\0') || tmp->type != WORD)
-// 				lst_contatenate(&cmds, return_lexema(tmp));
-// 			tmp = tmp->next;
-// 			if (!tmp)
-// 				break ;
-// 		}
-// 		cmd_parsing_aux(&head, &cmds, &tmp);
-// 		if (tmp && (tmp->type == REDIR_INPUT || tmp->type == REDIR_OUTPUT
-// 				|| tmp->type == OUTPUT_APPEND || tmp->type == HEREDOC))
-// 		{
-// 			cmd_parsing_aux(&head, &cmds, &tmp);
-// 			lst_contatenate_redir(&cmds, tmp->lexema);
-// 			tmp = tmp->next;
-// 		}
-// 	}
-// 	return (head);
-// }
 
 char	*expan_get(t_token *token, t_envp *envp)
 {

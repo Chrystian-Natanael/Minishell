@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 21:45:54 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:22:48 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 /**
  * @brief This function executes the heredoc command
@@ -18,6 +16,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/07
 */
+
+#include "minishell.h"
 
 static int	heredoc_file_creation(int count, int *fd, char **fl_name);
 static int	heredoc_loop(char **buff, char *eof, const int std_in, int fd);

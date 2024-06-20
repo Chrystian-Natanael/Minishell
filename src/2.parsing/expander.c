@@ -6,11 +6,9 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 10:41:50 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:18:08 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 /**
  * @brief This function expands the environment variables
@@ -18,6 +16,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/04
 */
+
+#include "minishell.h"
 
 int	is_valid_var(char letter)
 {

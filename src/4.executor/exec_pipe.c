@@ -6,11 +6,9 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:04:31 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 09:50:23 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:23:30 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 /**
  * @brief This function executes the pipe command
@@ -18,6 +16,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/03
 */
+
+#include "minishell.h"
 
 int	exec_pipe(t_bin *bin, t_data **data)
 {

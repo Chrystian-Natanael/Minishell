@@ -6,11 +6,9 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 15:06:21 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 07:45:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:24:40 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 /**
  * @brief This function executes a subshell
@@ -18,6 +16,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/03
 */
+
+#include "minishell.h"
 
 int	exec_sub_shell(t_bin *bin, t_data **data)
 {

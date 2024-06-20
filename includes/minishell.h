@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:10:11 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:27:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@
 # define MIN_NB "-9223372036854775808"
 
 # include <termios.h>
-# include <sys/stat.h>
 
 /*For use libft functions*/
 # include "libft.h"
@@ -110,16 +109,6 @@ typedef struct s_data
 	t_token	*token;
 	t_token	*expr;
 }	t_data;
-
-typedef struct s_aux_token
-{
-	int		i;
-	int		state;
-	int		token_type;
-	int		str_length;
-	int		lexeme_length;
-	char	*lexeme;
-}	t_aux_token;
 
 //----------- DISTRIBUTE OR REORGANIZE ###
 

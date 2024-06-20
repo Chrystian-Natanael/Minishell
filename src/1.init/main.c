@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:11:05 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:16:35 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static void	init_data(t_data *data, int argc, char **argv, char **envp)
 static void	reading_line(t_data *data)
 {
 	data->line = NULL;
-	data->status = 0;
 	data->read_line = NULL;
 	data->read_line = get_readline(data->my_envp, data);
 	data->line = readline(data->read_line);

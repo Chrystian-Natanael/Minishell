@@ -6,11 +6,9 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:09:18 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 07:23:32 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:22:36 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 /**
  * @brief This function executes the and command
@@ -18,6 +16,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/03
 */
+
+#include "minishell.h"
 
 int	exec_and(t_bin *bin, t_data **data)
 {

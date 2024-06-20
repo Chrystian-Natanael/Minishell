@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:12:23 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:18:25 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,97 +19,31 @@
 
 #include "minishell.h"
 
-t_token	*lexer(char *line)
+int	quote_is_closed(char *line, int *i)
 {
-	t_token	*list;
-	t_aux_token	aux;
+	int	tmp;
 
-	ft_bzero(&aux, sizeof(t_aux_token));
-	aux.state = 1;
-	aux.str_length = ft_strlen(line);
-	list = NULL;
-	while (aux.i <= aux.str_length)
+	tmp = *i;
+	while (line[tmp] && !is_metacharacter(line[tmp], line[(tmp) + 1])
+		&& !ft_isspace(line[tmp]))
 	{
-		aux.state = get_next_state(aux.state, line[aux.i]);
-		if (aux.state != 1)
-			aux.lexeme_length++;
-		if (aux.state == -1)
-			break ;
-		if (state_is_final(aux.state))
-			aux_state_final(&aux, line, &list);
-		aux.i++;
+		if (line[tmp] == '"')
+		{
+			while (line[tmp] != '\0' && line[tmp] != '"')
+				tmp++;
+			if (line[tmp] == '\0')
+				return (0);
+		}
+		else if (line[tmp] == '\'')
+		{
+			while (line[tmp] != '\0' && line[tmp] != '\'')
+				tmp++;
+			if (line[tmp] == '\0')
+				return (0);
+		}
+		tmp++;
 	}
-	return (list);
-}
-
-int	get_next_state(int state, char character)
-{
-	int	new_state;
-
-	if (state == 1)
-		new_state = token_get_state_1(character);
-	else if (state == 40)
-		new_state = token_get_state_40(character);
-	else if (state == 50)
-		new_state = token_get_state_50(character);
-	else if (state == 60)
-		new_state = token_get_state_60(character);
-	else if (state == 70)
-		new_state = token_get_state_70(character);
-	else if (state == 80)
-		new_state = token_get_state_80(character);
-	else if (state == 81)
-		new_state = token_get_state_81(character);
-	else if (state == 82)
-		new_state = token_get_state_82(character);
-	else
-		new_state = -1;
-	return (new_state);
-}
-
-int	state_is_final(int state)
-{
-	if (state == 20
-		|| state == 30
-		|| state == 41 || state == 42
-		|| state == 51
-		|| state == 61 || state == 62
-		|| state == 71 || state == 72
-		|| state == 83)
-		return (1);
-	return (0);
-}
-
-void	aux_state_final(t_aux_token *aux, char *str, \
-		t_token **token_list)
-{
-	if (state_require_backtrack(aux->state))
-	{
-		aux->i -= 1;
-		aux->lexeme_length -= 1;
-	}
-	aux->token_type = token_get_token_type(aux->state);
-	if (aux->token_type == WORD)
-	{
-		aux->lexeme = ft_substr(str, aux->i - (aux->lexeme_length - 1), \
-		aux->lexeme_length);
-		typetree_insert(aux->lexeme);
-	}
-	else
-		aux->lexeme = NULL;
-	token_add_to_list(token_list, aux->lexeme, aux->token_type);
-	aux->lexeme_length = 0;
-	aux->state = 1;
-}
-
-int	state_require_backtrack(int state)
-{
-	if (state == 42
-		|| state == 62
-		|| state == 72
-		|| state == 83)
-		return (1);
-	return (0);
+	return (1);
 }
 
 int	close_quote(char *line, int **i)
@@ -160,61 +94,33 @@ char	*get_word(char *line, int *i, int *state)
 	return (word);
 }
 
-t_token	*token_create_node(char *lexema, int token_type)
+char	*quote_word(char *line, int *i)
 {
-	t_token	*new_token;
+	char	*word;
+	char	type_quote;
+	int		quote;
+	int		size;
+	int		tmp;
 
-	new_token = allocate(sizeof(t_token));
-	new_token->lexema = lexema;
-	new_token->type = token_type;
-	new_token->next = NULL;
-	return (new_token);
-}
-
-void	token_add_to_list(t_token **tok_lst, char *lex, int token_type)
-{
-	t_token	*new_token;
-	t_token	*last_node;
-
-	new_token = token_create_node(lex, token_type);
-	last_node = *tok_lst;
-	while (last_node && last_node->next)
-		last_node = last_node->next;
-	if (last_node)
-		last_node->next = new_token;
-	else
-		*tok_lst = new_token;
-}
-
-// ! ----------------------------------------------------------------------------------
-
-int	token_get_state_1(char character)
-{
-	int	state;
-
-	if (character == '(')
-		state = 20;
-	else if (character == ')')
-		state = 30;
-	else if (character == '|')
-		state = 40;
-	else if (character == '&')
-		state = 50;
-	else if (character == '<')
-		state = 60;
-	else if (character == '>')
-		state = 70;
-	else if (character == '\'')
-		state = 81;
-	else if (character == '\"')
-		state = 82;
-	else if (character == '\0' || ft_isspace(character))
-		state = 1;
-	else if (is_metacharacter_char(character) == 0)
-		state = 80;
-	else
-		state = -1;
-	return (state);
+	size = 0;
+	tmp = *i;
+	type_quote = line[(*i)];
+	quote = 0;
+	while (line[*i] && !(!(quote % 2 != 0)
+			&& ft_isspace(line[(*i)])))
+	{
+		if (line[*i] == type_quote)
+			quote++;
+		size++;
+		(*i)++;
+	}
+	if (!line[tmp] || size == 0 || (quote % 2 != 0))
+		return (NULL);
+	word = allocate(sizeof(char) * (size + 1));
+	size = 0;
+	while (tmp < *i)
+		word[size++] = line[tmp++];
+	return (word);
 }
 
 char	*get_token_word(char *line, int *i, int *type, int *state)
@@ -233,7 +139,7 @@ char	*get_token_word(char *line, int *i, int *type, int *state)
 	return (word);
 }
 
-int	token_get_state_70(char character)
+t_token	*lexer(char *line)
 {
 	int		i;
 	int		state;

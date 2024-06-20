@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:12:48 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:21:01 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/05/31
 */
+
+#include "minishell.h"
 
 #include "minishell.h"
 

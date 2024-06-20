@@ -6,11 +6,9 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:26:16 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/19 18:45:51 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:21:35 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 /**
  * @brief This function creates a new binary tree node
@@ -18,6 +16,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/05/01
 */
+
+#include "minishell.h"
 
 int	precedence(enum e_token type)
 {

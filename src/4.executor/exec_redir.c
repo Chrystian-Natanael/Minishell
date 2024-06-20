@@ -6,11 +6,9 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 10:06:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:24:13 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "minishell.h"
 
 /**
  * @brief This function executes the redirection input command
@@ -18,6 +16,8 @@
  * @author @Chrystian-Natanael && @kellyhayd
  * @date 2024/06/07
 */
+
+#include "minishell.h"
 
 int	is_redirect_input(int type)
 {
