@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/19 19:13:28 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 07:44:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,10 +197,6 @@ int		ternary(int condition, int if_true, int if_false);
 void	add_char(char **line, char c);
 
 //----------- DISTRIBUTE OR REORGANIZE ###
-
-int		exec_redir_out(t_bin *bin, t_data **data);
-int		exec_redir_output(t_bin *bin, t_data **data);
-int		exec_redir_append(t_bin *bin, t_data **data);
 
 int		exec_redirect(t_bin *bin, t_data **data);
 
