@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:20:38 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:50:56 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,10 @@ void	export_print_envp(t_envp **envp)
 int	ft_export(char **argv, t_envp **envp)
 {
 	int	i;
+	int	status;
 
 	i = 1;
+	status = 0;
 	if (!argv[1])
 	{
 		export_print_envp(envp);
@@ -116,12 +118,15 @@ int	ft_export(char **argv, t_envp **envp)
 		while (argv[i])
 		{
 			if (!validate_var(argv[i]))
-				return (ft_error("minishell: export: `", argv[i], \
-				"': not a valid identifier", 1));
-			if (!check_and_replace_env(argv[i], envp))
+			{
+				(void)ft_error("minishell: export: `", argv[i],
+					"': not a valid identifier", 1);
+				status = 1;
+			}
+			else if (!check_and_replace_env(argv[i], envp))
 				export_env(envp, argv[i]);
 			i++;
 		}
 	}
-	return (0);
+	return (status);
 }
