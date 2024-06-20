@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:05:19 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 11:28:33 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:20:28 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static int	check_number(char *str)
 	if (len > max_len)
 		return (0);
 	if (str[0] == '-')
-		return (ft_strcmp(&MAX_NB[1], arg) >= 0);
+		return (ft_strcmp(&MIN_NB[1], arg) >= 0);
 	return (ft_strcmp(arg, &MAX_NB[0]) <= 0);
 }
 
