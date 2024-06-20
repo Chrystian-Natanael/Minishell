@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 10:22:44 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 13:32:44 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -167,7 +167,7 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 			cmds->type = SUB_SHELL;
 		}
 		if (tmp && (tmp->type == REDIR_INPUT || tmp->type == REDIR_OUTPUT
-				|| tmp->type == OUTPUT_APPEND || tmp->type == HEREDOC))
+				|| tmp->type == OUTPUT_APPEND || tmp->type == FILE_NAME))
 		{
 			cmd_parsing_aux(&head, &cmds, &tmp);
 			lst_contatenate_redir(&cmds, tmp->lexeme);
