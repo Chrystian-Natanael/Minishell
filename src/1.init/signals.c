@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:03:49 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:16:55 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:25:38 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,6 @@ void	heredoc_signals(void)
 	signal(SIGPIPE, SIG_IGN);
 }
 
-void	line_feed(int sig)
-{
-	(void)sig;
-	ft_putstr_fd("\n", 1);
-}
-
 void	sig_handler(int sig)
 {
 	(void)sig;
@@ -52,13 +46,18 @@ void	sig_handler(int sig)
 void	define_signals_exec(int pid)
 {
 	if (pid == 0)
+	{
 		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
+		signal(SIGPIPE, SIG_DFL);
+	}
 	else
+	{
 		signal(SIGINT, line_feed);
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGPIPE, SIG_IGN);
+		signal(SIGQUIT, SIG_IGN);
+		signal(SIGPIPE, SIG_IGN);
+	}
 }
-
 
 void	init_signals(void)
 {

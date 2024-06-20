@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 15:42:58 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:26:02 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,7 @@ char	*get_readline(t_envp *envp, t_data *data);
 void	init_signals(void);
 void	define_signals_exec(int pid);
 void	heredoc_signals(void);
+void	line_feed(int sig);
 
 //--------------------------------------- Envp
 t_envp	*create_envp(char **envp);
@@ -204,7 +205,6 @@ int		ft_isonlynum(char *str);
 void	free_split(char **array);
 int		find_key_size(char *str);
 char	*ft_strndup(const char *s, int n);
-int		ft_envp_size(t_envp *lst);
 int		ternary(int condition, int if_true, int if_false);
 int		is_valid_var(char letter);
 void	add_char(char **line, char c);

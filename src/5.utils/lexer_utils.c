@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:06:11 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 15:24:06 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:25:26 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,3 +115,11 @@ int	close_quote(char *line, int **i)
 	return (size);
 }
 
+int	is_metacharacter(char a, char b)
+{
+	if (a == '|' || a == '(' || a == ')' || a == '<' || a == '>')
+		return (1);
+	else if (a == '&' && b == '&')
+		return (1);
+	return (0);
+}

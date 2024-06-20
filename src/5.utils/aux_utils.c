@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_2.c                                          :+:      :+:    :+:   */
+/*   aux_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 16:11:57 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 15:22:40 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:25:44 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,8 @@ int	ternary(int condition, int if_true, int if_false)
 	return (if_false);
 }
 
-int	is_metacharacter(char a, char b)
+void	line_feed(int sig)
 {
-	if (a == '|' || a == '(' || a == ')' || a == '<' || a == '>')
-		return (1);
-	else if (a == '&' && b == '&')
-		return (1);
-	return (0);
+	(void)sig;
+	ft_putstr_fd("\n", 1);
 }

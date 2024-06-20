@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils_1.c                                          :+:      :+:    :+:   */
+/*   struct_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/27 19:50:30 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 15:22:07 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:22:26 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,19 +54,6 @@ void	lstadd_back(t_token **lst, t_token *new)
 	aux->next = new;
 }
 
-int	ft_envp_size(t_envp *lst)
-{
-	int	size_list;
-
-	size_list = 0;
-	while (lst)
-	{
-		lst = lst->next;
-		size_list++;
-	}
-	return (size_list);
-}
-
 void	free_split(char **array)
 {
 	int	i;
@@ -80,8 +67,6 @@ void	free_split(char **array)
 	free(array);
 }
 
-
-
 int	args_count(char **argv)
 {
 	int	count;
@@ -91,7 +76,6 @@ int	args_count(char **argv)
 		count++;
 	return (count);
 }
-
 
 int	find_key_size(char *str)
 {
