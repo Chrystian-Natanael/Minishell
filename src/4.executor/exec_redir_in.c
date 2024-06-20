@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/19 20:25:01 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 07:40:37 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ int open_files(t_bin *bin)
 		return (ft_error("minishell: ", bin->right->cmd, \
 		": No such file or directory", 1));
 	else if (bin->left->fd == -1)
+	{
+		bin->fd = -1;
 		return (status);
+	}
 	if (is_redirect_input(bin->type))
 		dup2(bin->fd, STDIN_FILENO);
 	else
