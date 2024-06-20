@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/13 18:03:49 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 19:12:38 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 19:31:36 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void	heredoc_signals(void)
 
 void	sig_handler(int sig)
 {
-	// (void)sig;
 	g_sign = sig;
 	ft_putstr_fd("\n", 1);
 	rl_on_new_line();
