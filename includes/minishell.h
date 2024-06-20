@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 07:44:17 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 08:24:31 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,8 +190,8 @@ char	*expan_get(t_token *token, t_envp *envp);
 
 //----------- DISTRIBUTE OR REORGANIZE ###
 
-void	expander(int	*idx, t_token	**token, t_envp	*envp, char	**dst);
-void	expander_validation(t_token **tokens, t_envp **envp);
+void	expander(int *idx, char **cmd,t_envp *envp, char **dst);
+void	expander_validation(t_data **data, char **cmd);
 int		is_valid_var(char letter);
 int		ternary(int condition, int if_true, int if_false);
 void	add_char(char **line, char c);

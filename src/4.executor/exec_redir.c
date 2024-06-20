@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_redir_in.c                                    :+:      :+:    :+:   */
+/*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 07:40:37 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 10:06:40 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,25 @@ int	is_redirect_input(int type)
 	return (type == REDIR_INPUT || type == HEREDOC);
 }
 
+void	remove_quotes(char **cmd)
+{
+	int		idx;
+	char	*line;
+
+	idx = 0;
+	line = NULL;
+	while ((*cmd) && (*cmd)[idx])
+	{
+		if ((*cmd)[idx] != '\'' && (*cmd)[idx] != '\"')
+			add_char(&line, (*cmd)[idx]);
+		idx++;
+	}
+	*cmd = line;
+}
+
 void	open_redirect(t_bin *bin)
 {
+	remove_quotes(&bin->right->cmd);
 	if (bin->type == REDIR_INPUT)
 		bin->fd = open(bin->right->cmd, O_RDONLY);
 	else if (bin->type == REDIR_OUTPUT)
@@ -75,7 +92,7 @@ int	exec_redirect(t_bin *bin, t_data **data)
 	status = 0;
 	if (!bin->fd)
 		status = open_files(bin);
-	if (status == 1 || bin->fd == -1)
+	if (status == 1 || (bin && bin->fd == -1))
 	{
 		close_dup_fd(keep_fd);
 		return (status);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/18 23:36:21 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 08:40:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,38 +27,31 @@ int	is_valid_var(char letter)
 		|| letter == '_' || letter == '?');
 }
 
-void	expander_validation(t_token **tokens, t_envp **envp)
+void	expander_validation(t_data **data, char **cmd)
 {
 	int		flag;
 	int		idx;
 	char	*line;
-	t_token	*tmp;
 
-	tmp = *tokens;
-	while (tmp)
+	line = NULL;
+	flag = 0;
+	idx = 0;
+	while ((*cmd) && (*cmd)[idx])
 	{
-		line = NULL;
-		flag = 0;
-		idx = 0;
-		while (tmp && tmp->lexeme && tmp->lexeme[idx])
-		{
-			if (tmp->lexeme[idx] == '\'' && (flag == 0 || flag == 1))
-				flag = ternary(flag == 0, 1, 0);
-			else if (tmp->lexeme[idx] == '\"' && (flag == 0 || flag == 2))
-				flag = ternary(flag == 0, 2, 0);
-			else if (tmp->lexeme[idx] == '$' && flag != 1 && tmp->lexeme[idx + 1]
-				&& is_valid_var(tmp->lexeme[idx + 1]))
-				expander(&idx, &tmp, *envp, &line);
-			else
-				add_char(&line, tmp->lexeme[idx]);
-			idx++;
-		}
-		tmp->lexeme = line;
-		tmp = tmp->next;
+		if ((*cmd)[idx] == '\'' && (flag == 0 || flag == 1))
+			flag = ternary(flag == 0, 1, 0);
+		else if ((*cmd)[idx] == '\"' && (flag == 0 || flag == 2))
+			flag = ternary(flag == 0, 2, 0);
+		else if ((*cmd)[idx] == '$' && flag != 1 && (*cmd)[idx + 1] && is_valid_var((*cmd)[idx + 1]))
+			expander(&idx, cmd,(*data)->my_envp, &line);
+		else
+			add_char(&line, (*cmd)[idx]);
+		idx++;
 	}
+	*cmd = line;
 }
 
-void	expander(int *idx, t_token **token, t_envp *envp, char **dst)
+void	expander(int *idx, char **cmd,t_envp *envp, char **dst)
 {
 	char	*line;
 	char	*key;
@@ -66,9 +59,9 @@ void	expander(int *idx, t_token **token, t_envp *envp, char **dst)
 
 	line = NULL;
 	key = NULL;
-	if (!(*token) || !(*token)->lexeme
-		|| ft_isdigit((*token)->lexeme[*(idx) + 1])
-		|| (*token)->lexeme[*(idx) + 1] == '$')
+	if (!cmd || !(*cmd)
+		|| ft_isdigit((*cmd)[*(idx) + 1])
+		|| (*cmd)[*(idx) + 1] == '$')
 		return ;
 	if (*dst)
 	{
@@ -77,17 +70,17 @@ void	expander(int *idx, t_token **token, t_envp *envp, char **dst)
 	}
 	(*idx)++;
 	size = *idx;
-	while ((*token)->lexeme && (*token)->lexeme[size]
-		&& is_valid_var((*token)->lexeme[size]))
+	while ((*cmd) && (*cmd)[size]
+		&& is_valid_var((*cmd)[size]))
 	{
-		if ((*token)->lexeme[size - 1] == '$' && (*token)->lexeme[size] == '?' && size == (*idx))
+		if ((*cmd)[size - 1] == '$' && (*cmd)[size] == '?' && size == (*idx))
 		{
 			size++;
 			break ;
 		}
 		size++;
 	}
-	key = ft_substr((*token)->lexeme, (*idx), size - (*idx));
+	key = ft_substr(*cmd, (*idx), size - (*idx));
 	typetree_insert(key);
 	if (!line)
 	{
@@ -96,7 +89,7 @@ void	expander(int *idx, t_token **token, t_envp *envp, char **dst)
 	}
 	line = ft_strjoin(line, envp_get(key, envp));
 	typetree_insert(line);
-	if ((*token)->lexeme[size] == '?')
+	if ((*cmd)[size] == '?')
 		size++;
 	*idx = size - 1;
 	(*dst) = line;

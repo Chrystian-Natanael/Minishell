@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/19 19:14:02 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 08:23:21 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 
 void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data)
 {
+	if (bin->type == CMD)
+		expander_validation(data, &bin->cmd);
 	*cmd = ft_split(bin->cmd, ' ');
 	typetree_insert(*cmd);
 	typetree_insert_matrix((void **)(*cmd));
