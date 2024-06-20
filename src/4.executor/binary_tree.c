@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/28 16:26:16 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/11 09:18:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/19 18:45:51 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ t_bin	*new_node(char *cmd, enum e_token type)
 	node->type = type;
 	node->left = NULL;
 	node->right = NULL;
+	node->fd = 0;
 	return (node);
 }
 
@@ -73,7 +74,7 @@ t_bin	*create_tree(t_token *tokens)
 		}
 		curr = curr->next;
 	}
-	bin = new_node(max_prec->lexema, max_prec->type);
+	bin = new_node(max_prec->lexeme, max_prec->type);
 	if (max_prec->type != CMD)
 		create_left_right(max_prec, &list, &tokens, &bin);
 	return (bin);
@@ -100,7 +101,7 @@ t_token	*return_token_list(t_token *tokens, t_token *max_prec)
 	{
 		new = allocate(sizeof(t_token));
 		new->type = tmp->type;
-		new->lexema = tmp->lexema;
+		new->lexeme = tmp->lexeme;
 		new->next = NULL;
 		lstadd_back(&left_list, new);
 		tmp = tmp->next;

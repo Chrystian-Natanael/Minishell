@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/17 12:28:23 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:13:18 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,73 @@
 
 #include "minishell.h"
 
+char	**separate_args(t_token *token)
+{
+	t_token	*tmp;
+	char	**cmd;
+	int		i;
+	int		size_token;
+
+	tmp = token;
+	i = 0;
+	size_token = 0;
+	while (tmp)
+	{
+		tmp = tmp->next;
+		size_token++;
+	}
+	cmd = (char **)allocate(sizeof(char *) * (size_token + 1));
+	if (!cmd)
+		return (NULL);
+	tmp = token;
+	while (tmp)
+	{
+		cmd[i] = ft_strdup(tmp->lexeme);
+		typetree_insert(cmd[i]);
+		tmp = tmp->next;
+		i++;
+	}
+	cmd[i] = NULL;
+	return (cmd);
+}
+
 void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data)
 {
-	*cmd = ft_split(bin->cmd, ' ');
+	t_token	*token;
+
+	token = lexer(bin->cmd);
+	*cmd = separate_args(token);
+	if (bin->type == CMD)
+		expander_validation(data, *cmd);
 	typetree_insert(*cmd);
-	typetree_insert_matrix((void **)(*cmd));
 	*exit_status = check_exec_builtin(*cmd, &(*data)->my_envp, *data);
+}
+
+int	verify_cmd(char **cmd)
+{
+	int	idx;
+
+	if (cmd == NULL)
+		return (0);
+	idx = 0;
+	while (cmd[idx])
+	{
+		if (verify_line(&cmd[idx]) == 0 && cmd[idx + 1] != NULL)
+		{
+			while (cmd[idx + 1])
+			{
+				cmd[idx] = cmd[idx + 1];
+				idx++;
+			}
+			cmd[idx] = NULL;
+			idx = 0;
+			continue ;
+		}
+		else if (verify_line(&cmd[idx]) == 0)
+			return (0);
+		idx++;
+	}
+	return (1);
 }
 
 int	exec_cmd(t_bin *bin, t_data **data)
@@ -33,10 +94,13 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	int		exit_status;
 	char	**cmd;
 	char	*path;
+	char	**envp;
 
 	exec_init(&cmd, &exit_status, bin, data);
 	if (exit_status != -1)
 		return (exit_status);
+	else if (!verify_cmd(cmd))
+		return (0);
 	pid = fork();
 	define_signals_exec(pid);
 	if (pid == -1 || cmd[0] == NULL)
@@ -45,15 +109,14 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	path = get_path_cmd(&(*data)->my_envp, cmd[0]);
 	if (pid == 0)
 	{
-		execve(path, cmd, t_envp_to_char(&(*data)->my_envp));
-		if (access(path, F_OK | X_OK) != 0)
+		envp = create_envp_array(&(*data)->my_envp);
+		execve(path, cmd, envp);
+		if (access(cmd[0], F_OK) != 0 || ft_strchr(cmd[0], '/') == NULL)
 			exit_status = ft_error("minishell: ", cmd[0], \
 			": command not found", 127);
-		else if (access(path, X_OK) != 0 || is_directory(path))
-			exit_status = ft_error("minishell: ", cmd[0], \
-			": No such file or directory", 126);
 		else
-			exit_status = 1;
+			exit_status = 126;
+		free_split(envp);
 		ending (exit_status, *data);
 	}
 	waitpid(pid, &exit_status, 0);
@@ -70,10 +133,8 @@ int	exec_tree(t_bin *bin, t_data **data)
 		return (exec_or(bin, data));
 	else if (bin->type == PIPE)
 		return (exec_pipe(bin, data));
-	else if (bin->type == REDIR_INPUT)
-		return (exec_redir_input(bin, data));
-	else if (bin->type == REDIR_OUTPUT || bin->type == OUTPUT_APPEND)
-		return (exec_redir_out(bin, data));
+	else if (is_redirect(bin->type))
+		return (exec_redirect(bin, data));
 	else if (bin->type == SUB_SHELL)
 		return (exec_sub_shell(bin, data));
 	else

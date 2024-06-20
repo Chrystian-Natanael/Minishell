@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 17:06:11 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/11 08:15:51 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/18 21:46:14 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,12 +64,12 @@ int	get_token_type(char *line, int i)
 		return (-1);
 }
 
-char	*return_lexema(t_token *token)
+char	*return_lexeme(t_token *token)
 {
 	if (!token)
 		return ("");
 	if (token->type == WORD || token->type == CMD)
-		return (token->lexema);
+		return (token->lexeme);
 	else if (token->type == REDIR_INPUT)
 		return ("<");
 	else if (token->type == REDIR_OUTPUT)

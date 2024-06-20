@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/17 12:35:30 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:12:48 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,23 @@
 */
 
 #include "minishell.h"
+
+int	valid_var_export(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isalpha(str[i]) && str[i] != '_')
+		return (0);
+	i++;
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]) && str[i] != '_')
+			return (0);
+		i++;
+	}
+	return (1);
+}
 
 int	ft_unset(char **argv, t_envp **envp)
 {
@@ -40,7 +57,10 @@ int	ft_unset(char **argv, t_envp **envp)
 			prev->next = curr->next;
 		free(curr->key);
 		free(curr->value);
-		// deallocate(curr);
+		deallocate(curr);
+		return (0);
 	}
+	if (!valid_var_export(argv[1]))
+		return (ft_error("minishell: unset: '", argv[1], "': not a valid identifier", 1));
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/17 14:25:51 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:10:11 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 */
 
 # define TRUN 0x00000242
+# define MAX_NB "9223372036854775807"
+# define MIN_NB "-9223372036854775808"
 
 # include <termios.h>
 # include <sys/stat.h>
@@ -72,9 +74,15 @@ enum e_token
 typedef struct s_token
 {
 	enum e_token	type;
-	char			*lexema;
+	char			*lexeme;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_aux_redirect
+{
+	t_token	*redir;
+	t_token	*file_name;
+}	t_aux_redirect;
 
 typedef struct s_envp
 {
@@ -86,6 +94,7 @@ typedef struct s_envp
 typedef struct s_bin
 {
 	char			*cmd;
+	int				fd;
 	enum e_token	type;
 	struct s_bin	*left;
 	struct s_bin	*right;
@@ -131,7 +140,7 @@ t_token	*lexer(char *line);
 
 //--------------------------------------- Utils
 
-void	lst_addnew(t_token **list, enum e_token type, char *lexema);
+void	lst_addnew(t_token **list, enum e_token type, char *lexeme);
 int		is_metacharacter(char a, char b);
 int		get_token_type(char *line, int i);
 int		args_count(char **argv);
@@ -140,15 +149,17 @@ int		ft_isonlynum(char *str);
 void	free_split(char **array);
 int		find_key_size(char *str);
 char	*ft_strndup(const char *s, int n);
+int		ft_envp_size(t_envp *lst);
+char	**sort_envp(t_envp **envp);
 
 //--------------------------------------- Expression Analysis
 
 t_token	*cmd_parsing(t_token *token, t_envp **envp);
-void	lst_contatenate(t_token **list, char *lexema);
-void	lst_contatenate_redir(t_token **list, char *lexema);
+void	lst_contatenate(t_token **list, char *lexeme);
+void	lst_contatenate_redir(t_token **list, char *lexeme);
 void	lstadd_back(t_token **lst, t_token *new);
 void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp);
-char	*return_lexema(t_token *token);
+char	*return_lexeme(t_token *token);
 
 //--------------------------------------- Syntax Analysis
 
@@ -168,7 +179,7 @@ char	*get_path_cmd(t_envp **envp, char *cmd);
 void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data);
 int		exec_cmd(t_bin *bin, t_data **data);
 int		exec_tree(t_bin *bin, t_data **data);
-char	**t_envp_to_char(t_envp **envp);
+char	**create_envp_array(t_envp **envp);
 int		exec_and(t_bin *bin, t_data **data);
 int		exec_or(t_bin *bin, t_data **data);
 int		exec_pipe(t_bin *bin, t_data **data);
@@ -192,19 +203,15 @@ char	*expan_get(t_token *token, t_envp *envp);
 
 //----------- DISTRIBUTE OR REORGANIZE ###
 
-void	expander(int	*idx, t_token	**token, t_envp	*envp, char	**dst);
-void	expander_validation(t_token **tokens, t_envp **envp);
+void	expander(int *idx, char **cmd,t_envp *envp, char **dst);
+void	expander_validation(t_data **data, char **cmd);
 int		is_valid_var(char letter);
 int		ternary(int condition, int if_true, int if_false);
 void	add_char(char **line, char c);
 
 //----------- DISTRIBUTE OR REORGANIZE ###
 
-int		exec_redir_out(t_bin *bin, t_data **data);
-int		exec_redir_output(t_bin *bin, t_data **data);
-int		exec_redir_append(t_bin *bin, t_data **data);
-
-int		exec_redir_input(t_bin *bin, t_data **data);
+int		exec_redirect(t_bin *bin, t_data **data);
 
 //----------- HEREDOC ###
 
@@ -223,28 +230,11 @@ void	init_signals(void);
 void	define_signals_exec(int pid);
 void	heredoc_signals(void);
 
+void	organize_redirects(t_token **token);
+int		is_redirect(int	type);
+int		count_redirects(t_token *token);
 
-int		is_directory(char *path);
 
-
-// ! ???????
-
-int		get_next_state(int state, char character);
-int		is_metacharacter_char(char character);
-int		state_is_final(int state);
-void	aux_state_final(t_aux_token *aux, char *str, \
-		t_token **token_list);
-int		state_require_backtrack(int state);
-int		token_get_token_type(int state);
-t_token	*token_create_node(char *lexema, int token_type);
-void	token_add_to_list(t_token **tok_lst, char *lex, int token_type);
-int		token_get_state_1(char character);
-int		token_get_state_40(char character);
-int		token_get_state_50(char character);
-int		token_get_state_60(char character);
-int		token_get_state_70(char character);
-int		token_get_state_80(char character);
-int		token_get_state_81(char character);
-int		token_get_state_82(char character);
+int		verify_line(char **line);
 
 #endif

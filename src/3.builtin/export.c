@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/11 09:08:02 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:47:19 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ void	export_env(t_envp **envp, char *str)
 	key_size = find_key_size(str);
 	curr->key = ft_substr(str, 0, key_size);
 	typetree_insert(curr->key);
+	if (!ft_strchr(str, '='))
+	{
+		curr->value = NULL;
+		curr->next = *envp;
+		*envp = curr;
+		return ;
+	}
 	curr->value = ft_substr(str, (key_size + 1), \
 	(ft_strlen(str) - key_size - 1));
 	typetree_insert(curr->value);
@@ -42,6 +49,8 @@ int	check_and_replace_env(char *str, t_envp **envp)
 	char	*new_value;
 	int		size;
 
+	if (!ft_strchr(str, '='))
+		return (0);
 	size = ft_strchr(str, '=') - str;
 	key_to_find = ft_strndup(str, size);
 	new_value = ft_strdup(&str[size + 1]);
@@ -70,8 +79,7 @@ int	validate_var(char *str)
 	while (str[i] && str[i] != '=')
 	{
 		if (str[i] != '_' && !ft_isalnum(str[i]) && !ft_isalpha(str[i]))
-			return (ft_error("minishell: export: `", str, \
-			"': not a valid identifier", 0));
+			return (0);
 		i++;
 	}
 	return (1);
@@ -79,18 +87,18 @@ int	validate_var(char *str)
 
 void	export_print_envp(t_envp **envp)
 {
-	t_envp	*curr;
+	char	**sorted_envp;
+	int		i;
 
-	curr = *envp;
-	while (curr)
+	i = 0;
+	sorted_envp = sort_envp(envp);
+	while (sorted_envp[i])
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(curr->key, 1);
-		ft_putstr_fd("=", 1);
-		ft_putstr_fd(curr->value, 1);
-		ft_putstr_fd("\n", 1);
-		curr = curr->next;
+		if (ft_strncmp(sorted_envp[i], "?", 1))
+			ft_printf("declare -x %s\n", sorted_envp[i]);
+		i++;
 	}
+	free_split(sorted_envp);
 }
 
 int	ft_export(char **argv, t_envp **envp)
@@ -107,10 +115,9 @@ int	ft_export(char **argv, t_envp **envp)
 	{
 		while (argv[i])
 		{
-			if (!validate_var(argv[i]) && !ft_strchr(argv[i], '='))
-				return (1);
-			if (!exist_content(argv[i]))
-				return (0);
+			if (!validate_var(argv[i]))
+				return (ft_error("minishell: export: `", argv[i], \
+				"': not a valid identifier", 1));
 			if (!check_and_replace_env(argv[i], envp))
 				export_env(envp, argv[i]);
 			i++;

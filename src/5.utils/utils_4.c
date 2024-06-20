@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/17 12:15:29 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:13:05 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,11 +65,15 @@ int	exist_content(char *str)
 	return (1);
 }
 
-int	is_directory(char *path)
+int	ft_envp_size(t_envp *lst)
 {
-	struct stat	statbuf;
+	int	size_list;
 
-	if (stat(path, &statbuf) == -1)
-		return (0);
-	return ((((statbuf.st_mode) & 0170000) == (0040000)));
+	size_list = 0;
+	while (lst)
+	{
+		lst = lst->next;
+		size_list++;
+	}
+	return (size_list);
 }

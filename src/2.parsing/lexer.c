@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/17 15:03:46 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:12:23 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,33 +112,52 @@ int	state_require_backtrack(int state)
 	return (0);
 }
 
-int	token_get_token_type(int state)
+int	close_quote(char *line, int **i)
 {
-	int	type;
+	int		size;
+	char	type_quote;
 
-	if (state == 20)
-		type = L_PAREN;
-	else if (state == 30)
-		type = R_PAREN;
-	else if (state == 41)
-		type = OR;
-	else if (state == 42)
-		type = PIPE;
-	else if (state == 51)
-		type = AND;
-	else if (state == 61)
-		type = HEREDOC;
-	else if (state == 62)
-		type = REDIR_INPUT;
-	else if (state == 71)
-		type = OUTPUT_APPEND;
-	else if (state == 72)
-		type = REDIR_OUTPUT;
-	else if (state == 83)
-		type = WORD;
-	else
-		type = -1;
-	return (type);
+	type_quote = line[(**i)++];
+	size = 1;
+	while (line[**i] && line[**i] != type_quote)
+	{
+		(**i)++;
+		size++;
+	}
+	if (!line[**i] || line[**i] != type_quote)
+		return (0);
+	// size -= 1;
+	return (size);
+}
+
+char	*get_word(char *line, int *i, int *state)
+{
+	int		tmp;
+	int		idx;
+	int		quote;
+	char	*word;
+
+	tmp = *i;
+	idx = 0;
+	while (line[*i] && !is_metacharacter(line[*i], line[(*i) + 1])
+		&& !ft_isspace(line[*i]))
+	{
+		if (line[*i] == '\'' || line[*i] == '"')
+			idx += close_quote(line, &i);
+		idx++;
+		(*i)++;
+	}
+	if (is_metacharacter(line[*i], 0))
+		(*state)++;
+	quote = quote_is_closed(line, i);
+	if (quote == 0)
+		return (NULL);
+	word = allocate(sizeof(char) * (idx + 1));
+	idx = 0;
+	while (tmp < *i && line[tmp])
+		word[idx++] = line[tmp++];
+	word[idx] = '\0';
+	return (word);
 }
 
 t_token	*token_create_node(char *lexema, int token_type)
@@ -198,119 +217,53 @@ int	token_get_state_1(char character)
 	return (state);
 }
 
-int	token_get_state_40(char character)
+char	*get_token_word(char *line, int *i, int *type, int *state)
 {
-	int	state;
+	char	*word;
 
-	if (character == '|')
-		state = 41;
-	else if (character != '|')
-		state = 42;
+	if (line[*i] == '\0')
+		return (NULL);
+	word = NULL;
+	if (line[*i] == '"' || line[*i] == '\'')
+		word = quote_word(line, i);
 	else
-		state = -1;
-	return (state);
-}
-
-int	token_get_state_50(char character)
-{
-	int	state;
-
-	if (character == '&')
-		state = 51;
-	else if (character != '&')
-		state = -1;
-	else
-		state = -1;
-	return (state);
-}
-
-int	token_get_state_60(char character)
-{
-	int	state;
-
-	if (character == '<')
-		state = 61;
-	else if (character != '<')
-		state = 62;
-	else
-		state = -1;
-	return (state);
+		word = get_word(line, i, state);
+	if (word)
+		*type = WORD;
+	return (word);
 }
 
 int	token_get_state_70(char character)
 {
-	int	state;
+	int		i;
+	int		state;
+	int		token_type;
+	char	*word;
+	t_token	*list;
 
-	if (character == '>')
-		state = 71;
-	else if (character != '>')
-		state = 72;
-	else
-		state = -1;
-	return (state);
-}
-
-int	token_get_state_80(char character)
-{
-	int	state;
-
-	if (character == '\'')
-		state = 81;
-	else if (character == '\"')
-		state = 82;
-	else if (is_metacharacter_char(character) == 1 || character == '\0')
-		state = 83;
-	else if (is_metacharacter_char(character) == 0)
-		state = 80;
-	else
-		state = -1;
-	return (state);
-}
-
-int	token_get_state_81(char character)
-{
-	int	state;
-
-	if (character == '\0')
-		state = -1;
-	else if (character == '\'')
-		state = 80;
-	else if (character != '\'')
-		state = 81;
-	else
-		state = -1;
-	return (state);
-}
-
-int	token_get_state_82(char character)
-{
-	int	state;
-
-	if (character == '\0')
-		state = -1;
-	else if (character == '\"')
-		state = 80;
-	else if (character != '\"')
-		state = 82;
-	else
-		state = -1;
-	return (state);
-}
-
-
-
-
-int	is_metacharacter_char(char character)
-{
-	if (character == '('
-		|| character == ')'
-		|| character == '|'
-		|| character == '&'
-		|| character == '<'
-		|| character == '>'
-		|| character == '\''
-		|| character == '\"'
-		|| ft_isspace(character))
-		return (1);
-	return (0);
+	i = 0;
+	list = NULL;
+	word = NULL;
+	while (line && line[i])
+	{
+		while (ft_isspace(line[i]))
+			i++;
+		token_type = get_token_type(line, i);
+		state = 0;
+		if (token_type >= OR || line[i] == ')')
+		{
+			if (token_type >= OR)
+				i++;
+			i++;
+			state = 1;
+		}
+		if (token_type < 0)
+			word = get_token_word(line, &i, &token_type, &state);
+		if (token_type >= 0)
+			lst_addnew(&list, token_type, word);
+		word = NULL;
+		if (line[i] != '\0' && line[i] != ')' && state == 0)
+			i++;
+	}
+	return (list);
 }

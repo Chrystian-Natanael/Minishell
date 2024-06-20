@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/17 14:57:27 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:11:05 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static void	init_data(t_data *data, int argc, char **argv, char **envp)
 	data->expr = NULL;
 	data->my_envp = create_envp(envp);
 	data->count_files = 0;
+	data->status = 0;
 	// loadingbar();
 }
 
@@ -48,6 +49,24 @@ static void	reading_line(t_data *data)
 	}
 }
 
+int	verify_line(char **line)
+{
+	int	exist_line;
+	int	size_line;
+	int	idx;
+
+	exist_line = 0;
+	size_line = ft_strlen(*line);
+	idx = 0;
+	while (idx < size_line)
+	{
+		if (!ft_isspace((*line)[idx]))
+			exist_line = 1;
+		idx++;
+	}
+	return (exist_line);
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -57,20 +76,25 @@ int	main(int argc, char **argv, char **envp)
 	{
 		init_signals();
 		reading_line(&data);
+
 		if (data.line == NULL)
-			ending(data.status, &data);
+			ending(data.status, &data) ;
+		if (!verify_line(&data.line))
+		{
+			change_status(&data.my_envp, 0);
+			continue ;
+		}
 		data.token = lexer(data.line);
 		g_sign = 0;
 		heredoc_validation(&data.token, &data.count_files);
 		if (g_sign == SIGINT)
 			continue ;
-		// if (data.token == NULL || data.line[0] == '\0'
-			// || syntax_error(data.token) || quote_error(data.token))
-		// {
-			// change_status(&data.my_envp, 2);
-			// continue ;
-		// }
-		expander_validation(&data.token, &data.my_envp);
+		if (data.token == NULL || data.line[0] == '\0'
+			|| syntax_error(data.token) || quote_error(data.token))
+		{
+			change_status(&data.my_envp, 2);
+			continue ;
+		}
 		data.expr = cmd_parsing(data.token, &data.my_envp);
 		if (syntax_expr(data.expr))
 		{
