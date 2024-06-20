@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 19:57:23 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:20:40 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,9 @@ void	ending(int status, t_data *data)
 		idx++;
 	}
 	quit(status);
+}
+
+int	is_redirect_input(int type)
+{
+	return (type == REDIR_INPUT || type == HEREDOC);
 }

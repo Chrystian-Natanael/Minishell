@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:24:13 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:20:34 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,6 @@
 */
 
 #include "minishell.h"
-
-int	is_redirect_input(int type)
-{
-	return (type == REDIR_INPUT || type == HEREDOC);
-}
 
 void	remove_quotes(char **cmd)
 {
@@ -51,7 +46,7 @@ void	open_redirect(t_bin *bin)
 		bin->fd = open(bin->right->cmd, O_WRONLY | O_CREAT | O_APPEND, 0777);
 }
 
-int open_files(t_bin *bin)
+int	open_files(t_bin *bin)
 {
 	int	status;
 
@@ -78,16 +73,16 @@ int open_files(t_bin *bin)
 
 void	close_dup_fd(const int *fd)
 {
-		dup2(fd[0], STDIN_FILENO);
-		dup2(fd[1], STDOUT_FILENO);
-		close(fd[0]);
-		close(fd[1]);
+	dup2(fd[0], STDIN_FILENO);
+	dup2(fd[1], STDOUT_FILENO);
+	close(fd[0]);
+	close(fd[1]);
 }
 
 int	exec_redirect(t_bin *bin, t_data **data)
 {
-	int		status;
-	const int keep_fd[2] = {dup(STDIN_FILENO), dup(STDOUT_FILENO)};
+	int			status;
+	const int	keep_fd[2] = {dup(STDIN_FILENO), dup(STDOUT_FILENO)};
 
 	status = 0;
 	if (!bin->fd)

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 19:57:47 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:24:28 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,8 +189,10 @@ void	heredoc_validation(t_token **tokens, int *count_files);
 //--------------------------------------- Redirect
 void	organize_redirects(t_token **token);
 int		is_redirect(int type);
+int		is_redirect_input(int type);
 int		count_redirects(t_token *token);
 int		exec_redirect(t_bin *bin, t_data **data);
+void	close_dup_fd(const int *fd);
 
 //--------------------------------------- Utils
 void	lst_addnew(t_token **list, enum e_token type, char *lexeme);
