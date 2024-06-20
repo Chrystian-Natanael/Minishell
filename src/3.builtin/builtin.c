@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 18:14:29 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:19:18 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:30:23 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,21 @@
 
 int	check_exec_builtin(char **cmd, t_envp **envp, t_data *data)
 {
-	if (ft_strcmp(cmd[0], "echo") == 0)
+	if (*cmd && ft_strcmp(cmd[0], "echo") == 0)
 		return (ft_echo(cmd));
-	if (ft_strcmp(cmd[0], "env") == 0)
+	if (*cmd && ft_strcmp(cmd[0], "env") == 0)
 		return (ft_env(cmd, envp));
-	if (ft_strcmp(cmd[0], "exit") == 0)
+	if (*cmd && ft_strcmp(cmd[0], "exit") == 0)
 		return (ft_exit(cmd, data));
-	if (ft_strcmp(cmd[0], "export") == 0)
+	if (*cmd && ft_strcmp(cmd[0], "export") == 0)
 		return (ft_export(cmd, envp));
-	if (ft_strcmp(cmd[0], "pwd") == 0)
+	if (*cmd && ft_strcmp(cmd[0], "pwd") == 0)
 		return (ft_pwd());
-	if (ft_strcmp(cmd[0], "unset") == 0)
+	if (*cmd && ft_strcmp(cmd[0], "unset") == 0)
 		return (ft_unset(cmd, envp));
-	if (ft_strcmp(cmd[0], "cd") == 0)
+	if (*cmd && ft_strcmp(cmd[0], "cd") == 0)
 		return (ft_cd(cmd, envp));
+	if (!*cmd)
+		return (-2);
 	return (-1);
 }

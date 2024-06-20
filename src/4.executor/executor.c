@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 16:44:22 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 17:30:51 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	exec_init(&cmd, &exit_status, bin, data);
 	if (exit_status != -1)
 		return (exit_status);
-	else if (!verify_cmd(cmd))
+	else if (!verify_cmd(cmd) || exit_status == -2)
 		return (0);
 	pid = fork();
 	define_signals_exec(pid);
