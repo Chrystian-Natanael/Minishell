@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 20:11:59 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 20:35:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_token	*lstpickel(t_token **lst, int index)
 	}
 	return (el);
 }
+
 t_token	*lstpop(t_token **lst, int index)
 {
 	t_token	*el;
@@ -52,7 +53,7 @@ t_token	*lstpop(t_token **lst, int index)
 	return (el);
 }
 
-int	is_redirect(int	type)
+int	is_redirect(int type)
 {
 	return (type == REDIR_INPUT || type == REDIR_OUTPUT
 		|| type == OUTPUT_APPEND || type == HEREDOC);
@@ -76,11 +77,11 @@ int	count_redirects(t_token *token)
 
 void	organize_redirects(t_token **token)
 {
-	int		idx;
-	int		odx;
-	int		point;
-	int		count_redir;
-	t_token	*tmp;
+	int				idx;
+	int				odx;
+	int				point;
+	int				count_redir;
+	t_token			*tmp;
 	t_aux_redirect	**redir;
 
 	tmp = *token;
@@ -102,7 +103,8 @@ void	organize_redirects(t_token **token)
 				redir[odx]->file_name = lstpop(token, idx);
 				tmp = *token;
 				idx = 0;
-				while ((tmp && !is_redirect(tmp->type) && count_redir) || idx < point)
+				while ((tmp && !is_redirect(tmp->type) && count_redir)
+					|| idx < point)
 				{
 					tmp = tmp->next;
 					idx++;
@@ -111,7 +113,8 @@ void	organize_redirects(t_token **token)
 			}
 		}
 		point = idx;
-		if ((tmp && tmp->next && tmp->next->type != WORD && redir) || (tmp && !tmp->next && redir))
+		if ((tmp && tmp->next && tmp->next->type != WORD && redir)
+			|| (tmp && !tmp->next && redir))
 		{
 			odx = 0;
 			while (redir[odx])
@@ -203,7 +206,8 @@ char	*expan_get(t_token *token, t_envp *envp)
 		token->lexeme = return_lexeme(token);
 	while (current)
 	{
-		if (ft_strncmp(current->key, token->lexeme, ft_strlen(token->lexeme)) == 0)
+		if (ft_strncmp(current->key, token->lexeme, \
+		ft_strlen(token->lexeme)) == 0)
 			return (current->value);
 		current = current->next;
 	}
