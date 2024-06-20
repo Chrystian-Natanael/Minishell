@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/19 14:17:48 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 12:37:31 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	ft_unset(char **argv, t_envp **envp)
 		free(curr->key);
 		free(curr->value);
 		deallocate(curr);
+		return (0);
 	}
-	return (0);
+	return (ft_error("minishell: unset: '", argv[1], "': not a valid identifier", 1));
 }
