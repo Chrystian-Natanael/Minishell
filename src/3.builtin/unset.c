@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 18:12:55 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:21:01 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 14:55:35 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,27 +42,31 @@ int	ft_unset(char **argv, t_envp **envp)
 {
 	t_envp	*prev;
 	t_envp	*curr;
+	int		var_name;
+	int		exit_status;
 
+	var_name = 1;
+	exit_status = 0;
 	if (!argv[1])
 		return (0);
-	curr = *envp;
-	while (curr && ft_strcmp(argv[1], curr->key) != 0)
+	while (argv[var_name])
 	{
-		prev = curr;
-		curr = curr->next;
+		curr = *envp;
+		while (curr && ft_strcmp(argv[var_name], curr->key) != 0)
+		{
+			prev = curr;
+			curr = curr->next;
+		}
+		if (curr && ft_strcmp(argv[var_name], curr->key) == 0)
+		{
+			if (curr == *envp)
+				*envp = (*envp)->next;
+			else
+				prev->next = curr->next;
+		}
+		if (!valid_var_export(argv[var_name]))
+			exit_status = ft_error("minishell: unset: '", argv[var_name], "': not a valid identifier", 1);
+		var_name++;
 	}
-	if (curr && ft_strcmp(argv[1], curr->key) == 0)
-	{
-		if (curr == *envp)
-			*envp = (*envp)->next;
-		else
-			prev->next = curr->next;
-		free(curr->key);
-		free(curr->value);
-		deallocate(curr);
-		return (0);
-	}
-	if (!valid_var_export(argv[1]))
-		return (ft_error("minishell: unset: '", argv[1], "': not a valid identifier", 1));
-	return (0);
+	return (exit_status);
 }
