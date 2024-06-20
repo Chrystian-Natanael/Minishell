@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:38:53 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 14:50:56 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:33:49 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	ft_export(char **argv, t_envp **envp)
 	int	i;
 	int	status;
 
-	i = 1;
+	i = 0;
 	status = 0;
 	if (!argv[1])
 	{
@@ -115,7 +115,7 @@ int	ft_export(char **argv, t_envp **envp)
 	}
 	else
 	{
-		while (argv[i])
+		while (argv[++i])
 		{
 			if (!validate_var(argv[i]))
 			{
@@ -125,7 +125,6 @@ int	ft_export(char **argv, t_envp **envp)
 			}
 			else if (!check_and_replace_env(argv[i], envp))
 				export_env(envp, argv[i]);
-			i++;
 		}
 	}
 	return (status);
