@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 09:30:45 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/20 15:24:10 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:06:41 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ char	*get_word(char *line, int *i, int *state)
 {
 	int		tmp;
 	int		idx;
-	int		quote;
 	char	*word;
 
 	tmp = *i;
@@ -38,8 +37,7 @@ char	*get_word(char *line, int *i, int *state)
 	}
 	if (is_metacharacter(line[*i], 0))
 		(*state)++;
-	quote = quote_is_closed(line, i);
-	if (quote == 0)
+	if (quote_is_closed(line, i) == 0)
 		return (NULL);
 	word = allocate(sizeof(char) * (idx + 1));
 	idx = 0;
@@ -94,6 +92,17 @@ char	*get_token_word(char *line, int *i, int *type, int *state)
 	return (word);
 }
 
+void	meta_double(int token_type, char c, int *i, int *state)
+{
+	if (token_type >= OR || c == ')')
+	{
+		if (token_type >= OR)
+			(*i)++;
+		(*i)++;
+		*state = 1;
+	}
+}
+
 t_token	*lexer(char *line)
 {
 	int		i;
@@ -111,13 +120,7 @@ t_token	*lexer(char *line)
 			i++;
 		token_type = get_token_type(line, i);
 		state = 0;
-		if (token_type >= OR || line[i] == ')')
-		{
-			if (token_type >= OR)
-				i++;
-			i++;
-			state = 1;
-		}
+		meta_double(token_type, line[i], &i, &state);
 		if (token_type < 0)
 			word = get_token_word(line, &i, &token_type, &state);
 		if (token_type >= 0)
