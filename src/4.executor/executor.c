@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 14:25:42 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 16:44:22 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,37 @@ int	verify_cmd(char **cmd)
 	return (1);
 }
 
+int	term_by_signal(int status)
+{
+	return (((signed char)((status & 0x7f) + 1) >> 1) > 0);
+}
+
+int	term_normaly(int status)
+{
+	return (term_by_signal(status) == 0);
+}
+
+int	exit_status(int status)
+{
+	return ((status >> 8) & 0xFF);
+}
+
+int	term_signal(int status)
+{
+	return (status & 0x7F);
+}
+
+int	get_return_value(int status)
+{
+	if (term_by_signal(status))
+	{
+		if (term_signal(status) == SIGQUIT)
+			ft_putendl_fd("QUIT" " (core dumped)", STDERR_FILENO);
+		return (term_signal(status) + 128);
+	}
+	return (exit_status(status));
+}
+
 int	exec_cmd(t_bin *bin, t_data **data)
 {
 	int		pid;
@@ -96,6 +127,8 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	char	*path;
 	char	**envp;
 
+	if (g_sign != 0)
+		return (130);
 	exec_init(&cmd, &exit_status, bin, data);
 	if (exit_status != -1)
 		return (exit_status);
@@ -120,25 +153,32 @@ int	exec_cmd(t_bin *bin, t_data **data)
 		ending (exit_status, *data);
 	}
 	waitpid(pid, &exit_status, 0);
-	return ((exit_status >> 8) & 0xFF);
+	return (get_return_value(exit_status));
 }
 
 int	exec_tree(t_bin *bin, t_data **data)
 {
-	if (bin->type == CMD)
-		return (exec_cmd(bin, data));
+	int ret_code;
+
+	ret_code = 2;
+	if (g_sign != 0)
+		return (130);
+
+	else if (bin->type == CMD)
+		ret_code = (exec_cmd(bin, data));
 	else if (bin->type == AND)
-		return (exec_and(bin, data));
+		ret_code = (exec_and(bin, data));
 	else if (bin->type == OR)
-		return (exec_or(bin, data));
+		ret_code = (exec_or(bin, data));
 	else if (bin->type == PIPE)
-		return (exec_pipe(bin, data));
+		ret_code = (exec_pipe(bin, data));
 	else if (is_redirect(bin->type))
-		return (exec_redirect(bin, data));
+		ret_code = (exec_redirect(bin, data));
 	else if (bin->type == SUB_SHELL)
-		return (exec_sub_shell(bin, data));
-	else
-		return (-1);
+		ret_code = (exec_sub_shell(bin, data));
+	if (g_sign != 0)
+		ret_code = (130);
+	return (ret_code);
 }
 
 int	execute(t_token *tokens, t_data *data)

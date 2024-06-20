@@ -87,7 +87,8 @@ TEST = $(addprefix $(TEST_DIR),\
 		test_utils.c \
 		test_exec.c \
 		test_main.c) $(addprefix $(SRCS_PATH),\
-		1.init/envp.c \
+	1.init/envp.c \
+		1.init/signals.c \
 		2.parsing/syntax.c \
 		2.parsing/cmd.c \
 		2.parsing/lexer.c \
@@ -108,9 +109,12 @@ TEST = $(addprefix $(TEST_DIR),\
 		4.executor/exec_sub_shell.c \
 		4.executor/exec_redir.c \
 		4.executor/exec_heredoc.c \
-		5.utils/utils_1.c \
-		5.utils/utils_2.c \
-		5.utils/path_envp_utils.c)
+		5.utils/aux_utils.c \
+		5.utils/export_utils.c \
+		5.utils/lexer_utils.c \
+		5.utils/main_utils.c \
+		5.utils/path_envp_utils.c \
+		5.utils/struct_utils.c)
 TEST_B = $(addprefix $(TEST_B_DIR),\
 		test_echo_pwd.c) $(addprefix $(SRCS_PATH),\
 		3.builtin/builtin.c \
@@ -276,6 +280,24 @@ fclean: clean
 	$(RM) $(NAME_TEST)
 	$(MAKE) -C $(LIBFT_DIR) fclean
 	$(MAKE) -C $(GARB_DIR) fclean
+
+val: readline.supp all
+		@valgrind -q --suppressions=readline.supp \
+								--leak-check=full \
+								--show-leak-kinds=all \
+								--track-origins=yes \
+								--track-fds=yes \
+								--trace-children=yes \
+								--trace-children-skip='*/bin/*,*/sbin/*,/usr/bin/*' \
+								./${NAME}
+
+readline.supp:
+		@echo '{' > $@
+		@echo '   ignore_libreadline_memory_errors' >> $@
+		@echo '   Memcheck:Leak' >> $@
+		@echo '   ...' >> $@
+		@echo '   obj:*/libreadline.so.*' >> $@
+		@echo '}' >> $@
 
 re: fclean all
 
