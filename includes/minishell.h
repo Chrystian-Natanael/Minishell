@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 20:24:28 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:07:28 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,14 @@ typedef struct s_data
 	t_token	*expr;
 }	t_data;
 
+typedef struct s_heredoc
+{
+	int			fd;
+	char		*buff;
+	char		*fl_name;
+	char		*eof;
+}	t_heredoc;
+
 //--------------------------------------- Init
 void	ending(int status, t_data *data);
 int		verify_line(char **line);
@@ -184,7 +192,7 @@ char	*expan_get(t_token *token, t_envp *envp);
 
 //--------------------------------------- Heredoc
 int		exec_heredoc(t_token **token, int *count_files);
-void	heredoc_validation(t_token **tokens, int *count_files);
+void	heredoc_validation(t_data **data);
 
 //--------------------------------------- Redirect
 void	organize_redirects(t_token **token);

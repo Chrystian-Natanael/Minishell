@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 20:16:22 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 14:35:41 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int	lexing(t_data *data)
 	}
 	data->token = lexer(data->line);
 	g_sign = 0;
-	heredoc_validation(&data->token, &data->count_files);
+	heredoc_validation(&data);
 	if (g_sign == SIGINT)
 		return (0);
 	if (data->token == NULL || data->line[0] == '\0'

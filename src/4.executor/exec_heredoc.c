@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 17:16:25 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:14:13 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "minishell.h"
 
 static int	heredoc_file_creation(int count, int *fd, char **fl_name);
-static int	heredoc_loop(char **buff, char *eof, const int std_in, int fd);
+static int	heredoc_loop(t_heredoc *heredoc, const int std_in);
 
 static int	heredoc_file_creation(int count, int *fd, char **fl_name)
 {
@@ -37,38 +37,35 @@ static int	heredoc_file_creation(int count, int *fd, char **fl_name)
 	return (0);
 }
 
-static int	heredoc_loop(char **buff, char *eof, const int std_in, int fd)
+static int	heredoc_loop(t_heredoc *heredoc, const int std_in)
 {
-	*buff = readline("> ");
+	heredoc->buff = readline("> ");
 	if (g_sign == SIGINT)
 	{
 		dup2(std_in, STDIN_FILENO);
 		return (0);
 	}
 	(void)std_in;
-	if (!buff || !*buff || !ft_strncmp(*buff, eof, ft_strlen(eof) + 1))
+	if (!heredoc->buff || !ft_strncmp(heredoc->buff, heredoc->eof, ft_strlen(heredoc->eof) + 1))
 		return (0);
-	ft_putstr_fd(*buff, fd);
-	write(fd, "\n", 1);
-	free(*buff);
-	*buff = NULL;
+	ft_putstr_fd(heredoc->buff, heredoc->fd);
+	write(heredoc->fd, "\n", 1);
+	free(heredoc->buff);
+	heredoc->buff = NULL;
 	return (1);
 }
 
 int	exec_heredoc(t_token **token, int *count_files)
 {
-	int			fd;
-	char		*buff;
-	char		*fl_name;
-	char		*eof;
+	t_heredoc	heredoc;
 	const int	std_in = dup(STDIN_FILENO);
 
-	eof = (*token)->next->lexeme;
-	if (!heredoc_file_creation(1, &fd, &fl_name))
+	heredoc.eof = (*token)->next->lexeme;
+	if (!heredoc_file_creation(1, &(heredoc.fd), &(heredoc.fl_name)))
 		return (0);
-	while (heredoc_loop(&buff, eof, std_in, fd))
+	while (heredoc_loop(&heredoc, std_in))
 		;
-	close(fd);
+	close(heredoc.fd);
 	close (std_in);
 	if (g_sign == SIGINT)
 		return (-1);
@@ -76,24 +73,24 @@ int	exec_heredoc(t_token **token, int *count_files)
 		(*token)->type = REDIR_INPUT;
 	if (token && (*token)->next->type == WORD)
 	{
-		(*token)->next->lexeme = fl_name;
+		(*token)->next->lexeme = heredoc.fl_name;
 		(*token)->next->type = FILE_NAME;
 	}
 	*count_files += 1;
 	return (0);
 }
 
-void	heredoc_validation(t_token **tokens, int *count_files)
+void	heredoc_validation(t_data **data)
 {
 	t_token	*tmp;
 
-	tmp = *tokens;
+	tmp = (*data)->token;
 	while (tmp)
 	{
 		if (tmp->type == HEREDOC && tmp->next && tmp->next->type == WORD)
 		{
 			heredoc_signals();
-			if (exec_heredoc(&tmp, count_files) == -1)
+			if (exec_heredoc(&tmp, &(*data)->count_files) == -1)
 				break ;
 		}
 		tmp = tmp->next;
