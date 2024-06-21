@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 14:26:23 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 14:31:22 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,12 +38,14 @@ void	remove_quotes(char **cmd)
 void	open_redirect(t_bin *bin)
 {
 	remove_quotes(&bin->right->cmd);
-	if (bin->type == REDIR_INPUT)
+	if (bin->type == REDIR_INPUT && bin->right->cmd)
 		bin->fd = open(bin->right->cmd, O_RDONLY);
-	else if (bin->type == REDIR_OUTPUT)
+	else if (bin->type == REDIR_OUTPUT && bin->right->cmd)
 		bin->fd = open(bin->right->cmd, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	else if (bin->type == OUTPUT_APPEND)
+	else if (bin->type == OUTPUT_APPEND && bin->right->cmd)
 		bin->fd = open(bin->right->cmd, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	else
+		bin->fd = -1;
 }
 
 int	open_files(t_bin *bin)
