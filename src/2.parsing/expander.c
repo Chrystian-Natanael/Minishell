@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expander.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 20:39:08 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/20 21:30:05 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,28 @@ int	is_valid_var(char letter)
 void	expander_validation(t_data **data, char **cmd)
 {
 	int		flag;
-	int		idx;
-	int		odx;
+	int		i[2];
 	char	*line;
 
 	line = NULL;
 	flag = 0;
-	odx = -1;
-	while (cmd && cmd[++odx])
+	i[1] = -1;
+	while (cmd && cmd[++i[1]])
 	{
-		idx = -1;
-		while (cmd[odx] && cmd[odx][++idx])
+		i[0] = -1;
+		while (cmd[i[1]] && cmd[i[1]][++i[0]])
 		{
-			if (cmd[odx][idx] == '\'' && (flag == 0 || flag == 1))
+			if (cmd[i[1]][i[0]] == '\'' && (flag == 0 || flag == 1))
 				flag = ternary(flag == 0, 1, 0);
-			else if (cmd[odx][idx] == '\"' && (flag == 0 || flag == 2))
+			else if (cmd[i[1]][i[0]] == '\"' && (flag == 0 || flag == 2))
 				flag = ternary(flag == 0, 2, 0);
-			else if (cmd[odx][idx] == '$' && flag != 1 && cmd[odx][idx + 1]
-				&& is_valid_var(cmd[odx][idx + 1]))
-				expander(&idx, &cmd[odx], (*data)->my_envp, &line);
+			else if (cmd[i[1]][i[0]] == '$' && flag != 1 && cmd[i[1]][i[0] + 1]
+				&& is_valid_var(cmd[i[1]][i[0] + 1]))
+				expander(&i[0], &cmd[i[1]], (*data)->my_envp, &line);
 			else
-				add_char(&line, cmd[odx][idx]);
+				add_char(&line, cmd[i[1]][i[0]]);
 		}
-		cmd[odx] = line;
+		cmd[i[1]] = line;
 		line = "";
 	}
 }
@@ -65,8 +64,7 @@ void	expander(int *idx, char **cmd,t_envp *envp, char **dst)
 
 	line = NULL;
 	key = NULL;
-	if (!cmd || !(*cmd)
-		|| ft_isdigit((*cmd)[*(idx) + 1])
+	if (!cmd || !(*cmd) || ft_isdigit((*cmd)[*(idx) + 1])
 		|| (*cmd)[*(idx) + 1] == '$')
 		return ;
 	if (*dst)
@@ -74,10 +72,8 @@ void	expander(int *idx, char **cmd,t_envp *envp, char **dst)
 		line = ft_strdup(*dst);
 		typetree_insert(line);
 	}
-	(*idx)++;
-	size = *idx;
-	while ((*cmd) && (*cmd)[size]
-		&& is_valid_var((*cmd)[size]))
+	size = ++(*idx);
+	while ((*cmd) && (*cmd)[size] && is_valid_var((*cmd)[size]))
 	{
 		if ((*cmd)[size - 1] == '$' && (*cmd)[size] == '?' && size == (*idx))
 		{
