@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 17:59:09 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:28:03 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,10 @@ void	remove_quotes(char **cmd)
 	*cmd = line;
 }
 
-void	open_redirect(t_bin *bin)
+void	open_redirect(t_bin *bin, t_data **data)
 {
 	remove_quotes(&bin->right->cmd);
+	expander_heredoc_redirect(data, &bin->right->cmd);
 	if (bin->type == REDIR_INPUT && bin->right->cmd)
 		bin->fd = open(bin->right->cmd, O_RDONLY);
 	else if (bin->type == REDIR_OUTPUT && bin->right->cmd)
@@ -48,15 +49,15 @@ void	open_redirect(t_bin *bin)
 		bin->fd = -1;
 }
 
-int	open_files(t_bin *bin)
+int	open_files(t_bin *bin, t_data **data)
 {
 	int	status;
 
 	status = 0;
 	if ((bin->left && is_redirect(bin->left->type)) && bin->left->fd != -1)
-		status = open_files(bin->left);
+		status = open_files(bin->left, data);
 	if ((bin->left && bin->left->fd != -1) || !bin->left)
-		open_redirect(bin);
+		open_redirect(bin, data);
 	if ((bin->left && bin->left->fd != -1 && bin->fd == -1)
 		|| (bin->fd == -1 && !bin->left))
 		return (ft_error("minishell: ", bin->right->cmd, \
@@ -89,7 +90,7 @@ int	exec_redirect(t_bin *bin, t_data **data)
 
 	status = 0;
 	if (!bin->fd)
-		status = open_files(bin);
+		status = open_files(bin, data);
 	if (status == 1 || (bin && bin->fd == -1))
 	{
 		close_dup_fd(keep_fd);

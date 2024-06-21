@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 18:27:33 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:29:25 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ void	expander_var(int *i, char **buff, t_envp **envp, char **dst)
 	(*dst) = line;
 }
 
-static void	expander_heredoc(t_data **data, char **buff)
+void	expander_heredoc_redirect(t_data **data, char **buff)
 {
 	int		i;
 	char	*line;
@@ -93,7 +93,7 @@ static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data, \
 		ft_strlen(heredoc->eof) + 1))
 		return (0);
 	if (!expansible)
-		expander_heredoc(data, &heredoc->buff);
+		expander_heredoc_redirect(data, &heredoc->buff);
 	ft_putstr_fd(heredoc->buff, heredoc->fd);
 	write(heredoc->fd, "\n", 1);
 	heredoc->buff = NULL;
