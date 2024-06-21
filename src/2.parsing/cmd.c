@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 19:39:14 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:45:20 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,19 +21,20 @@
 
 void	organize_redirects(t_token **token)
 {
-	int				idx[2];
+	int				idx;
+	int				odx;
 	int				point;
 	int				count_redir;
 	t_token			*tmp;
 	t_aux_redirect	**redir;
 
 	tmp = *token;
-	idx[0] = 0;
+	idx = 0;
 	redir = NULL;
 	point = 0;
 	while (tmp)
 	{
-		idx[1] = 0;
+		odx = 0;
 		count_redir = 1;
 		if (is_redirect(tmp->type) && tmp->next && tmp->next->next
 			&& tmp->next->next->type == WORD)
@@ -42,41 +43,41 @@ void	organize_redirects(t_token **token)
 			redir = allocate(sizeof(t_token *) * (count_redir + 1));
 			while (count_redir--)
 			{
-				redir[idx[1]] = allocate(sizeof(t_aux_redirect));
-				redir[idx[1]]->redir = lstpop(token, idx);
-				redir[idx[1]]->file_name = lstpop(token, idx);
+				redir[odx] = allocate(sizeof(t_aux_redirect));
+				redir[odx]->redir = lstpop(token, idx);
+				redir[odx]->file_name = lstpop(token, idx);
 				tmp = *token;
-				idx[0] = 0;
+				idx = 0;
 				while ((tmp && !is_redirect(tmp->type) && count_redir)
 					|| idx < point)
 				{
 					tmp = tmp->next;
-					idx[0]++;
+					idx++;
 				}
-				idx[1]++;
+				odx++;
 			}
 		}
-		point = idx[0];
+		point = idx;
 		if ((tmp && tmp->next && tmp->next->type != WORD && redir)
 			|| (tmp && !tmp->next && redir))
 		{
-			idx[1] = 0;
-			while (redir[idx[1]])
+			odx = 0;
+			while (redir[odx])
 			{
-				redir[idx[1]]->redir->next = redir[idx[1]]->file_name;
-				if (redir[idx[1] + 1])
-					redir[idx[1]]->file_name->next = redir[idx[1] + 1]->redir;
-				idx[1]++;
+				redir[odx]->redir->next = redir[odx]->file_name;
+				if (redir[odx + 1])
+					redir[odx]->file_name->next = redir[odx + 1]->redir;
+				odx++;
 			}
-			idx[0] += (2 * idx[1]) + 1;
-			redir[idx[1] - 1]->file_name->next = tmp->next;
+			idx += (2 * odx) + 1;
+			redir[odx - 1]->file_name->next = tmp->next;
 			tmp->next = redir[0]->redir;
-			tmp = redir[idx[1] - 1]->file_name->next;
+			tmp = redir[odx - 1]->file_name->next;
 			redir = NULL;
 		}
 		if (tmp)
 			tmp = tmp->next;
-		idx[0]++;
+		idx++;
 	}
 }
 
