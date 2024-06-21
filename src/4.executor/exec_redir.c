@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 20:20:34 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 14:26:23 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ int	open_files(t_bin *bin)
 	int	status;
 
 	status = 0;
-	if (is_redirect(bin->left->type) && bin->left->fd != -1)
+	if ((bin->left && is_redirect(bin->left->type)) && bin->left->fd != -1)
 		status = open_files(bin->left);
-	if (bin->left->fd != -1)
+	if ((bin->left && bin->left->fd != -1) || !bin->left)
 		open_redirect(bin);
-	if (bin->left->fd != -1 && bin->fd == -1)
+	if ((bin->left && bin->left->fd != -1 && bin->fd == -1) || (bin->fd == -1 && !bin->left))
 		return (ft_error("minishell: ", bin->right->cmd, \
 		": No such file or directory", 1));
-	else if (bin->left->fd == -1)
+	else if (bin->left && bin->left->fd == -1) 
 	{
 		bin->fd = -1;
 		return (status);
@@ -94,8 +94,10 @@ int	exec_redirect(t_bin *bin, t_data **data)
 	}
 	if (bin->left)
 		status = exec_tree(bin->left, data);
-	else
+	else if (!bin->left && bin->fd == -1)
 		status = -1;
+	else
+		status = 0;
 	close_dup_fd(keep_fd);
 	return (status);
 }
