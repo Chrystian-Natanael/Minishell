@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 15:07:28 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:16:39 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,7 @@ t_token **tokens, t_bin **bin);
 int		execute(t_token *tokens, t_data *data);
 int		precedence(enum e_token type);
 char	*get_path_cmd(t_envp **envp, char *cmd);
-void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data);
+int		exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data);
 int		exec_cmd(t_bin *bin, t_data **data);
 int		exec_tree(t_bin *bin, t_data **data);
 char	**create_envp_array(t_envp **envp);
@@ -187,7 +187,7 @@ char	**sort_envp(t_envp **envp);
 
 //--------------------------------------- Expander
 void	expander(int *idx, char **cmd, t_envp *envp, char **dst);
-void	expander_validation(t_data **data, char **cmd);
+void	expander_validation(t_data **data, char **cmd, int *flag);
 char	*expan_get(t_token *token, t_envp *envp);
 
 //--------------------------------------- Heredoc
