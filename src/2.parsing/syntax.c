@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:41:15 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 22:13:09 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 10:22:24 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,23 +19,29 @@
 
 #include "minishell.h"
 
-int	syntax_auxiliar(t_token *token)
+int is_missing_token(t_token *token)
 {
-	if ((tmp->type == PIPE && !tmp->next))
-		return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-	if ((tmp->type == OR && !tmp->next) || (tmp->type == AND && !tmp->next))
-		return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-	if (tmp->type == REDIR_INPUT && !tmp->next)
-		return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-	if (tmp->type == REDIR_OUTPUT && !tmp->next)
-		return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-	if (tmp->type == OUTPUT_APPEND && !tmp->next)
-		return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-	if (tmp->type == HEREDOC && !tmp->next)
-		return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-	if (tmp->type == L_PAREN && !tmp->next)
-		return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-	return (0);
+	return (!token->next && (
+			token->type == PIPE ||
+			token->type == OR ||
+			token->type == AND ||
+			token->type == REDIR_INPUT ||
+			token->type == REDIR_OUTPUT ||
+			token->type == OUTPUT_APPEND ||
+			token->type == HEREDOC ||
+			token->type == L_PAREN));
+}
+
+int is_wrong_combination_of_tokens(t_token *token)
+{
+	return (token->next && (
+ (token->type == REDIR_INPUT && token->next->type != WORD && token->next->type != FILE_NAME)
+||	(token->type == REDIR_OUTPUT && token->next->type != WORD)
+||	(token->type == OUTPUT_APPEND && token->next->type != WORD)
+||	(token->type == HEREDOC && token->next->type != WORD)
+||	(token->type == OR && token->next->type != WORD && token->next->type != L_PAREN)
+||	(token->type == AND && token->next->type != WORD && token->next->type != L_PAREN && token->next->type != REDIR_INPUT)
+	));
 }
 
 int	syntax_error(t_token *token)
@@ -49,22 +55,9 @@ int	syntax_error(t_token *token)
 			 token ", return_lexeme(tmp), 2));
 	while (tmp)
 	{
-		if (tmp->type == REDIR_INPUT && (tmp->next->type != WORD
-				&& tmp->next->type != FILE_NAME))
-			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-		if (tmp->type == REDIR_OUTPUT && tmp->next->type != WORD)
-			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-		if (tmp->type == OUTPUT_APPEND && tmp->next->type != WORD)
-			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-		if (tmp->type == HEREDOC && tmp->next->type != WORD)
-			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-		if (tmp->type == OR && (tmp->next->type != WORD
-					&& tmp->next->type != L_PAREN))
-			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
-		if (tmp->type == AND && (tmp->next->type != WORD
-					&& tmp->next->type != L_PAREN
-				&& tmp->next->type != REDIR_INPUT))
-			return (ft_error("minishell: ", "syntax error near unexpected token ", return_lexeme(tmp), 2));
+		if (is_missing_token(token)	|| is_wrong_combination_of_tokens(token))
+			return (ft_error("minishell: ", "syntax error near unexpected\
+				token ", return_lexeme(token), 2));
 		tmp = tmp->next;
 	}
 	return (0);
