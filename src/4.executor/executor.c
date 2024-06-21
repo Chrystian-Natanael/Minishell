@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 15:04:14 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:58:49 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,9 +75,7 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	exit_status = 0;
 	path = get_path_cmd(&(*data)->my_envp, cmd[0]);
 	if (pid == 0)
-	{
 		exec_child_cmd(path, cmd, data);
-	}
 	waitpid(pid, &exit_status, 0);
 	return (get_return_value(exit_status));
 }

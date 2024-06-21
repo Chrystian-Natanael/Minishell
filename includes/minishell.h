@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 17:38:02 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:14:02 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -195,6 +195,7 @@ char	*create_line(char **dst);
 //--------------------------------------- Heredoc
 int		exec_heredoc(t_token **token, int *count_files, t_data **data);
 void	heredoc_validation(t_data **data);
+int	remove_quote_eof(char **eof);
 
 //--------------------------------------- Redirect
 void	organize_redirects(t_token **token);

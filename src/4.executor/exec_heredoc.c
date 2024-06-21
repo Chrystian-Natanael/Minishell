@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 16:03:46 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:27:33 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@
 */
 
 #include "minishell.h"
-
-static int	heredoc_file_creation(int count, int *fd, char **fl_name);
-static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data, int expansible);
 
 static int	heredoc_file_creation(int count, int *fd, char **fl_name)
 {
@@ -43,15 +40,9 @@ void	expander_var(int *i, char **buff, t_envp **envp, char **dst)
 	char	*key;
 	int		size;
 
-	line = NULL;
-	key = NULL;
 	if (!buff || !*buff || ft_isdigit((*buff)[*i + 1]))
 		return ;
-	if (*dst)
-	{
-		line = ft_strdup(*dst);
-		typetree_insert(line);
-	}
+	line = create_line(dst);
 	size = ++(*i);
 	while ((*buff) && (*buff)[size] && is_valid_var((*buff)[size]))
 	{
@@ -64,10 +55,7 @@ void	expander_var(int *i, char **buff, t_envp **envp, char **dst)
 	}
 	key = ft_substr(*buff, (*i), size - (*i));
 	typetree_insert(key);
-	if (!line)
-		line = ft_strdup("");
-	line = ft_strjoin(line, envp_get(key, *envp));
-	typetree_insert(line);
+	line = line_join(line, key, *envp);
 	if ((*buff)[size] == '?')
 		size++;
 	*i = size - 1;
@@ -91,33 +79,9 @@ static void	expander_heredoc(t_data **data, char **buff)
 	*buff = line;
 }
 
-static int	remove_quote_eof(char **eof)
+static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data, \
+	int expansible)
 {
-	int		i;
-	int		expansible;
-	int		size;
-	char	*line;
-
-	i = -1;
-	size = ft_strlen(*eof);
-	expansible = 0;
-	line = allocate(size - 1);
-	while ((*eof)[++i])
-	{
-		if ((*eof)[i] == '\'' || (*eof)[i] == '\"')
-			expansible = 1;
-		else
-			add_char(&line, (*eof)[i]);
-	}
-	if ((*eof)[0] == '$')
-		expansible = 1;
-	*eof = line;
-	return (expansible);
-}
-
-static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data, int expansible)
-{
-
 	heredoc->buff = readline("> ");
 	typetree_insert(heredoc->buff);
 	if (g_sign == SIGINT)
@@ -125,7 +89,8 @@ static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data, int
 		dup2(std_in, STDIN_FILENO);
 		return (0);
 	}
-	if (!heredoc->buff || !ft_strncmp(heredoc->buff, heredoc->eof, ft_strlen(heredoc->eof) + 1))
+	if (!heredoc->buff || !ft_strncmp(heredoc->buff, heredoc->eof, \
+		ft_strlen(heredoc->eof) + 1))
 		return (0);
 	if (!expansible)
 		expander_heredoc(data, &heredoc->buff);
@@ -160,21 +125,4 @@ int	exec_heredoc(t_token **token, int *count_files, t_data **data)
 	}
 	*count_files += 1;
 	return (0);
-}
-
-void	heredoc_validation(t_data **data)
-{
-	t_token	*tmp;
-
-	tmp = (*data)->token;
-	while (tmp)
-	{
-		if (tmp->type == HEREDOC && tmp->next && tmp->next->type == WORD)
-		{
-			heredoc_signals();
-			if (exec_heredoc(&tmp, &(*data)->count_files, data) == -1)
-				break ;
-		}
-		tmp = tmp->next;
-	}
 }
