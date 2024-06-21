@@ -81,6 +81,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		5.utils/signal_utils.c \
 		5.utils/executor_utils.c \
 		5.utils/struct_utils.c \
+		5.utils/cmd_utils.c \
 		5.utils/expand_utils.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)
@@ -107,7 +108,7 @@ SHELL := /bin/bash
 
 CFLAGS = -Wall -Wextra -Werror -g3
 DFLAGS = -Wall -Wextra -Werror -g3 -fsanitize=address
-LDLIBS = -ldl -lglfw -pthread -lreadline
+LDLIBS = -ldl -pthread -lreadline
 LDFLAGS = $(LIBFT_DIR)libft.a $(GARB_DIR)garbage_collector.a
 CPPFLAGS = $(addprefix -I, $(INCS_PATH)) -MMD -MP
 COMP_OBJ = $(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@

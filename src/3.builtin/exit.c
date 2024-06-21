@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/01 20:05:19 by krocha-h          #+#    #+#             */
-/*   Updated: 2024/06/21 18:38:56 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:25:43 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	ft_exit(char **argv, t_data *data)
 
 void	close_files(t_data *data)
 {
-	int	idx;
+	int		idx;
 	char	*fl_name;
 
 	idx = 1;

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 19:12:24 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:28:19 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,7 +199,7 @@ char	*create_line(char **dst);
 //--------------------------------------- Heredoc
 int		exec_heredoc(t_token **token, int *count_files, t_data **data);
 void	heredoc_validation(t_data **data);
-int	remove_quote_eof(char **eof);
+int		remove_quote_eof(char **eof);
 
 //--------------------------------------- Redirect
 void	organize_redirects(t_token **token);
@@ -233,5 +233,6 @@ int		get_return_value(int status);
 int		verify_cmd(char **cmd);
 char	**separate_args(t_token *token);
 void	close_files(t_data *data);
+t_token	*lstpop(t_token **lst, int index);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/10 11:43:56 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 18:19:40 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:16:38 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ char	*get_readline(t_envp *envp, t_data *data)
 
 void	ending(int status)
 {
-
 	rl_clear_history();
 	close(0);
 	close(1);

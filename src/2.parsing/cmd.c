@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 14:04:39 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:26:04 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,62 +18,6 @@
 */
 
 #include "minishell.h"
-
-t_token	*lstpickel(t_token **lst, int index)
-{
-	t_token	*el;
-	t_token	*prev;
-
-	if (!lst || !(*lst))
-		return (NULL);
-	else
-	{
-		el = *lst;
-		while (index--)
-		{
-			prev = el;
-			el = el->next;
-		}
-		if (el == *lst)
-			*lst = el->next;
-		else
-			prev->next = el->next;
-	}
-	return (el);
-}
-
-t_token	*lstpop(t_token **lst, int index)
-{
-	t_token	*el;
-
-	el = lstpickel(lst, index);
-	if (!el)
-		return (NULL);
-	el->next = NULL;
-	return (el);
-}
-
-int	is_redirect(int type)
-{
-	return (type == REDIR_INPUT || type == REDIR_OUTPUT
-		|| type == OUTPUT_APPEND || type == HEREDOC);
-}
-
-int	count_redirects(t_token *token)
-{
-	int		count;
-	t_token	*tmp;
-
-	tmp = token;
-	count = 0;
-	while (tmp && (tmp->type == WORD || is_redirect(tmp->type)))
-	{
-		if (is_redirect(tmp->type))
-			count++;
-		tmp = tmp->next;
-	}
-	return (count);
-}
 
 void	organize_redirects(t_token **token)
 {
@@ -92,7 +36,8 @@ void	organize_redirects(t_token **token)
 	{
 		odx = 0;
 		count_redir = 1;
-		if (is_redirect(tmp->type) && tmp->next && tmp->next->next && tmp->next->next->type == WORD)
+		if (is_redirect(tmp->type) && tmp->next && tmp->next->next
+			&& tmp->next->next->type == WORD)
 		{
 			count_redir = count_redirects(tmp);
 			redir = allocate(sizeof(t_token *) * (count_redir + 1));
@@ -170,8 +115,7 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 			tmp = tmp->next;
 			cmds->type = SUB_SHELL;
 		}
-		if (tmp && (tmp->type == REDIR_INPUT || tmp->type == REDIR_OUTPUT
-				|| tmp->type == OUTPUT_APPEND || tmp->type == FILE_NAME))
+		if (tmp && (is_redirect(tmp->type || tmp->type == FILE_NAME)))
 		{
 			cmd_parsing_aux(&head, &cmds, &tmp);
 			lst_contatenate_redir(&cmds, tmp->lexeme);
@@ -181,37 +125,16 @@ t_token	*cmd_parsing(t_token *token, t_envp **envp)
 		{
 			while (tmp && tmp->type != PIPE && tmp->type != OR
 				&& tmp->type != AND && tmp->type != L_PAREN
-				&& tmp->type != R_PAREN && tmp->type != REDIR_INPUT
-				&& tmp->type != REDIR_OUTPUT && tmp->type != OUTPUT_APPEND
-				&& tmp->type != HEREDOC)
+				&& tmp->type != R_PAREN && !is_redirect(tmp->type))
 			{
 				if ((tmp->lexeme && *tmp->lexeme != '\0') || tmp->type != WORD)
 					lst_contatenate(&cmds, return_lexeme(tmp));
 				tmp = tmp->next;
-				if (!tmp)
-					break ;
 			}
 		}
 		cmd_parsing_aux(&head, &cmds, &tmp);
 	}
 	return (head);
-}
-
-char	*expan_get(t_token *token, t_envp *envp)
-{
-	t_envp	*current;
-
-	current = envp;
-	if (!token->lexeme)
-		token->lexeme = return_lexeme(token);
-	while (current)
-	{
-		if (ft_strncmp(current->key, token->lexeme, \
-		ft_strlen(token->lexeme)) == 0)
-			return (current->value);
-		current = current->next;
-	}
-	return ("");
 }
 
 void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
@@ -223,9 +146,7 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 		*cmds = (*cmds)->next;
 	if (*tmp && (((*tmp)->type == PIPE || (*tmp)->type == OR
 				|| (*tmp)->type == AND) || (*tmp)->type == L_PAREN
-			|| (*tmp)->type == R_PAREN || (*tmp)->type == REDIR_INPUT
-			|| (*tmp)->type == REDIR_OUTPUT || (*tmp)->type == OUTPUT_APPEND
-			|| (*tmp)->type == HEREDOC))
+			|| (*tmp)->type == R_PAREN || is_redirect((*tmp)->type)))
 	{
 		aux = (*tmp)->next;
 		(*tmp)->next = NULL;
