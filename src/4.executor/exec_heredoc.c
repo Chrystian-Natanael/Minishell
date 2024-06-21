@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 15:53:44 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 16:03:46 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 #include "minishell.h"
 
 static int	heredoc_file_creation(int count, int *fd, char **fl_name);
-static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data);
+static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data, int expansible);
 
 static int	heredoc_file_creation(int count, int *fd, char **fl_name)
 {
@@ -65,11 +65,9 @@ void	expander_var(int *i, char **buff, t_envp **envp, char **dst)
 	key = ft_substr(*buff, (*i), size - (*i));
 	typetree_insert(key);
 	if (!line)
-	{
 		line = ft_strdup("");
-		typetree_insert(line);
-	}
 	line = ft_strjoin(line, envp_get(key, *envp));
+	typetree_insert(line);
 	if ((*buff)[size] == '?')
 		size++;
 	*i = size - 1;
@@ -117,24 +115,22 @@ static int	remove_quote_eof(char **eof)
 	return (expansible);
 }
 
-static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data)
+static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data, int expansible)
 {
-	int	expansible;
 
 	heredoc->buff = readline("> ");
+	typetree_insert(heredoc->buff);
 	if (g_sign == SIGINT)
 	{
 		dup2(std_in, STDIN_FILENO);
 		return (0);
 	}
-	expansible = remove_quote_eof(&heredoc->eof);
 	if (!heredoc->buff || !ft_strncmp(heredoc->buff, heredoc->eof, ft_strlen(heredoc->eof) + 1))
 		return (0);
 	if (!expansible)
 		expander_heredoc(data, &heredoc->buff);
 	ft_putstr_fd(heredoc->buff, heredoc->fd);
 	write(heredoc->fd, "\n", 1);
-	free(heredoc->buff);
 	heredoc->buff = NULL;
 	return (1);
 }
@@ -142,12 +138,14 @@ static int	heredoc_loop(t_heredoc *heredoc, const int std_in, t_data **data)
 int	exec_heredoc(t_token **token, int *count_files, t_data **data)
 {
 	t_heredoc	heredoc;
+	int			expansible;
 	const int	std_in = dup(STDIN_FILENO);
 
 	heredoc.eof = (*token)->next->lexeme;
 	if (!heredoc_file_creation(1, &(heredoc.fd), &(heredoc.fl_name)))
 		return (0);
-	while (heredoc_loop(&heredoc, std_in, data))
+	expansible = remove_quote_eof(&(heredoc.eof));
+	while (heredoc_loop(&heredoc, std_in, data, expansible))
 		;
 	close(heredoc.fd);
 	close (std_in);
