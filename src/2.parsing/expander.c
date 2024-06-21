@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 19:01:14 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 14:47:58 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:55:27 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,23 @@ int	is_valid_var(char letter)
 		|| letter == '_' || letter == '?');
 }
 
+int	define_quote_flag(char **cmd, int *i, int flag, int *flag_g)
+{
+	if (cmd[i[1]][i[0]] == '\'' && (flag == 0 || flag == 1))
+	{
+		return (ternary(flag == 0, 1, 0));
+		*flag_g = 1;
+		return (1);
+	}
+	else if (cmd[i[1]][i[0]] == '\"' && (flag == 0 || flag == 2))
+	{
+		return (ternary(flag == 0, 2, 0));
+		*flag_g = 1;
+		return (1);
+	}
+	return (0);
+}
+
 void	expander_validation(t_data **data, char **cmd, int *flag_g)
 {
 	int		flag;
@@ -41,16 +58,19 @@ void	expander_validation(t_data **data, char **cmd, int *flag_g)
 		flag = 0;
 		while (cmd[i[1]] && cmd[i[1]][++i[0]])
 		{
-			if (cmd[i[1]][i[0]] == '\'' && (flag == 0 || flag == 1))
-			{
-				flag = ternary(flag == 0, 1, 0);
-				*flag_g = 1;
-			}
-			else if (cmd[i[1]][i[0]] == '\"' && (flag == 0 || flag == 2))
-			{
-				flag = ternary(flag == 0, 2, 0);
-				*flag_g = 1;
-			}
+			if ((cmd[i[1]][i[0]] == '\'' && (flag == 0 || flag == 1))
+				|| (cmd[i[1]][i[0]] == '\"' && (flag == 0 || flag == 2)))
+				flag = define_quote_flag(cmd, i, flag, flag_g);
+			// if (cmd[i[1]][i[0]] == '\'' && (flag == 0 || flag == 1))
+			// {
+			// 	flag = ternary(flag == 0, 1, 0);
+			// 	*flag_g = 1;
+			// }
+			// else if (cmd[i[1]][i[0]] == '\"' && (flag == 0 || flag == 2))
+			// {
+			// 	flag = ternary(flag == 0, 2, 0);
+			// 	*flag_g = 1;
+			// }
 			else if (cmd[i[1]][i[0]] == '$' && flag != 1 && cmd[i[1]][i[0] + 1]
 				&& is_valid_var(cmd[i[1]][i[0] + 1]))
 				expander(&i[0], &cmd[i[1]], (*data)->my_envp, &line);
