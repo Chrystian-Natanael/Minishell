@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:19:03 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 18:21:27 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:57:17 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static void	init_data(t_data *data, int argc, char **argv, char **envp)
 	data->my_envp = create_envp(envp);
 	data->count_files = 0;
 	data->status = 0;
+	tcgetattr(STDIN_FILENO, &data->term);
 }
 
 static void	reading_line(t_data *data)
@@ -104,6 +105,7 @@ int	main(int argc, char **argv, char **envp)
 	while (1)
 	{
 		init_signals();
+		tcsetattr(STDIN_FILENO, TCSANOW, &data.term);
 		reading_line(&data);
 		if (!lexing(&data))
 			continue ;
