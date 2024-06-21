@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 20:29:58 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:49:38 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,5 +236,7 @@ int		verify_cmd(char **cmd);
 char	**separate_args(t_token *token);
 void	close_files(t_data *data);
 t_token	*lstpop(t_token **lst, int index);
+int		is_and_or(int type);
+int		is_parentheses(int type);
 
 #endif
