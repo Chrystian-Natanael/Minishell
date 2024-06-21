@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 15:18:47 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:19:50 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ typedef struct s_heredoc
 }	t_heredoc;
 
 //--------------------------------------- Init
-void	ending(int status, t_data *data);
+void	ending(int status);
 int		verify_line(char **line);
 char	*get_readline(t_envp *envp, t_data *data);
 int		lexing(t_data *data);
@@ -225,5 +225,6 @@ int		term_signal(int status);
 int		get_return_value(int status);
 int		verify_cmd(char **cmd);
 char	**separate_args(t_token *token);
+void	close_files(t_data *data);
 
 #endif

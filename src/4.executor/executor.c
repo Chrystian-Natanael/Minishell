@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 15:04:14 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:44:02 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	exec_child_cmd(char *path, char **cmd, t_data **data)
 		exit_status = ft_error("minishell: ", cmd[0], \
 		": Permission denied or is a directory", 126);
 	free_split(envp);
-	ending (exit_status, *data);
+	close(4);
+	ending (exit_status);
 }
 
 int	exec_cmd(t_bin *bin, t_data **data)
@@ -75,9 +76,7 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	exit_status = 0;
 	path = get_path_cmd(&(*data)->my_envp, cmd[0]);
 	if (pid == 0)
-	{
 		exec_child_cmd(path, cmd, data);
-	}
 	waitpid(pid, &exit_status, 0);
 	return (get_return_value(exit_status));
 }
@@ -113,5 +112,6 @@ int	execute(t_token *tokens, t_data *data)
 
 	bin = create_tree(tokens);
 	status = exec_tree(bin, &data);
+	close_files(data);
 	return (status);
 }

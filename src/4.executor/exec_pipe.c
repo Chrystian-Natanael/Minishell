@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 14:04:31 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 20:31:06 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:20:17 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	child_one(int *pipe_fd, const int *old_fd, t_bin *bin, t_data **data)
 	close(old_fd[0]);
 	dup2(pipe_fd[0], STDIN_FILENO);
 	close(pipe_fd[0]);
-	ending(exec_tree(bin->right, data), *data);
+	ending(exec_tree(bin->right, data));
 }
 
 void	child_zero(int *pipe_fd, const int *old_fd, t_bin *bin, t_data **data)
@@ -35,7 +35,7 @@ void	child_zero(int *pipe_fd, const int *old_fd, t_bin *bin, t_data **data)
 	close(pipe_fd[1]);
 	close(old_fd[0]);
 	close(old_fd[1]);
-	ending(exec_tree(bin->left, data), *data);
+	ending(exec_tree(bin->left, data));
 }
 
 int	exec_pipe(t_bin *bin, t_data **data)
