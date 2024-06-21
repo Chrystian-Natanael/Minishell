@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 19:56:42 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 15:04:14 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,19 @@
 
 #include "minishell.h"
 
-void	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data)
+int	exec_init(char ***cmd, int *exit_status, t_bin *bin, t_data **data)
 {
 	t_token	*token;
+	int		flag;
 
+	flag = 0;
 	token = lexer(bin->cmd);
 	*cmd = separate_args(token);
 	if (bin->type == CMD)
-		expander_validation(data, *cmd);
+		expander_validation(data, *cmd, &flag);
 	typetree_insert(*cmd);
 	*exit_status = check_exec_builtin(*cmd, &(*data)->my_envp, *data);
+	return (flag);
 }
 
 void	exec_child_cmd(char *path, char **cmd, t_data **data)
@@ -54,14 +57,17 @@ int	exec_cmd(t_bin *bin, t_data **data)
 	int		exit_status;
 	char	**cmd;
 	char	*path;
+	int		executable;
 
 	if (g_sign != 0)
 		return (130);
-	exec_init(&cmd, &exit_status, bin, data);
-	if (exit_status != -1)
+	executable = exec_init(&cmd, &exit_status, bin, data);
+	if (exit_status != -1 && exit_status != -2)
 		return (exit_status);
-	else if (!verify_cmd(cmd) || exit_status == -2)
+	else if ((!verify_cmd(cmd) || exit_status == -2) && executable != 1)
 		return (0);
+	if (executable == 1 && !cmd)
+		return (ft_error("minishell: Command '", "", "' not found", 127));
 	pid = fork();
 	define_signals_exec(pid);
 	if (pid == -1 || cmd[0] == NULL)
