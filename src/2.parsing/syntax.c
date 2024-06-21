@@ -6,7 +6,7 @@
 /*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 13:41:15 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 10:22:24 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 13:09:36 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,29 +19,32 @@
 
 #include "minishell.h"
 
-int is_missing_token(t_token *token)
+int	is_missing_token(t_token *token)
 {
 	return (!token->next && (
-			token->type == PIPE ||
-			token->type == OR ||
-			token->type == AND ||
-			token->type == REDIR_INPUT ||
-			token->type == REDIR_OUTPUT ||
-			token->type == OUTPUT_APPEND ||
-			token->type == HEREDOC ||
-			token->type == L_PAREN));
+			token->type == PIPE
+			|| token->type == OR
+			|| token->type == AND
+			|| token->type == REDIR_INPUT
+			|| token->type == REDIR_OUTPUT
+			|| token->type == OUTPUT_APPEND
+			|| token->type == HEREDOC
+			|| token->type == L_PAREN));
 }
 
-int is_wrong_combination_of_tokens(t_token *token)
+int	is_wrong_combination_of_tokens(t_token *token)
 {
 	return (token->next && (
- (token->type == REDIR_INPUT && token->next->type != WORD && token->next->type != FILE_NAME)
-||	(token->type == REDIR_OUTPUT && token->next->type != WORD)
-||	(token->type == OUTPUT_APPEND && token->next->type != WORD)
-||	(token->type == HEREDOC && token->next->type != WORD)
-||	(token->type == OR && token->next->type != WORD && token->next->type != L_PAREN)
-||	(token->type == AND && token->next->type != WORD && token->next->type != L_PAREN && token->next->type != REDIR_INPUT)
-	));
+			(token->type == REDIR_INPUT && token->next->type != WORD
+				&& token->next->type != FILE_NAME)
+			|| (token->type == REDIR_OUTPUT && token->next->type != WORD)
+			|| (token->type == OUTPUT_APPEND && token->next->type != WORD)
+			|| (token->type == HEREDOC && token->next->type != WORD)
+			|| (token->type == OR && token->next->type != WORD
+				&& token->next->type != L_PAREN)
+			|| (token->type == AND && token->next->type != WORD
+				&& token->next->type != L_PAREN
+				&& token->next->type != REDIR_INPUT)));
 }
 
 int	syntax_error(t_token *token)
@@ -55,7 +58,7 @@ int	syntax_error(t_token *token)
 			 token ", return_lexeme(tmp), 2));
 	while (tmp)
 	{
-		if (is_missing_token(token)	|| is_wrong_combination_of_tokens(token))
+		if (is_missing_token(token) || is_wrong_combination_of_tokens(token))
 			return (ft_error("minishell: ", "syntax error near unexpected\
 				token ", return_lexeme(token), 2));
 		tmp = tmp->next;
