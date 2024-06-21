@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/20 19:57:06 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/20 19:57:29 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 18:13:54 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,45 @@ int	verify_cmd(char **cmd)
 		idx++;
 	}
 	return (1);
+}
+
+void	heredoc_validation(t_data **data)
+{
+	t_token	*tmp;
+
+	tmp = (*data)->token;
+	while (tmp)
+	{
+		if (tmp->type == HEREDOC && tmp->next && tmp->next->type == WORD)
+		{
+			heredoc_signals();
+			if (exec_heredoc(&tmp, &(*data)->count_files, data) == -1)
+				break ;
+		}
+		tmp = tmp->next;
+	}
+}
+
+int	remove_quote_eof(char **eof)
+{
+	int		i;
+	int		expansible;
+	int		size;
+	char	*line;
+
+	i = -1;
+	size = ft_strlen(*eof);
+	expansible = 0;
+	line = allocate(size - 1);
+	while ((*eof)[++i])
+	{
+		if ((*eof)[i] == '\'' || (*eof)[i] == '\"')
+			expansible = 1;
+		else
+			add_char(&line, (*eof)[i]);
+	}
+	if ((*eof)[0] == '$')
+		expansible = 1;
+	*eof = line;
+	return (expansible);
 }

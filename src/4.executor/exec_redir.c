@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_redir.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 10:58:04 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 14:31:22 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:59:09 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,11 @@ int	open_files(t_bin *bin)
 		status = open_files(bin->left);
 	if ((bin->left && bin->left->fd != -1) || !bin->left)
 		open_redirect(bin);
-	if ((bin->left && bin->left->fd != -1 && bin->fd == -1) || (bin->fd == -1 && !bin->left))
+	if ((bin->left && bin->left->fd != -1 && bin->fd == -1)
+		|| (bin->fd == -1 && !bin->left))
 		return (ft_error("minishell: ", bin->right->cmd, \
 		": No such file or directory", 1));
-	else if (bin->left && bin->left->fd == -1) 
+	else if (bin->left && bin->left->fd == -1)
 	{
 		bin->fd = -1;
 		return (status);

@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 18:19:50 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 19:12:24 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define MIN_NB "-9223372036854775808"
 
 # include <termios.h>
+# include <unistd.h>
 
 /*For use libft functions*/
 # include "libft.h"
@@ -47,7 +48,9 @@
 
 # include <signal.h>
 
-extern int	g_sign;
+extern int				g_sign;
+
+typedef struct termios	t_termios;
 
 /**
  * @brief Enum e_token
@@ -101,13 +104,14 @@ typedef struct s_bin
 
 typedef struct s_data
 {
-	int		status;
-	int		count_files;
-	char	*line;
-	char	*read_line;
-	t_envp	*my_envp;
-	t_token	*token;
-	t_token	*expr;
+	int			status;
+	int			count_files;
+	char		*line;
+	char		*read_line;
+	t_envp		*my_envp;
+	t_token		*token;
+	t_token		*expr;
+	t_termios	term;
 }	t_data;
 
 typedef struct s_heredoc
@@ -189,10 +193,13 @@ char	**sort_envp(t_envp **envp);
 void	expander(int *idx, char **cmd, t_envp *envp, char **dst);
 void	expander_validation(t_data **data, char **cmd, int *flag);
 char	*expan_get(t_token *token, t_envp *envp);
+char	*line_join(char *line, char *key, t_envp *envp);
+char	*create_line(char **dst);
 
 //--------------------------------------- Heredoc
 int		exec_heredoc(t_token **token, int *count_files, t_data **data);
 void	heredoc_validation(t_data **data);
+int	remove_quote_eof(char **eof);
 
 //--------------------------------------- Redirect
 void	organize_redirects(t_token **token);
