@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 15:18:47 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 17:38:02 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -189,6 +189,8 @@ char	**sort_envp(t_envp **envp);
 void	expander(int *idx, char **cmd, t_envp *envp, char **dst);
 void	expander_validation(t_data **data, char **cmd, int *flag);
 char	*expan_get(t_token *token, t_envp *envp);
+char	*line_join(char *line, char *key, t_envp *envp);
+char	*create_line(char **dst);
 
 //--------------------------------------- Heredoc
 int		exec_heredoc(t_token **token, int *count_files, t_data **data);
