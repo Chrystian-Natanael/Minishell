@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 21:20:56 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 22:04:06 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,73 +19,69 @@
 
 #include "minishell.h"
 
-void	organize_redirects(t_token **token)
+void	pop_redirects(t_organize *organize, int *odx, t_token **token)
 {
-	int				idx;
-	int				odx;
-	int				point;
-	int				count_redir;
-	t_token			*tmp;
-	t_aux_redirect	**redir;
-
-	tmp = *token;
-	idx = 0;
-	redir = NULL;
-	point = 0;
-	while (tmp)
+	organize->count_redir = count_redirects(organize->tmp);
+	organize->redir = allocate(sizeof(t_token *) * (organize->count_redir + 1));
+	while (organize->count_redir--)
 	{
-		odx = 0;
-		count_redir = 1;
-		if (is_redirect(tmp->type) && tmp->next && tmp->next->next && tmp->next->next->type == WORD)
+		organize->redir[*odx] = allocate(sizeof(t_aux_redirect));
+		organize->redir[*odx]->redir = lstpop(token, organize->idx);
+		organize->redir[*odx]->file_name = lstpop(token, organize->idx);
+		organize->tmp = *token;
+		organize->idx = 0;
+		while ((organize->tmp && !is_redirect(organize->tmp->type)
+				&& organize->count_redir)
+			|| organize->idx < organize->point)
 		{
-			count_redir = count_redirects(tmp);
-			redir = allocate(sizeof(t_token *) * (count_redir + 1));
-			while (count_redir--)
-			{
-				redir[odx] = allocate(sizeof(t_aux_redirect));
-				redir[odx]->redir = lstpop(token, idx);
-				redir[odx]->file_name = lstpop(token, idx);
-				tmp = *token;
-				idx = 0;
-				while ((tmp && !is_redirect(tmp->type) && count_redir)
-					|| idx < point)
-				{
-					tmp = tmp->next;
-					idx++;
-				}
-				odx++;
-			}
+			organize->tmp = organize->tmp->next;
+			organize->idx++;
 		}
-		point = idx;
-		if ((tmp && tmp->next && tmp->next->type != WORD && redir)
-			|| (tmp && !tmp->next && redir))
-		{
-			odx = 0;
-			while (redir[odx])
-			{
-				redir[odx]->redir->next = redir[odx]->file_name;
-				if (redir[odx + 1])
-					redir[odx]->file_name->next = redir[odx + 1]->redir;
-				odx++;
-			}
-			idx += (2 * odx) + 1;
-			redir[odx - 1]->file_name->next = tmp->next;
-			tmp->next = redir[0]->redir;
-			tmp = redir[odx - 1]->file_name->next;
-			redir = NULL;
-		}
-		if (tmp)
-			tmp = tmp->next;
-		idx++;
+		(*odx)++;
 	}
 }
 
-void	init_parsing(t_parsing *parsing, t_token **token)
+void	push_redirects(t_organize *organize, int *odx)
 {
-	parsing->i = 0;
-	parsing->tmp = *token;
-	parsing->cmds = NULL;
-	parsing->head = NULL;
+	*odx = 0;
+	while (organize->redir[*odx])
+	{
+		organize->redir[*odx]->redir->next = organize->redir[*odx]->file_name;
+		if (organize->redir[*odx + 1])
+			organize->redir[*odx]->file_name->next = \
+			organize->redir[*odx + 1]->redir;
+		(*odx)++;
+	}
+	organize->idx += (2 * (*odx)) + 1;
+	organize->redir[*odx - 1]->file_name->next = organize->tmp->next;
+	organize->tmp->next = organize->redir[0]->redir;
+	organize->tmp = organize->redir[*odx - 1]->file_name->next;
+	organize->redir = NULL;
+}
+
+void	organize_redirects(t_token **token)
+{
+	int				odx;
+	t_organize		organize;
+
+	init_organize(&organize, token);
+	while (organize.tmp)
+	{
+		odx = 0;
+		organize.count_redir = 1;
+		if (is_redirect(organize.tmp->type) && organize.tmp->next
+			&& organize.tmp->next->next
+			&& organize.tmp->next->next->type == WORD)
+			pop_redirects(&organize, &odx, token);
+		organize.point = organize.idx;
+		if ((organize.tmp && organize.tmp->next
+				&& organize.tmp->next->type != WORD && organize.redir)
+			|| (organize.tmp && !organize.tmp->next && organize.redir))
+			push_redirects(&organize, &odx);
+		if (organize.tmp)
+			organize.tmp = organize.tmp->next;
+		organize.idx++;
+	}
 }
 
 t_token	*cmd_parsing(t_token *token)
@@ -99,7 +95,8 @@ t_token	*cmd_parsing(t_token *token)
 		if (parsing.tmp && parsing.tmp->type == L_PAREN)
 			if (!is_sub_shell(&parsing))
 				return (NULL);
-		if (parsing.tmp && (is_redirect(parsing.tmp->type) || parsing.tmp->type == FILE_NAME))
+		if (parsing.tmp && (is_redirect(parsing.tmp->type)
+				|| parsing.tmp->type == FILE_NAME))
 		{
 			cmd_parsing_aux(&parsing.head, &parsing.cmds, &parsing.tmp);
 			lst_contatenate_redir(&parsing.cmds, parsing.tmp->lexeme);

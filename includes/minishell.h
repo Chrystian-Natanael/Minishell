@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 21:24:41 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 22:05:28 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ typedef struct s_envp
 	char			*key;
 	char			*value;
 	struct s_envp	*next;
-}	t_envp;
+}					t_envp;
 
 typedef struct s_bin
 {
@@ -100,7 +100,7 @@ typedef struct s_bin
 	enum e_token	type;
 	struct s_bin	*left;
 	struct s_bin	*right;
-}	t_bin;
+}					t_bin;
 
 typedef struct s_data
 {
@@ -112,7 +112,7 @@ typedef struct s_data
 	t_token		*token;
 	t_token		*expr;
 	t_termios	term;
-}	t_data;
+}				t_data;
 
 typedef struct s_heredoc
 {
@@ -120,7 +120,7 @@ typedef struct s_heredoc
 	char		*buff;
 	char		*fl_name;
 	char		*eof;
-}	t_heredoc;
+}				t_heredoc;
 
 typedef struct s_parsing
 {
@@ -128,7 +128,16 @@ typedef struct s_parsing
 	t_token	*tmp;
 	t_token	*cmds;
 	t_token	*head;
-}	t_parsing;
+}			t_parsing;
+
+typedef struct s_organize
+{
+	int				idx;
+	int				point;
+	int				count_redir;
+	t_token			*tmp;
+	t_aux_redirect	**redir;
+}					t_organize;
 
 //--------------------------------------- Init
 void	ending(int status);
@@ -248,4 +257,7 @@ int		is_and_or(int type);
 int		is_parentheses(int type);
 void	is_cmd(t_parsing *parsing);
 int		is_sub_shell(t_parsing *parsing);
+void	init_organize(t_organize *organize, t_token **token);
+void	init_parsing(t_parsing *parsing, t_token **token);
+
 #endif
