@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cmd_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/21 19:17:53 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 19:19:27 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:44:26 by krocha-h         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,12 +51,6 @@ t_token	*lstpop(t_token **lst, int index)
 		return (NULL);
 	el->next = NULL;
 	return (el);
-}
-
-int	is_redirect(int type)
-{
-	return (type == REDIR_INPUT || type == REDIR_OUTPUT
-		|| type == OUTPUT_APPEND || type == HEREDOC);
 }
 
 int	count_redirects(t_token *token)

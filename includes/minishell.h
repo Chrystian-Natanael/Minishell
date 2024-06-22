@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 20:54:09 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:24:41 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -244,7 +244,8 @@ int		verify_cmd(char **cmd);
 char	**separate_args(t_token *token);
 void	close_files(t_data *data);
 t_token	*lstpop(t_token **lst, int index);
+int		is_and_or(int type);
+int		is_parentheses(int type);
 void	is_cmd(t_parsing *parsing);
 int		is_sub_shell(t_parsing *parsing);
-
 #endif

@@ -83,6 +83,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		5.utils/executor_utils.c \
 		5.utils/struct_utils.c \
 		5.utils/cmd_utils.c \
+		5.utils/is_utils.c \
 		5.utils/lst_utils.c \
 		5.utils/expand_utils.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
