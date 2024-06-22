@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 15:44:27 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 19:12:51 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 22:18:14 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	exec_cmd(t_bin *bin, t_data **data)
 		return (exit_status);
 	else if ((!verify_cmd(cmd) || exit_status == -2) && executable != 1)
 		return (0);
-	if (executable == 1 && !cmd)
+	if (executable == 1 && (!cmd || !*cmd))
 		return (ft_error("minishell: Command '", "", "' not found", 127));
 	pid = fork();
 	define_signals_exec(pid);
