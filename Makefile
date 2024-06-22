@@ -57,6 +57,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		2.parsing/cmd.c \
 		2.parsing/lexer.c \
 		2.parsing/expander.c \
+		2.parsing/create_tokens.c \
 		3.builtin/builtin.c \
 		3.builtin/pwd.c \
 		3.builtin/echo.c \
@@ -82,6 +83,7 @@ SRCS =	$(addprefix $(SRCS_PATH),\
 		5.utils/executor_utils.c \
 		5.utils/struct_utils.c \
 		5.utils/cmd_utils.c \
+		5.utils/lst_utils.c \
 		5.utils/expand_utils.c)
 LIBFT = $(addprefix $(LIBFT_DIR), libft.a)
 GARB = $(addprefix $(GARB_DIR), garbage_collector.a)

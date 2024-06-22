@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/07 11:55:41 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 20:29:25 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:00:12 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	expander_heredoc_redirect(t_data **data, char **buff)
 
 	i = -1;
 	line = NULL;
-	while ((*buff)[++i])
+	while (buff && *buff && (*buff)[++i])
 	{
 		if ((*buff)[i] == '$' && (*buff)[i + 1] && is_valid_var((*buff)[i + 1]))
 			expander_var(&i, buff, &(*data)->my_envp, &line);

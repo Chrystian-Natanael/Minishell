@@ -6,7 +6,7 @@
 /*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/01 16:18:57 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 19:45:20 by cnatanae         ###   ########.fr       */
+/*   Updated: 2024/06/21 21:20:56 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,7 @@ void	organize_redirects(t_token **token)
 	{
 		odx = 0;
 		count_redir = 1;
-		if (is_redirect(tmp->type) && tmp->next && tmp->next->next
-			&& tmp->next->next->type == WORD)
+		if (is_redirect(tmp->type) && tmp->next && tmp->next->next && tmp->next->next->type == WORD)
 		{
 			count_redir = count_redirects(tmp);
 			redir = allocate(sizeof(t_token *) * (count_redir + 1));
@@ -81,60 +80,36 @@ void	organize_redirects(t_token **token)
 	}
 }
 
-t_token	*cmd_parsing(t_token *token, t_envp **envp)
+void	init_parsing(t_parsing *parsing, t_token **token)
 {
-	int		i;
-	t_token	*tmp;
-	t_token	*cmds;
-	t_token	*head;
+	parsing->i = 0;
+	parsing->tmp = *token;
+	parsing->cmds = NULL;
+	parsing->head = NULL;
+}
 
-	cmds = NULL;
-	head = NULL;
-	tmp = token;
-	(void)envp;
-	i = 0;
-	organize_redirects(&tmp);
-	while (tmp)
+t_token	*cmd_parsing(t_token *token)
+{
+	t_parsing	parsing;
+
+	init_parsing(&parsing, &token);
+	organize_redirects(&parsing.tmp);
+	while (parsing.tmp)
 	{
-		if (tmp && tmp->type == L_PAREN)
-		{
-			i++;
-			while (tmp && (tmp->type != R_PAREN || i != 0))
-			{
-				lst_contatenate(&cmds, return_lexeme(tmp));
-				tmp = tmp->next;
-				if (tmp && tmp->type == R_PAREN)
-					i--;
-				else if (tmp && tmp->type == L_PAREN)
-					i++;
-			}
-			if (tmp && tmp->type == R_PAREN)
-				lst_contatenate(&cmds, return_lexeme(tmp));
-			if (!tmp && i != 0)
+		if (parsing.tmp && parsing.tmp->type == L_PAREN)
+			if (!is_sub_shell(&parsing))
 				return (NULL);
-			tmp = tmp->next;
-			cmds->type = SUB_SHELL;
-		}
-		if (tmp && (is_redirect(tmp->type || tmp->type == FILE_NAME)))
+		if (parsing.tmp && (is_redirect(parsing.tmp->type) || parsing.tmp->type == FILE_NAME))
 		{
-			cmd_parsing_aux(&head, &cmds, &tmp);
-			lst_contatenate_redir(&cmds, tmp->lexeme);
-			tmp = tmp->next;
+			cmd_parsing_aux(&parsing.head, &parsing.cmds, &parsing.tmp);
+			lst_contatenate_redir(&parsing.cmds, parsing.tmp->lexeme);
+			parsing.tmp = parsing.tmp->next;
 		}
 		else
-		{
-			while (tmp && tmp->type != PIPE && tmp->type != OR
-				&& tmp->type != AND && tmp->type != L_PAREN
-				&& tmp->type != R_PAREN && !is_redirect(tmp->type))
-			{
-				if ((tmp->lexeme && *tmp->lexeme != '\0') || tmp->type != WORD)
-					lst_contatenate(&cmds, return_lexeme(tmp));
-				tmp = tmp->next;
-			}
-		}
-		cmd_parsing_aux(&head, &cmds, &tmp);
+			is_cmd(&parsing);
+		cmd_parsing_aux(&parsing.head, &parsing.cmds, &parsing.tmp);
 	}
-	return (head);
+	return (parsing.head);
 }
 
 void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
@@ -153,41 +128,5 @@ void	cmd_parsing_aux(t_token **head, t_token **cmds, t_token **tmp)
 		(*tmp)->lexeme = return_lexeme(*tmp);
 		lstadd_back(head, *tmp);
 		*tmp = aux;
-	}
-}
-
-void	lst_contatenate(t_token **list, char *lexeme)
-{
-	t_token	*new;
-
-	new = (t_token *)allocate(sizeof(t_token));
-	new->type = CMD;
-	new->lexeme = lexeme;
-	new->next = NULL;
-	if (*list == NULL)
-		*list = new;
-	else
-	{
-		(*list)->lexeme = ft_strjoin((*list)->lexeme, " ");
-		typetree_insert((*list)->lexeme);
-		(*list)->lexeme = ft_strjoin((*list)->lexeme, lexeme);
-		typetree_insert((*list)->lexeme);
-	}
-}
-
-void	lst_contatenate_redir(t_token **list, char *lexeme)
-{
-	t_token	*new;
-
-	new = (t_token *)allocate(sizeof(t_token));
-	new->type = FILE_NAME;
-	new->lexeme = lexeme;
-	new->next = NULL;
-	if (*list == NULL)
-		*list = new;
-	else
-	{
-		(*list)->lexeme = ft_strjoin((*list)->lexeme, lexeme);
-		typetree_insert((*list)->lexeme);
 	}
 }

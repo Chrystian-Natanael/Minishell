@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: krocha-h <krocha-h@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: cnatanae <cnatanae@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/08 08:25:10 by cnatanae          #+#    #+#             */
-/*   Updated: 2024/06/21 20:29:58 by krocha-h         ###   ########.fr       */
+/*   Updated: 2024/06/21 20:54:09 by cnatanae         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,14 @@ typedef struct s_heredoc
 	char		*eof;
 }	t_heredoc;
 
+typedef struct s_parsing
+{
+	int		i;
+	t_token	*tmp;
+	t_token	*cmds;
+	t_token	*head;
+}	t_parsing;
+
 //--------------------------------------- Init
 void	ending(int status);
 int		verify_line(char **line);
@@ -149,7 +157,7 @@ int		quote_is_closed(char *line, int *i);
 int		close_quote(char *line, int **i);
 
 //--------------------------------------- Expression Analysis
-t_token	*cmd_parsing(t_token *token, t_envp **envp);
+t_token	*cmd_parsing(t_token *token);
 void	lst_contatenate(t_token **list, char *lexeme);
 void	lst_contatenate_redir(t_token **list, char *lexeme);
 void	lstadd_back(t_token **lst, t_token *new);
@@ -236,5 +244,7 @@ int		verify_cmd(char **cmd);
 char	**separate_args(t_token *token);
 void	close_files(t_data *data);
 t_token	*lstpop(t_token **lst, int index);
+void	is_cmd(t_parsing *parsing);
+int		is_sub_shell(t_parsing *parsing);
 
 #endif
